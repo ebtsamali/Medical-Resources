@@ -1,0 +1,13 @@
+node_modules/
+.env
+config/auth.js
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
