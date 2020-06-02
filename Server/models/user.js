@@ -1,23 +1,25 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
 
 const userSchema = new mongoose.Schema({
     firstName: {
-        type: String, 
-        required: [true, "First Name is required"], 
+        type: String,
+        required: [true, "First Name is required"],
         minlength: 2
     },
 
     lastName: {
-        type: String, 
-        required: [true, "Last Name is required"], 
+        type: String,
+        required: [true, "Last Name is required"],
         minlength: 2
     },
 
     email: {
-        type: String, 
-        required: [true, "Email is required"], 
-        unique: true, 
+        type: String,
+        required: [true, "Email is required"],
+        unique: true,
         lowercase: true,
         trim: true,
         validate: {
@@ -41,28 +43,49 @@ const userSchema = new mongoose.Schema({
         }
     },
 
-    image: {type: String},
+    image: { type: String },
 
-    phoneNumber: { 
+    phoneNumber: {
         type: String,
-        required: [true, "phone number is required"]
+        // required: [true, "phone number is required"]
     },
 
     address: {
-        governorate: {type: String},
-        district:  {type: String},
-        street:  {type: String},
-        blockNum:  {type: String},
-        flatNum:  {type: String}
+        governorate: { type: String },
+        district: { type: String },
+        street: { type: String },
+        blockNum: { type: String },
+        flatNum: { type: String }
     },
 
-    role: { type: String,
-        enum : ['user','pharmacy', 'hospital'],
+    role: {
+        type: String,
+        enum: ['user', 'pharmacy', 'hospital'],
         default: 'user'
     }
 }, {
     timestamps: true,
-})
+});
+
+userSchema.pre('save', function (next) {
+    let user = this;
+
+    if (user.isNew || user.isModified('password')) {
+        bcrypt.hash(user.password, saltRounds, function (err, hash) {
+            if (err) {
+                console.log(err);
+                return next("Cannot Add/Update User");
+            } else {
+                user.password = hash;
+                next();
+            }
+        });
+    }
+    else {
+        next();
+    }
+});
+
 
 const User = mongoose.model('User', userSchema);
 

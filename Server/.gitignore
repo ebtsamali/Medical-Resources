@@ -11,3 +11,5 @@ config/auth.js
 
 # Optional eslint cache
 .eslintcache
+
+package-lock.json
