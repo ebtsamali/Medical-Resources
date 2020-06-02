@@ -39,6 +39,7 @@ exports.signin = (req, res) => {
         res.status(200).send({
             id: user._id,
             email: user.email,
+            role: user.role,
             accessToken: token
         })
     })
@@ -46,6 +47,7 @@ exports.signin = (req, res) => {
 
 
 exports.signupUser = (req, res) => {
+    console.log(req)
     const { body: { firstName, lastName, email, password } } = req;
 
     let newUser = new User({
