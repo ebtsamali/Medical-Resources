@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require('mongoose');
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
+const pharmacyRouter = require('./routes/pharmacy');
 
 const DB_PORT = process.env.DB_PORT;
 const DB_HOST = process.env.DB_HOST;
@@ -57,3 +58,4 @@ app.listen(PORT, (err) => {
 
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
+app.use('/pharmacys', pharmacyRouter);
