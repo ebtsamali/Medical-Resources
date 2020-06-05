@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ErrorMessage from "../other/ErrorMessage";
+import {AuthContext} from "../../providers/auth_provider";
 
 const PharmacyAdminInfoCard = () => {
 
@@ -8,14 +9,9 @@ const PharmacyAdminInfoCard = () => {
     const [adminLastName, setAdminLastName] = useState("")
     const [adminEmail, setAdminEmail] = useState("")
     const [adminPassword, setAdminPassword] = useState("")
-
+    const {user} = useContext(AuthContext);
     useEffect(() => {
-        // PharmacyService.getPharmacyData().then((response) => {
-        //     setNewPharmacyState(response.data)
-        //
-        // }).catch(error => {
-        //
-        // })
+        setNewAdminInfoState(user)
     }, [])
 
     const setNewAdminInfoState = (data) => {

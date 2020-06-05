@@ -13,12 +13,12 @@
   width: 100%;
   padding: 1em;
   flex-direction: column;
-
+  overflow: auto;
 }
 
 .pharmacy-info-card, .pharmacy-admin-info-card{
   display: flex;
-  border: $color_primary 0.2em solid;
+  border: $color_primary 0.101em solid;
   border-radius: 1em;
   padding: 1em;
   height: fit-content;
