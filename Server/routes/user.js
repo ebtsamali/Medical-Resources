@@ -12,5 +12,6 @@ exports.tokenMiddleware = function (req, res, next) {
 }
 
 
-
+router.get("/:id", [authJwt.verifyToken], userController.getUser);
+router.patch("/:id", [authJwt.verifyToken], userController.updateUser);
 module.exports = router;

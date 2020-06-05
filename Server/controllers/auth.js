@@ -47,7 +47,6 @@ exports.signin = (req, res) => {
 
 
 exports.signup = (req, res) => {
-    console.log(req.body)
     const { body: { firstName, lastName, email, password, role } } = req;
 
     let newUser = new User({

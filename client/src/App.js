@@ -14,7 +14,7 @@ import HomePage from "./components/HomePage";
 import HomePageHospital from "./components/HomePageHospital";
 import HomePagePharmacy from "./components/HomePagePharmacy";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
-import RegistrationPage from './components/RegistrationPage';
+import RegistrationPage from './components/Registration/RegistrationPage';
 
 function App() {
     return (
