@@ -61,7 +61,7 @@ const PharmacyAdminInfoCard = () => {
         </div>
 
         <div>
-            <input className="form-input" value={adminEmail} placeholder="Email" onChange={(e) => {
+            <input className="form-input" type="email" value={adminEmail} placeholder="Email" onChange={(e) => {
                 const {target: {value}} = e;
                 setAdminEmail(value)
             }} disabled={adminDataEditingMode}/>
@@ -69,7 +69,7 @@ const PharmacyAdminInfoCard = () => {
         </div>
 
         <div>
-            <input className="form-input" value={adminPassword} placeholder="New Password" onChange={(e) => {
+            <input className="form-input" type="password" value={adminPassword} placeholder="New Password" onChange={(e) => {
                 const {target: {value}} = e;
                 setAdminPassword(value)
             }} disabled={adminDataEditingMode}/>

@@ -14,15 +14,18 @@ const PharmacyInfoCard = () => {
     const [pharmacyHasDeliveryService, setPharmacyHasDeliveryService] = useState(false)
     const [phoneNumbers, setPhoneNumbers] = useState([])
     const [pharmacyId, setPharmacyId] = useState('')
+    const [maxTimeLimit, setMaxTimeLimit] = useState('')
     const [errors, setErrors] = useState({})
 
     const setNewPharmacyState = (data) => {
+        console.log(data)
         setPharmacyName(data.name)
         setPharmacyGovernorate(data.location[0].governorate)
         setPharmacyDistrict(data.location[0].district)
         setPharmacyStreet(data.location[0].street)
         setPhoneNumbers(data.phoneNumbers)
         setPharmacyHasDeliveryService(data.delivery)
+        setMaxTimeLimit(data.maxTimeLimit);
         setPharmacyId(data._id)
     }
 
@@ -45,12 +48,13 @@ const PharmacyInfoCard = () => {
 
     const saveUpdatedData = () => {
         setPharmacyDataEditingMode(true)
-        if(pharmacyId) {
+        if (pharmacyId) {
             PharmacyService.updatePharmacyData(pharmacyId, {
                 delivery: pharmacyHasDeliveryService,
                 phoneNumbers,
                 location: [{governorate: pharmacyGovernorate, district: pharmacyDistrict, street: pharmacyStreet}],
                 name: pharmacyName,
+                maxTimeLimit,
             }).then((response) => {
                 setErrors({})
                 setNewPharmacyState(response.data)
@@ -59,7 +63,7 @@ const PharmacyInfoCard = () => {
                 setErrors(error.response.data.errors)
             });
         } else {
-            PharmacyService.addNewPharmacy( {
+            PharmacyService.addNewPharmacy({
                 delivery: pharmacyHasDeliveryService,
                 phoneNumbers,
                 location: [{governorate: pharmacyGovernorate, district: pharmacyDistrict, street: pharmacyStreet}],
@@ -114,14 +118,15 @@ const PharmacyInfoCard = () => {
             </div>
             <div>
                 <input className="form-input" placeholder="District" value={pharmacyDistrict}
-                        disabled={pharmacyDataEditingMode} onChange={(e) => {
-                const {target: {value}} = e;
-                setPharmacyDistrict(value)
-                        }}/>
+                       disabled={pharmacyDataEditingMode} onChange={(e) => {
+                    const {target: {value}} = e;
+                    setPharmacyDistrict(value)
+                }}/>
                 {errors.district && <ErrorMessage message={errors.district}/>}
             </div>
             <div>
-                <input className="form-input" placeholder="Street" value={pharmacyStreet} disabled={pharmacyDataEditingMode}
+                <input className="form-input" placeholder="Street" value={pharmacyStreet}
+                       disabled={pharmacyDataEditingMode}
                        onChange={(e) => {
                            const {target: {value}} = e;
                            setPharmacyStreet(value)
@@ -138,6 +143,24 @@ const PharmacyInfoCard = () => {
                    })}
                    disabled={pharmacyDataEditingMode}/>
         </div>
+
+
+        <div>
+            <div className="max-time-limit-constainer">
+                <label htmlFor="max_time_limit">Max Time Limit in Hours:</label>
+                <input id="max_time_limit" name="max_time_limit" className="form-input" type="number"
+                       placeholder="Max Time Limit in Hours"
+                       value={maxTimeLimit}
+                       disabled={pharmacyDataEditingMode}
+                       onChange={(e) => {
+                           const {target: {value}} = e;
+                           setMaxTimeLimit(value)
+                       }}/>
+
+            </div>
+            {errors.maxTimeLimit && <ErrorMessage message={errors.maxTimeLimit}/>}
+        </div>
+
         <div className="phones-card">
             {phoneNumbers.map((phone, index) => {
                 return (<div key={index}><input className="form-input" placeholder="Phone" value={phone}

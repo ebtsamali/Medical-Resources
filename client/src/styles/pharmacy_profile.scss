@@ -3,6 +3,8 @@
 .x-container-profile {
   display: flex;
   height: 100%;
+  flex-direction: column;
+  //overflow-y: scroll;
   //background-color: black;
 }
 
@@ -75,7 +77,7 @@
 }
 
 
-.has-delivery-constainer{
+.has-delivery-constainer, .max-time-limit-constainer{
   label {
     margin-right: 0.5em;
   }

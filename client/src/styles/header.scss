@@ -1,0 +1,80 @@
+@import "src/styles/main";
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  padding-inline-start: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.nav-list {
+  float: left;
+}
+
+.nav-list:last-child, .logout-list:last-child {
+  border-right: none;
+}
+
+.nav-list a, .logout-list a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 10px 16px;
+  text-decoration: none;
+}
+
+.nav-list a:hover, .logout-list a:hover{
+  background-color: $color_primary;
+}
+
+
+
+
+.nav-container{
+}
+
+.logout-container{
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 2em;
+  cursor: pointer;
+
+}
+.user-profile-container{
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  align-items: center;
+  margin-left: 2em;
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.user-name{
+  margin-top: 0;
+  margin-bottom: 0;
+  color: white;
+  margin-left: 1em;
+}
+
+input:focus {
+  outline: none;
+  border: 0.126em solid $color_primary_light;
+}
+.header{
+  background-color: $color_accent;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+
+}

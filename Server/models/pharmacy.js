@@ -44,7 +44,6 @@ const pharmacySchema = new mongoose.Schema({
         type: [String],
         required: [true, 'Phone is required'],
         validate: function (val) {
-            console.log(val)
             if (val.length === 0) {
                 throw new Error('Phone is required')
             } else {
@@ -64,6 +63,15 @@ const pharmacySchema = new mongoose.Schema({
         type: Boolean,
         // required: [true, "Delivery service status is required"],
         default: false
+    },
+    maxTimeLimit:{
+        type: Number,
+        required:[true,'Max Time Limit  is required'],
+        validate: function (val) {
+            if(!val.toString().trim().match(/^[0-9]+$/) && val<0) {
+                throw new Error('Time Limit must be a positive number')
+            }
+        }
     }
 }, {
     timestamps: true,
