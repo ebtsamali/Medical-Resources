@@ -1,7 +1,9 @@
 import React, { createContext, useState } from "react";
 import axios from 'axios';
 import {withRouter} from 'react-router-dom'
+
 export const AuthContext = createContext();
+
 const AuthProvider = (props) => {
     const { children } = props
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
@@ -20,8 +22,10 @@ const AuthProvider = (props) => {
             setError('')
             props.history.push("/")
         }).catch(error => {
-            if(error.response.data.message){
+            if(error.response && error.response.data.message){
                 setError(error.response.data.message)
+            } else {
+                setError("Cannot connect to Server");
             }
         })
     }

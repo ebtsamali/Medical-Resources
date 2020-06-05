@@ -1,7 +1,9 @@
 import React,{useState, useContext} from "react";
-import '../../styles/login.scss'
-import {AuthContext} from "../../providers/auth_provider";
-import ErrorMessage from "../other/ErrorMessage";
+import '../styles/login.scss'
+import {AuthContext} from "../providers/auth_provider";
+import ErrorMessage from "./other/ErrorMessage";
+import { Link } from 'react-router-dom';
+
 const LoginPage = (props) => {
 
     const { login, error } = useContext(AuthContext);
@@ -32,7 +34,7 @@ const LoginPage = (props) => {
             <input className="password-input" placeholder="Password" type="password" value={passwordInput} onChange={handlePasswordChange}/>
             {error && <ErrorMessage message={error}/>}
             <button className="login-btn" onClick={handleLoginClick}>LOGIN</button>
-            <p>Or - <a href="#">Create New Account</a></p>
+            <p>Or - <Link to="/register">Create New Account</Link></p>
         </div>
     </div>)
 }

@@ -2,9 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require('mongoose');
-const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const pharmacyRouter = require('./routes/pharmacy');
+const {tokenMiddleware, authRouter} = require('./routes/auth');
 
 const DB_PORT = process.env.DB_PORT;
 const DB_HOST = process.env.DB_HOST;
@@ -19,6 +19,8 @@ let corsOptions = {
 
 app.use(cors(corsOptions));
 
+
+app.use(bodyParser.urlencoded({extended: false}));
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 
@@ -56,6 +58,8 @@ app.listen(PORT, (err) => {
     
 });
 
+// require("./routes/auth")(app);
+app.use(tokenMiddleware);
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use('/pharmacys', pharmacyRouter);
