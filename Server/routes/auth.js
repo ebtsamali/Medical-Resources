@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/auth');
 const { verifySignUp } = require("../middlewares/index");
+const bodyParser = require("body-parser");
 
 exports.tokenMiddleware = function (req, res, next) {
     res.header(
@@ -11,14 +12,8 @@ exports.tokenMiddleware = function (req, res, next) {
     next();
 }
 
-router.post(
-    "/users/signup",
-    [
-        verifySignUp.checkDuplicatedEmail
-    ],
-    authController.signupUser
-);
+router.post("/users/signup", verifySignUp.checkDuplicatedEmail, authController.signup);
 
 router.post("/users/signin", authController.signin);
 
-module.exports = router;
+exports.authRouter = router;

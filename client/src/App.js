@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import '../src/styles/main.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import LoginPage from "./components/LoginPage/LoginPage";
+import LoginPage from "./components/LoginPage";
 import {
     BrowserRouter as Router,
     Switch,
@@ -12,7 +12,9 @@ import AuthProvider from "./providers/auth_provider";
 import AuthRoute from "./components/AuthRoute";
 import HomePage from "./components/HomePage";
 import HomePageHospital from "./components/HomePageHospital";
+import HomePagePharmacy from "./components/HomePagePharmacy";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
+import RegistrationPage from './components/RegistrationPage';
 
 function App() {
     return (
@@ -30,6 +32,10 @@ function App() {
 
                     </AuthRoute>
 
+                    <AuthRoute path="/register" type="guest">
+                        <RegistrationPage/>
+                    </AuthRoute>
+
                     <AuthRoute path="/user" type="private" privilege="user">
                         <HomePage/>
                     </AuthRoute>
@@ -37,7 +43,7 @@ function App() {
                         <HomePageHospital/>
                     </AuthRoute>
                     <AuthRoute path="/pharmacy" type="private" privilege="pharmacy">
-                        <HomePageHospital/>
+                        <HomePagePharmacy/>
                     </AuthRoute>
                     <Route path="/unauthorized" component={Unauthorized}/>
                 </Switch>

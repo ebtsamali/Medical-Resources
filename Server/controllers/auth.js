@@ -46,16 +46,16 @@ exports.signin = (req, res) => {
 }
 
 
-exports.signupUser = (req, res) => {
-    console.log(req)
-    const { body: { firstName, lastName, email, password } } = req;
+exports.signup = (req, res) => {
+    console.log(req.body)
+    const { body: { firstName, lastName, email, password, role } } = req;
 
     let newUser = new User({
         firstName,
         lastName,
         email,
         password,
-        role: "user"
+        role
     });
 
     newUser.save().then(() => {

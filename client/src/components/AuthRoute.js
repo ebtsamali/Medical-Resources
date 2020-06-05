@@ -1,7 +1,8 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
+
 const AuthRoute = (props) => {
-    const {  type ,privilege} = props;
+    const { type, privilege } = props;
     const user  = JSON.parse(localStorage.getItem("user"))
     if (type === "guest" && user ) {
         if(user.role === 'user') {

@@ -12,6 +12,5 @@ exports.tokenMiddleware = function (req, res, next) {
 }
 
 
-router.get("/test/content", [authJwt.verifyToken, authJwt.isUser], userController.testContent);
 
 module.exports = router;
