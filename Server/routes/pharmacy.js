@@ -13,6 +13,13 @@ exports.tokenMiddleware = function (req, res, next) {
 
 // adding new pharmacy
 router.post('/',[authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.addPharmacy)
-router.get('/',[authJwt.verifyToken], pharmacyController.getPharmacyProfile)
+
+// get pharmacy data by admin id
+router.get('/',[authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.getPharmacyProfile)
+
+// update pharmacy data
+router.patch('/:id',[authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.updatePharmacy)
+
+
 
 module.exports = router;

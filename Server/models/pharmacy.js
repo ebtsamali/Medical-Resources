@@ -3,15 +3,18 @@ const mongoose = require('mongoose');
 const location = new mongoose.Schema({
     governorate: {
         type: String,
-        required: [true, "governorate is required"]
+        required: [true, "governorate is required"],
+        lowercase:true
     },
     district: {
         type: String,
-        required: [true, "district is required"]
+        required: [true, "district is required"],
+        lowercase:true
     },
     street: {
         type: String,
-        required: [true, "street is required"]
+        required: [true, "street is required"],
+        lowercase:true
     }
 })
 
@@ -44,6 +47,15 @@ const pharmacySchema = new mongoose.Schema({
             console.log(val)
             if (val.length === 0) {
                 throw new Error('Phone is required')
+            } else {
+                val.forEach((phone)=>{
+                    if(phone.trim().length === 0) {
+                        throw new Error('phone number can not be empty')
+                    }
+                    if(!phone.trim().match(/^[0-9]+$/)) {
+                        throw new Error('phone number must contain numbers only')
+                    }
+                })
             }
         }
     },
@@ -70,10 +82,11 @@ pharmacySchema.post('save', function (error, doc, next) {
         }*/
     } else {
         const keys = Object.keys(error.errors);
+        console.log(keys)
         const errors = keys.reduce((acc,key)=>{
             return {
                 ...acc,
-                [key]:error.errors[key].properties.message
+                [key.split('.')[key.split('.').length - 1]]:error.errors[key].properties.message
             }
         },{})
         next({errors});
