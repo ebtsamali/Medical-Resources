@@ -14,9 +14,7 @@ const addPharmacy = async (req,res) => {
 }
 
 const getPharmacyProfile = async (req, res) => {
-    // const {params:{id}} = req;
     const {userId} = req;
-    // console.log(userId)
     try {
         const pharmacy = await Pharmacy.findOne({ admin_id: userId})
         if(!pharmacy) {
