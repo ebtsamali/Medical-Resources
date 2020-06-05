@@ -13,6 +13,7 @@ import AuthRoute from "./components/AuthRoute";
 import HomePage from "./components/HomePage";
 import HomePageHospital from "./components/HomePageHospital";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
+import MedicinesPage from "./components/MedicinesPage/MedicinesPage";
 import RegistrationPage from './components/RegistrationPage';
 
 function App() {
@@ -43,6 +44,9 @@ function App() {
 
                     <AuthRoute path="/pharmacy_profile" type="private" privilege="pharmacy">
                         <PharmacyProfilePage/>
+                    </AuthRoute>
+                    <AuthRoute path="/medicines" type="private" privilege="pharmacy">
+                        <MedicinesPage/>
                     </AuthRoute>
 
                     <Route path="/unauthorized" component={Unauthorized}/>

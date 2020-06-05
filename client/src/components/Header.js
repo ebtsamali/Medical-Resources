@@ -9,11 +9,11 @@ const Header = (props) => {
         props.history.push("/")
     }
     const {user} = useContext(AuthContext);
-    console.log(user)
+    // console.log(user)
     return (<div className="header">
         <div className="nav-container">
             <ul>
-                <li className="nav-list"><Link to="/">Home</Link></li>
+                <li className="nav-list"><Link to="/medicines">Medicines</Link></li>
             </ul>
         </div>
         <div style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>

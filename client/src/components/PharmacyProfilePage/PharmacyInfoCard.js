@@ -48,14 +48,15 @@ const PharmacyInfoCard = () => {
 
     const saveUpdatedData = () => {
         setPharmacyDataEditingMode(true)
+        const pharmacy = {
+            delivery: pharmacyHasDeliveryService,
+            phoneNumbers,
+            location: [{governorate: pharmacyGovernorate, district: pharmacyDistrict, street: pharmacyStreet}],
+            name: pharmacyName,
+            maxTimeLimit,
+        }
         if (pharmacyId) {
-            PharmacyService.updatePharmacyData(pharmacyId, {
-                delivery: pharmacyHasDeliveryService,
-                phoneNumbers,
-                location: [{governorate: pharmacyGovernorate, district: pharmacyDistrict, street: pharmacyStreet}],
-                name: pharmacyName,
-                maxTimeLimit,
-            }).then((response) => {
+            PharmacyService.updatePharmacyData(pharmacyId, pharmacy).then((response) => {
                 setErrors({})
                 setNewPharmacyState(response.data)
             }).catch((error) => {
@@ -63,12 +64,7 @@ const PharmacyInfoCard = () => {
                 setErrors(error.response.data.errors)
             });
         } else {
-            PharmacyService.addNewPharmacy({
-                delivery: pharmacyHasDeliveryService,
-                phoneNumbers,
-                location: [{governorate: pharmacyGovernorate, district: pharmacyDistrict, street: pharmacyStreet}],
-                name: pharmacyName,
-            }).then((response) => {
+            PharmacyService.addNewPharmacy(pharmacy).then((response) => {
                 setErrors({})
                 setNewPharmacyState(response.data)
             }).catch((error) => {
