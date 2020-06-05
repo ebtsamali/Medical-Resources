@@ -12,15 +12,38 @@ const medicineSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: [true, "Price is required"]
+        required: [true, "Price is required"],
+        validate: function (val) {
+            if(!val.toString().trim().match(/^[0-9]+$/) && val<0) {
+                throw new Error('Price must be a positive number')
+            }
+        }
     },
     quantity: {
         type: Number,
-        required: [true, "Available Quantity is required"]
+        required: [true, "Available Quantity is required"],
+        validate: function (val) {
+            if(!val.toString().trim().match(/^[0-9]+$/) && val<0) {
+                throw new Error('Quantity must be a positive number')
+            }
+        }
     }
 },{
     timestamps: true,
 })
+
+medicineSchema.post('save', function (error, doc, next) {
+        const keys = Object.keys(error.errors);
+        const errors = keys.reduce((acc,key)=>{
+            return {
+                ...acc,
+                [key.split('.')[key.split('.').length - 1]]:error.errors[key].properties.message
+            }
+        },{})
+        next({errors});
+
+})
+
 
 const Medicine = mongoose.model('Medicine', medicineSchema);
 

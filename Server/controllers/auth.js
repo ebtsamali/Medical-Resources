@@ -38,6 +38,8 @@ exports.signin = (req, res) => {
         //send the  token and user data to the client
         res.status(200).send({
             id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
             role: user.role,
             accessToken: token
