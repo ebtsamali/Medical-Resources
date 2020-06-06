@@ -11,10 +11,10 @@ function MedicineService() {
                 method: 'post'
             });
         },
-        getAllMedicines: () => {
+        getAllMedicines: (query) => {
             return axios({
                 headers: authHeader(),
-                url: `${process.env.REACT_APP_BACKEND_URL}/medicines`,
+                url: `${process.env.REACT_APP_BACKEND_URL}/medicines?${query}`,
                 method: 'get'
             });
         },

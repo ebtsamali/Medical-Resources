@@ -2,15 +2,19 @@ import React, {useEffect, useState} from "react";
 import {faEdit, faTrashAlt} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MedicineService from '../../services/medicine_service'
+import Pagination from "../Pagination";
 
 const AllMedicines = (props) => {
     const {setSelectedMedicine,setSelectedTab} = props
     const [medicines, setMedicines] = useState([])
+    const [pages, setPages] = useState({})
+    const [page, setPage] = useState(1)
     useEffect(() => {
-        MedicineService.getAllMedicines().then((response) => {
-            setMedicines(response.data)
+        MedicineService.getAllMedicines(`page=${page}`).then((response) => {
+            setMedicines(response.data.medicines)
+            setPages(response.data.pages)
         })
-    }, [])
+    }, [page])
 
     const editMedicine = (medicine) => {
         return (e) =>{
@@ -62,6 +66,7 @@ const AllMedicines = (props) => {
             </tbody>
 
         </table>
+        <Pagination page={page} setPage={setPage} hasPrevious={pages.hasPrevious} hasNext={pages.hasNext}/>
     </div>)
 }
 

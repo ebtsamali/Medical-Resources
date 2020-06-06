@@ -19,13 +19,23 @@ const addMedicine = async (req,res) => {
 
 const getAllMedicine = async (req,res) => {
     const {userId} = req;
+    const pages = {
+        hasPrevious: false
+    }
+    if (req.query.page && req.query.page > 1) {
+        pages.hasPrevious = true
+    }
+    const page = (req.query.page && req.query.page - 1) || 0
+    const limit = 13;
     try {
         const pharmacy = await Pharmacy.findOne({admin_id:userId})
         if(!pharmacy) {
             return res.status(404).send({errors:{message:"Please Complete Your Profile"}})
         }
-        const medicine = await Medicine.find({pharmacy:pharmacy._id})
-        res.status(201).send(medicine)
+        const medicineCount = await Medicine.find({pharmacy:pharmacy._id}).countDocuments()
+        pages.hasNext = medicineCount > (page + 1) * limit;
+        const medicines = await Medicine.find({pharmacy:pharmacy._id}).limit(limit).skip(limit * page)
+        res.status(201).send({medicines, pages})
     } catch (e) {
         // console.log(e.message)
         res.status(500).send(e)
