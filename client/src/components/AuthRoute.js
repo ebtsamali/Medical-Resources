@@ -10,7 +10,7 @@ const AuthRoute = (props) => {
         } else if(user.role === 'hospital') {
             return <Redirect to="/hospital"/>
         } else if(user.role === 'pharmacy') {
-            return <Redirect to="/pharmacy"/>
+            return <Redirect to="/pharmacy_profile"/>
         }
     }
     else if (type === "private" && !user) {

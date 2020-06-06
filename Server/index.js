@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require('mongoose');
 const userRouter = require('./routes/user');
+const medicineRouter = require('./routes/medicine');
+const pharmacyRouter = require('./routes/pharmacy');
 const {tokenMiddleware, authRouter} = require('./routes/auth');
 const hospitalRouter = require('./routes/hospital');
 
@@ -63,3 +65,5 @@ app.use(tokenMiddleware);
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use('/hospitals', hospitalRouter);
+app.use('/pharmacys', pharmacyRouter);
+app.use('/medicines', medicineRouter);

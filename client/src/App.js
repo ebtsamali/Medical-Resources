@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import '../src/styles/main.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from "./components/LoginPage";
@@ -8,14 +7,23 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
+import PharmacyProfilePage from "./components/PharmacyProfilePage/PharmacyProfilePage";
 import AuthProvider from "./providers/auth_provider";
 import AuthRoute from "./components/AuthRoute";
 import HomePage from "./components/HomePage";
+<<<<<<< HEAD
 import HospitalRegistration from "./components/Hospital/hospitalRegistration";
 import HomePagePharmacy from "./components/HomePagePharmacy";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
 import RegistrationPage from './components/RegistrationPage';
 import EditHospitalData from './components/Hospital/editHospitalData';
+=======
+import HomePageHospital from "./components/HomePageHospital";
+import Unauthorized from "./components/Unauthorized/Unauthorized";
+import RegistrationPage from './components/Registration/RegistrationPage';
+
+import MedicinesPage from "./components/MedicinesPage/MedicinesPage";
+>>>>>>> d185a04211dca0a412c87dc21111c028fd146fab
 
 function App() {
     return (
@@ -23,12 +31,10 @@ function App() {
             <AuthProvider>
                 <Switch>
                     <AuthRoute exact={true} path="/" type="guest">
-                        {/*<AuthProvider>*/}
                         <LoginPage/>
-                        {/*</AuthProvider>*/}
                     </AuthRoute>
-                    <AuthRoute path="/login" type="guest">
 
+                    <AuthRoute path="/login" type="guest">
                         <LoginPage/>
 
                     </AuthRoute>
@@ -46,9 +52,14 @@ function App() {
                     <AuthRoute path="/hospital" privilege="hospital">
                         <HospitalRegistration/>
                     </AuthRoute>
-                    <AuthRoute path="/pharmacy" type="private" privilege="pharmacy">
-                        <HomePagePharmacy/>
+
+                    <AuthRoute path="/pharmacy_profile" type="private" privilege="pharmacy">
+                        <PharmacyProfilePage/>
                     </AuthRoute>
+                    <AuthRoute path="/medicines" type="private" privilege="pharmacy">
+                        <MedicinesPage/>
+                    </AuthRoute>
+
                     <Route path="/unauthorized" component={Unauthorized}/>
                 </Switch>
             </AuthProvider>

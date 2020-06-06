@@ -58,6 +58,10 @@ const userSchema = new mongoose.Schema({
         flatNum: { type: String }
     },
 
+    birthdate: {
+        type: Date
+    },
+
     role: {
         type: String,
         enum: ['user', 'pharmacy', 'hospital'],

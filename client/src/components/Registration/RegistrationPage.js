@@ -3,11 +3,10 @@ import Form from 'react-validation/build/form';
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { makeStyles } from '@material-ui/core/styles';
-// import Select from "react-validation/build/select";
-import { isEmail, isAlpha } from "validator";
-import '../styles/login.scss'
-import ErrorMessage from "./other/ErrorMessage";
-import RegisterService from '../services/register';
+import '../../styles/login.scss'
+import ErrorMessage from "../other/ErrorMessage";
+import UserServices from '../../services/userServices';
+import RegistrationValidations from "./RegistrationValidations";
 import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,60 +27,16 @@ const useStyles = makeStyles((theme) => ({
         }
     },
 }));
-
 let originalPassword = '';
 
-const required = value => {
-    if (!value) {
-        return (
-            <ErrorMessage message={"This field is required!"}/>
-        );
-    }
-};
-
-const validateFirstname = value => {
-    if (value.length < 3 || value.length > 20 || !isAlpha(value)) {
-        return (
-            <div style={{width: "30rem"}}>
-                <ErrorMessage message={"First Name must be between 3 and 20 alphabetical characters."}/>
-            </div>
-        );
-    }
-};
-
-const validateLastname = value => {
-    if (value.length < 3 || value.length > 20 || !isAlpha(value)) {
-        return (
-            <div style={{width: "30rem"}}>
-                <ErrorMessage message={"Last Name must be between 3 and 20 alphabetical characters."}/>
-            </div>
-        );
-    }
-};
-
-const validateEmail = value => {
-    if (!isEmail(value)) {
-        return (
-            <ErrorMessage message={"This is not a valid email."}/>
-        );
-    }
-};
-
-const validatePassword = value => {
-    if (value.length < 8 || value.length > 40) {
-        return (
-            <ErrorMessage message={"The password must be at least 8 characters."}/>
-        );
-    }
-};
-
 const validateConfirmPassword = (value) => {
+    console.log(this.originalPassword);
     if (value.length < 8 || value.length > 40 || value !== originalPassword) {
         return (
             <ErrorMessage message={"The password does not match."}/>
         );
     }
-};
+}
 
 const RegistrationPage = (props) => {
 
@@ -94,6 +49,8 @@ const RegistrationPage = (props) => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [successful, setSuccessful] = useState(false);
+    const [validRole, setValidRole] = useState(true);
+    const [validRoleMessage, setValidRoleMessage] = useState(null);
     const checkBtn = useRef(null);
     const form = useRef(null);
     const [roles] = useState(["user", "hospital", "pharmacy"]);
@@ -122,6 +79,19 @@ const RegistrationPage = (props) => {
 
     const onChangeRole = (e) => {
         setRole(e.target.value);
+        setValidRole(true);
+        setValidRoleMessage(null);
+        let reqReturn = RegistrationValidations.required(e.target.value);
+        if(reqReturn) {
+            setValidRole(false);
+            setValidRoleMessage(reqReturn);
+            return;
+        }
+        let validReturn = RegistrationValidations.validateRole(e.target.value);
+        if(validReturn) {
+            setValidRole(false);
+            setValidRoleMessage(validReturn);
+        }
     }
 
     const handleRegister = (e) => {
@@ -129,10 +99,28 @@ const RegistrationPage = (props) => {
 
         setMessage('');
         setLoading(true);
+        setValidRole(true);
+        setValidRoleMessage(null);
 
         form.current.validateAll();
+        let reqReturn = RegistrationValidations.required(role);
+        if(reqReturn) {
+            setValidRole(false);
+            setValidRoleMessage(reqReturn);
+            setMessage('');
+            setLoading(false);
+            return;
+        }
+        let validReturn = RegistrationValidations.validateRole(role);
+        if(validReturn) {
+            setValidRole(false);
+            setValidRoleMessage(validReturn);
+            setMessage('');
+            setLoading(false);
+            return;
+        }
         if (checkBtn.current.context._errors.length === 0) {
-            RegisterService.register(email, password, firstName, lastName, role)
+            UserServices.register(email, password, firstName, lastName, role)
                 .then(
                     response => {
                         setMessage(response.data.message);
@@ -172,7 +160,7 @@ const RegistrationPage = (props) => {
                     name="firstname"
                     value={firstName}
                     onChange={onChangeFirstName}
-                    validations={[required, validateFirstname]}
+                    validations={[RegistrationValidations.required, RegistrationValidations.validateFirstname]}
                     style={{width: "30rem"}}
                 />
                 <Input
@@ -182,7 +170,7 @@ const RegistrationPage = (props) => {
                     name="lastname"
                     value={lastName}
                     onChange={onChangeLastName}
-                    validations={[required, validateLastname]}
+                    validations={[RegistrationValidations.required, RegistrationValidations.validateLastname]}
                     style={{width: "30rem"}}
                 />
                 <Input
@@ -192,7 +180,7 @@ const RegistrationPage = (props) => {
                     name="email"
                     value={email}
                     onChange={onChangeEmail}
-                    validations={[required, validateEmail]}
+                    validations={[RegistrationValidations.required, RegistrationValidations.validateEmail]}
                     style={{width: "30rem"}}
                 />
                 <Input
@@ -202,7 +190,7 @@ const RegistrationPage = (props) => {
                     name="password"
                     value={password}
                     onChange={onChangePassword}
-                    validations={[required, validatePassword]}
+                    validations={[RegistrationValidations.required, RegistrationValidations.validatePassword]}
                     style={{width: "30rem"}}
                 />
                 <Input
@@ -212,7 +200,7 @@ const RegistrationPage = (props) => {
                     name="confirm-password"
                     value={confirmPass}
                     onChange={onChangeConfirmPassword}
-                    validations={[required, validateConfirmPassword]}
+                    validations={[RegistrationValidations.required, validateConfirmPassword]}
                     style={{width: "30rem"}}
                 />
                 <FormControl style={{width: "29rem", marginLeft: "0.8rem"}}>
@@ -222,14 +210,13 @@ const RegistrationPage = (props) => {
                     id="demo-simple-select-outlined"
                     value={role}
                     onChange={onChangeRole}
-                    label="Account Type"
                     className={classes.select}
                     inputProps={{
                         classes: {
                             icon: classes.icon,
                         }
                     }}
-                    >                        
+                    >        
                         {roles.map((r) => {
                             return (
                                 <MenuItem key={r} value={r}>{r}</MenuItem>
@@ -237,6 +224,7 @@ const RegistrationPage = (props) => {
                         })}
                     </Select>
                 </FormControl><br/>
+                {!validRole && <div style={{width: "30rem"}}>{validRoleMessage}</div>}
                 <button
                     className="login-btn"
                     disabled={loading}
