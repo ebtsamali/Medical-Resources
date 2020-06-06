@@ -46,6 +46,7 @@ mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`, {
 }, (err) => {
   if (!err) {
     console.log("Started connection to mongo");
+
   }
   else console.log(err);
 });
