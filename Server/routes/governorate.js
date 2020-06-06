@@ -4,7 +4,7 @@ const governorateController = require('../controllers/governorate');
 // const { authJwt } = require("../middlewares");
 
 
-// list all medicine
+// list all governorates
 router.get('/', governorateController.getAllGovernorate)
 
 module.exports = router;
