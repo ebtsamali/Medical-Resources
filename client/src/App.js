@@ -11,19 +11,12 @@ import PharmacyProfilePage from "./components/PharmacyProfilePage/PharmacyProfil
 import AuthProvider from "./providers/auth_provider";
 import AuthRoute from "./components/AuthRoute";
 import HomePage from "./components/HomePage";
-<<<<<<< HEAD
-import HospitalRegistration from "./components/Hospital/hospitalRegistration";
-import HomePagePharmacy from "./components/HomePagePharmacy";
-import Unauthorized from "./components/Unauthorized/Unauthorized";
-import RegistrationPage from './components/RegistrationPage';
-import EditHospitalData from './components/Hospital/editHospitalData';
-=======
-import HomePageHospital from "./components/HomePageHospital";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
 import RegistrationPage from './components/Registration/RegistrationPage';
+import HospitalRegistration from "./components/Hospital/hospitalRegistration";
+import EditHospitalData from './components/Hospital/editHospitalData';
 
 import MedicinesPage from "./components/MedicinesPage/MedicinesPage";
->>>>>>> d185a04211dca0a412c87dc21111c028fd146fab
 
 function App() {
     return (
