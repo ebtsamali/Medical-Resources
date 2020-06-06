@@ -13,12 +13,9 @@ import AuthRoute from "./components/AuthRoute";
 import HomePage from "./components/HomePage";
 import HomePageHospital from "./components/HomePageHospital";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
-<<<<<<< HEAD
 import RegistrationPage from './components/Registration/RegistrationPage';
-=======
+
 import MedicinesPage from "./components/MedicinesPage/MedicinesPage";
-import RegistrationPage from './components/RegistrationPage';
->>>>>>> dbf1cf3072cc10f130ac1cf76ef2c9b297b72a4d
 
 function App() {
     return (

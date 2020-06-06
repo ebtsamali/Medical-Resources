@@ -32,7 +32,48 @@ const getAllMedicine = async (req,res) => {
     }
 }
 
+const updateMedicine = async (req, res) => {
+    const {params:{id}} = req;
+    const updatedKeys = Object.keys(req.body);
+    try {
+        const medicine = await Medicine.findOne({_id:id})
+        if(!medicine) {
+            return res.status(404).end()
+        }
+        updatedKeys.forEach((key)=>{
+            if(key === 'pharmacy') {
+                return;
+            }
+            medicine[key] = req.body[key]
+        })
+        await medicine.save()
+        res.status(200).send(medicine)
+    } catch (e) {
+        console.log(e)
+        res.status(500).send(e)
+    }
+
+}
+
+const deleteMedicine = async (req,res) => {
+    const {params:{id}} = req;
+    try {
+        const medicine = await Medicine.findByIdAndRemove(id)
+        if(!medicine){
+            return res.status(404).end()
+        }
+        res.status(200).send(medicine)
+    } catch (e) {
+        res.status(500).end()
+    }
+
+}
+
+
+
 module.exports = {
     addMedicine,
-    getAllMedicine
+    getAllMedicine,
+    updateMedicine,
+    deleteMedicine
 }

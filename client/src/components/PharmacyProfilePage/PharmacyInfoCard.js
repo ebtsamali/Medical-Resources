@@ -18,7 +18,6 @@ const PharmacyInfoCard = () => {
     const [errors, setErrors] = useState({})
 
     const setNewPharmacyState = (data) => {
-        console.log(data)
         setPharmacyName(data.name)
         setPharmacyGovernorate(data.location[0].governorate)
         setPharmacyDistrict(data.location[0].district)
