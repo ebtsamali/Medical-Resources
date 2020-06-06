@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 import PharmacyService from '../../services/pharmacy_service'
 import ErrorMessage from "../other/ErrorMessage";
+import {AuthContext} from "../../providers/auth_provider";
 
 const PharmacyInfoCard = () => {
 
@@ -16,6 +17,7 @@ const PharmacyInfoCard = () => {
     const [pharmacyId, setPharmacyId] = useState('')
     const [maxTimeLimit, setMaxTimeLimit] = useState('')
     const [errors, setErrors] = useState({})
+    const {user} = useContext(AuthContext);
 
     const setNewPharmacyState = (data) => {
         setPharmacyName(data.name)
@@ -29,7 +31,7 @@ const PharmacyInfoCard = () => {
     }
 
     useEffect(() => {
-        PharmacyService.getPharmacyData().then((response) => {
+        PharmacyService.getPharmacyData(user.id).then((response) => {
             setNewPharmacyState(response.data)
 
         }).catch(error => {

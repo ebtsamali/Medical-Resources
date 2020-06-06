@@ -1,0 +1,52 @@
+@import "main";
+.x-container-pharmacys {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.pharmacys-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding: 2em;
+}
+
+.search-card{
+  width: 50%;
+
+  .search-input-container{
+    display: flex;
+    justify-content: center;
+    input{
+      border-radius: 1.5em;
+      border-style: solid;
+      border-width: 0.126em;
+      border-color: $color_primary_light;
+
+      outline: none !important;
+
+      padding-left: 1.1em;
+      padding-top: 0.4em;
+      padding-bottom: 0.4em;
+      width: 100%;
+      //margin-top: 1em;
+      //margin-bottom: 1em;
+    }
+
+    input:focus {
+      outline: none;
+      border: 0.126em solid $color_primary;
+    }
+  }
+
+}
+
+
+.filters-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 0.75em;
+}

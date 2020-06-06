@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require('mongoose');
 const userRouter = require('./routes/user');
 const medicineRouter = require('./routes/medicine');
+const governorateRouter = require('./routes/governorate');
 const pharmacyRouter = require('./routes/pharmacy');
 const {tokenMiddleware, authRouter} = require('./routes/auth');
 
@@ -66,3 +67,4 @@ app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use('/pharmacys', pharmacyRouter);
 app.use('/medicines', medicineRouter);
+app.use('/governorates', governorateRouter);

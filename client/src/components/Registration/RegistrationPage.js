@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 let originalPassword = '';
 
 const validateConfirmPassword = (value) => {
-    console.log(this.originalPassword);
+    // console.log(this.originalPassword);
     if (value.length < 8 || value.length > 40 || value !== originalPassword) {
         return (
             <ErrorMessage message={"The password does not match."}/>
