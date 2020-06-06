@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require('mongoose');
 const userRouter = require('./routes/user');
 const {tokenMiddleware, authRouter} = require('./routes/auth');
+const hospitalRouter = require('./routes/hospital');
 
 const DB_PORT = process.env.DB_PORT;
 const DB_HOST = process.env.DB_HOST;
@@ -61,3 +62,4 @@ app.listen(PORT, (err) => {
 app.use(tokenMiddleware);
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
+app.use('/hospitals', hospitalRouter);

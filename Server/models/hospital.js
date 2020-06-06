@@ -16,6 +16,11 @@ const location = new mongoose.Schema({
 })
 
 const hospitalSchema = new mongoose.Schema({
+    adminId: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User',
+        required: [true, "Admin is required"], 
+    },
     name: {
         type: String, 
         required: [true, "Name is required"], 
@@ -24,15 +29,13 @@ const hospitalSchema = new mongoose.Schema({
 
     location: [location],
 
-    phoneNumber: [
-        { type: String,
+    phoneNumber: [{ 
+        type: String,
         required: [true, "phone number is required"]
-        }
-    ],
+    }],
 
     regulations: {
         type: String,
-        required: [true, "regulations is required"]
     }
 }, {
     timestamps: true,
