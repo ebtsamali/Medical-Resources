@@ -1,10 +1,10 @@
-import React from "react";
-import HospitalForm from './hospitalForm';
+// import React from "react";
+// import HospitalForm from './hospitalForm';
 
-const EditHospitalData = () => {
-    return(
-        <HospitalForm status="edit"/>
-    )
-}
+// const EditHospitalData = () => {
+//     return(
+//         <HospitalForm />
+//     )
+// }
 
-export default EditHospitalData
+// export default EditHospitalData

@@ -29,14 +29,46 @@ const hospitalSchema = new mongoose.Schema({
 
     location: [location],
 
-    phoneNumbers: [{ 
-        type: String,
-        required: [true, "phone number is required"]
-    }],
+    phoneNumbers: { 
+        type: [String],
+        required: [true, "phone number is required"],
+        validate: function (val) {
+            if (val.length === 0) {
+                throw new Error('Phone is required')
+            } else {
+                val.forEach((phone)=>{
+                    if(phone.trim().length === 0) {
+                        throw new Error('phone number can not be empty')
+                    }
+                    if(!phone.trim().match(/^[0-9]+$/)) {
+                        throw new Error('phone number must contain numbers only')
+                    }
+                })
+            }
+        }
+    },
 
-    regulations: [{
-        type: String,
-    }]
+    maxTimeLimit:{
+        type: Number,
+        required:[true,'Max Time Limit  is required'],
+        validate: function (val) {
+            console.log(val)
+            if(!val.toString().trim().match(/^[0-9]+$/) && val<0) {
+                throw new Error('Time Limit must be a positive number')
+            }
+        }
+    },
+
+    regulations: {
+        type: [String],
+        validate: function (val) {
+            val.forEach((regulation)=>{
+                if(regulation.trim().length === 0) {
+                    throw new Error('Regulation can not be empty')
+                }
+            })           
+        }
+    }
 }, {
     timestamps: true,
 })

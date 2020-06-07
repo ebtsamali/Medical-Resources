@@ -11,6 +11,7 @@ const saveHospitalData = async (req, res )=>{
             district,
             street,
             phoneNumbers,
+            maxTimeLimit,
             regulations
         }
     } = req
@@ -24,6 +25,7 @@ const saveHospitalData = async (req, res )=>{
             street,
         },
         phoneNumbers,
+        maxTimeLimit,
         regulations
     })
 
@@ -51,14 +53,24 @@ const getHospitalData = (req, res) => {
 
 const editHospitalData = (req, res)=>{
     const hospitalId = req.params.hospitalId;
-    HospitalModel.findByIdAndUpdate(hospitalId, req.body)
-    .then((hospital) => {
-        res.status(200).json({"message":"hospital updated successfully"});
-    }).catch((error) => {
-        console.log(error);
-        
-        res.status(500).end();
-    })
+    HospitalModel.findById(hospitalId)
+        .then(hospital=>{
+            hospital.adminId = req.body.adminId;
+            hospital.name = req.body.name;
+            hospital.location = {
+                governorate: req.body.governorate,
+                district: req.body.district,
+                street: req.body.street
+            };
+            hospital.phoneNumbers = req.body.phoneNumbers;
+            hospital.maxTimeLimit = req.body.maxTimeLimit;
+            hospital.regulations = req.body.regulations;
+
+            hospital.save()
+                .then(()=>res.status(201).json({"message":"hospital updated successfully"}))
+                .catch(err => res.status(500).send(err))
+        })
+        .catch(err => res.status(500).send(err))
 }
 
 
