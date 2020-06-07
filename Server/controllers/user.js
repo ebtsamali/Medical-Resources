@@ -20,7 +20,7 @@ exports.updateUser = (req, res) => {
     if(body.firstName) updatedInfo['firstName'] = body.firstName;
     if(body.lastName) updatedInfo['lastName'] = body.lastName;
     if(body.email) updatedInfo['email'] = body.email;
-    // if(body.password) updatedInfo['password'] = body.password;
+    if(body.password) updatedInfo['password'] = body.password;
     if(body.phoneNumber) updatedInfo['phoneNumber'] = body.phoneNumber;
     if(body.address) updatedInfo['address'] = body.address;
     if(body.birthdate) updatedInfo['birthdate'] = body.birthdate;
@@ -31,7 +31,7 @@ exports.updateUser = (req, res) => {
         if(updatedInfo.firstName) instance.firstName = updatedInfo.firstName;
         if(updatedInfo.lastName) instance.lastName = updatedInfo.lastName;
         if(updatedInfo.email) instance.email = updatedInfo.email;
-        // if(updatedInfo.password) instance.password = updatedInfo.password;
+        if(updatedInfo.password) instance.password = updatedInfo.password;
         if(updatedInfo.phoneNumber) instance.phoneNumber = updatedInfo.phoneNumber;
         if(updatedInfo.address) instance.address = updatedInfo.address;
         if(updatedInfo.birthdate) instance.birthdate = updatedInfo.birthdate;

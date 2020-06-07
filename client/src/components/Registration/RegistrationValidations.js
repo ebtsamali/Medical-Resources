@@ -5,8 +5,6 @@ import { isEmail, isAlpha } from "validator";
 function RegistrationValidations () {
     return ({
 
-        originalPassword: '',
-
         required: value => {
             if (!value) {
                 return (

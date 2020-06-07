@@ -6,6 +6,17 @@ import RegistrationValidations from "./Registration/RegistrationValidations";
 import Form from 'react-validation/build/form';
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import ErrorMessage from "./other/ErrorMessage";
+
+let originalPassword = '';
+
+const validateConfirmPassword = (value) => {
+    if (value.length < 8 || value.length > 40 || value !== originalPassword) {
+        return (
+            <ErrorMessage message={"The password does not match."}/>
+        );
+    }
+}
 
 const UserProfile = () => {
 
@@ -13,6 +24,12 @@ const UserProfile = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPass, setConfirmPass] = useState('');
+    const [validPassword, setValidPassword] = useState(true);
+    const [validPasswordMessage, setValidPasswordMessage] = useState(null);
+    const [validConfirmPassword, setValidConfirmPassword] = useState(true);
+    const [validConfirmPasswordMessage, setValidConfirmPasswordMessage] = useState(null);
     const [address, setAddress] = useState({});
     const [birthdate, setBirthDate] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -31,15 +48,14 @@ const UserProfile = () => {
                 if (response.data.address) setAddress(response.data.address);
                 if (response.data.birthdate) setBirthDate(response.data.birthdate.split('T')[0]);
                 if (response.data.phoneNumber) setPhoneNumber(response.data.phoneNumber);
-
             })
             .catch(error => {
                 const resMessage =
-                            (error.response &&
-                                error.response.data &&
-                                error.response.data.message) ||
-                            error.message ||
-                            error.toString();
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
                 setLoading(false);
                 setMessage(resMessage);
                 setSuccessful(false);
@@ -58,6 +74,51 @@ const UserProfile = () => {
 
     const onChangeEmail = (e) => {
         setEmail(e.target.value);
+    }
+    
+    const onChangePassword = (e) => {
+        setPassword(e.target.value);
+        originalPassword = e.target.value;
+        if(e.target.value !== "") {
+            setValidPassword(true);
+            setValidPasswordMessage(null);
+            let reqReturn = RegistrationValidations.required(e.target.value);
+            if(reqReturn) {
+                setValidPassword(false);
+                setValidPasswordMessage(reqReturn);
+                return;
+            }
+            let validReturn = RegistrationValidations.validatePassword(e.target.value);
+            if(validReturn) {
+                setValidPassword(false);
+                setValidPasswordMessage(validReturn);
+            }
+        } else {
+            setValidPassword(true);
+            setValidPasswordMessage(null);
+        }
+    }
+
+    const onChangeConfirmPassword = (e) => {
+        setConfirmPass(e.target.value);
+        if(password && e.target.value !== "") {
+            setValidConfirmPassword(true);
+            setValidConfirmPasswordMessage(null);
+            let reqReturn = RegistrationValidations.required(e.target.value);
+            if(reqReturn) {
+                setValidConfirmPassword(false);
+                setValidConfirmPasswordMessage(reqReturn);
+                return;
+            }
+            let validReturn = validateConfirmPassword(e.target.value);
+            if(validReturn) {
+                setValidConfirmPassword(false);
+                setValidConfirmPasswordMessage(validReturn);
+            }
+        } else {
+            setValidConfirmPassword(true);
+            setValidConfirmPasswordMessage(null);
+        }
     }
 
     const onChangeBirthdate = (e) => {
@@ -95,8 +156,26 @@ const UserProfile = () => {
         setLoading(true);
 
         form.current.validateAll();
+        if(password) {
+            let reqReturn = RegistrationValidations.required(password);
+            if(reqReturn) {
+                setValidPassword(false);
+                setValidPasswordMessage(reqReturn);
+                setMessage('');
+                setLoading(false);
+                return;
+            }
+            let validReturn = RegistrationValidations.validatePassword(password);
+            if(validReturn) {
+                setValidPassword(false);
+                setValidPasswordMessage(validReturn);
+                setMessage('');
+                setLoading(false);
+                return;
+            }
+        }
         if (checkBtn.current.context._errors.length === 0) {
-            UserServices.update(email, firstName, lastName, birthdate, phoneNumber, address, user.id)
+            UserServices.update(email, firstName, lastName, birthdate, phoneNumber, address, password, user.id)
                 .then(
                     response => {
                         setMessage(response.data.message);
@@ -161,13 +240,33 @@ const UserProfile = () => {
                         style={{ width: "30rem" }}
                     />
                     <Input
+                        type="password"
+                        className="password-input"
+                        placeholder="Enter New Password"
+                        name="password"
+                        value={password}
+                        onChange={onChangePassword}
+                        style={{ width: "30rem" }}
+                    />
+                    {!validPassword && <div style={{width: "30rem"}}>{validPasswordMessage}</div>}
+                    <Input
+                        type="password"
+                        className="password-input"
+                        placeholder="Re-type Password"
+                        name="confirm-password"
+                        value={confirmPass}
+                        onChange={onChangeConfirmPassword}
+                        disabled={password ? false : true}
+                        style={{ width: "30rem" }}
+                    />
+                    {!validConfirmPassword && <div style={{width: "30rem"}}>{validConfirmPasswordMessage}</div>}
+                    <Input
                         type="date"
                         className="email-input"
                         placeholder="Birth Date"
                         name="birthdate"
                         value={birthdate}
                         onChange={onChangeBirthdate}
-                        validations={[RegistrationValidations.required]}
                         style={{ width: "30rem" }}
                     />
                     <Input
@@ -252,6 +351,7 @@ const UserProfile = () => {
                                 role="alert"
                             >
                                 {message}
+                                {successful && <a href="/user" className="ml-3">Go To Home</a>}
                             </div>
                         </div>
                     )}
