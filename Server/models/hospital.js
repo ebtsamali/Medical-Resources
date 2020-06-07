@@ -29,14 +29,14 @@ const hospitalSchema = new mongoose.Schema({
 
     location: [location],
 
-    phoneNumber: [{ 
+    phoneNumbers: [{ 
         type: String,
         required: [true, "phone number is required"]
     }],
 
-    regulations: {
+    regulations: [{
         type: String,
-    }
+    }]
 }, {
     timestamps: true,
 })

@@ -10,7 +10,8 @@ const saveHospitalData = async (req, res )=>{
             governorate,
             district,
             street,
-            phoneNumber
+            phoneNumbers,
+            regulations
         }
     } = req
 
@@ -22,7 +23,8 @@ const saveHospitalData = async (req, res )=>{
             district,
             street,
         },
-        phoneNumber
+        phoneNumbers,
+        regulations
     })
 
     hospital.save(function (err) {

@@ -13,8 +13,9 @@ import AuthRoute from "./components/AuthRoute";
 import HomePage from "./components/HomePage";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
 import RegistrationPage from './components/Registration/RegistrationPage';
+
 import HospitalRegistration from "./components/Hospital/hospitalRegistration";
-import EditHospitalData from './components/Hospital/editHospitalData';
+// import EditHospitalData from './components/Hospital/editHospitalData';
 
 import MedicinesPage from "./components/MedicinesPage/MedicinesPage";
 
@@ -39,9 +40,9 @@ function App() {
                     <AuthRoute path="/user" type="private" privilege="user">
                         <HomePage/>
                     </AuthRoute>
-                    <AuthRoute path="/hospital/edit" privilege="hospital">
+                    {/** <AuthRoute path="/hospital/edit" privilege="hospital">
                         <EditHospitalData/>
-                    </AuthRoute>
+                    </AuthRoute>**/}
                     <AuthRoute path="/hospital" privilege="hospital">
                         <HospitalRegistration/>
                     </AuthRoute>

@@ -26,3 +26,20 @@ export const editHospitalData = (data, hospitalId) => {
         data
     })
 }
+
+export const getAdminData = (adminId) => {
+    return axios({
+        headers: authHeader(),
+        url: `${process.env.REACT_APP_BACKEND_URL}/users/${adminId}`, 
+        method: 'get'
+    })
+}
+
+export const editAdminData = (data, adminId) => {
+    return axios({
+        headers: authHeader(),
+        url: `${process.env.REACT_APP_BACKEND_URL}/users/${adminId}`, 
+        method: 'patch',
+        data
+    })
+}
