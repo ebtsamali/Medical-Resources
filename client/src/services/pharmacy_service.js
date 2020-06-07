@@ -22,7 +22,8 @@ function PharmacyService() {
                 method: 'post',
                 data,
             })
-        }
+        },
+
     })
 }
 

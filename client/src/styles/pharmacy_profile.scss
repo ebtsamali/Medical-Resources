@@ -112,7 +112,7 @@
 }
 
 .dropdown-menu {
-  height: 11em;
+  height: 9em;
   overflow-y: scroll;
 
 }
@@ -124,7 +124,7 @@
   border-color: $color_primary_light;
   color: white;
   outline: none !important;
-  border-radius: 2em;
+  //border-radius: 0.75em;
 }
 
 .dropdown-toggle, .dropdown-toggle:hover, .dropdown-toggle:focus, .dropdown-toggle,.btn-primary:disabled{
@@ -134,6 +134,6 @@
   border-color: $color_primary_light;
   padding-right: 2em;
   padding-left: 2em;
-  border-radius: 1em;
+  border-radius: 0.75em;
   //outline: none !important;
 }

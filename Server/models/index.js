@@ -1,11 +1,11 @@
 const db = {};
 
 db.user = require("./user");
-db.role = require("./hospital");
-db.author= require("./hospitalReservation");
-db.categories  = require("./medicine");
-db.book= require("./medicineReservation");
-db.booksRating= require("./pharmacy");
+db.hospital = require("./hospital");
+db.hospitalReservation= require("./hospitalReservation");
+db.medicine  = require("./medicine");
+db.medicineReservation= require("./medicineReservation");
+db.pharmacy= require("./pharmacy");
 db.ROLES = ['user','pharmacy', 'hospital'];
 
 module.exports = db;
