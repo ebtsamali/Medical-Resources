@@ -4,8 +4,8 @@ import axios from 'axios'
 function PharmacyService() {
     return ({
 
-        getPharmacyData: () => {
-            return axios.get(`${process.env.REACT_APP_BACKEND_URL}/pharmacys`, {headers: authHeader()});
+        getPharmacyData: (id) => {
+            return axios.get(`${process.env.REACT_APP_BACKEND_URL}/pharmacys/${id}`, {headers: authHeader()});
         },
         updatePharmacyData: (id, updatedData) => {
             return axios({
@@ -22,7 +22,8 @@ function PharmacyService() {
                 method: 'post',
                 data,
             })
-        }
+        },
+
     })
 }
 

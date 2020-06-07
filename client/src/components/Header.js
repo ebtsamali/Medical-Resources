@@ -12,9 +12,19 @@ const Header = (props) => {
     // console.log(user)
     return (<div className="header">
         <div className="nav-container">
-            <ul>
-                <li className="nav-list"><Link to="/medicines">Medicines</Link></li>
-            </ul>
+            {(user.role === "pharmacy") ? <ul>
+                <li className="nav-list">
+                    <Link to="/medicines">Medicines</Link>
+                </li>
+            </ul> : (user.role === "user") ? <ul>
+                <li className="nav-list">
+                    <Link to="/pharmacys">Pharmacys</Link>
+                </li>
+            </ul> : <ul>
+                <li className="nav-list">
+                    <Link to="/">Home</Link>
+                </li>
+            </ul>}
         </div>
         <div style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
             <div className="user-profile-container">

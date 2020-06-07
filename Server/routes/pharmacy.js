@@ -15,7 +15,7 @@ const { authJwt } = require("../middlewares");
 router.post('/',[authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.addPharmacy)
 
 // get pharmacy data by admin id
-router.get('/',[authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.getPharmacyProfile)
+router.get('/:id',[authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.getPharmacyProfile)
 
 // update pharmacy data
 router.patch('/:id',[authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.updatePharmacy)

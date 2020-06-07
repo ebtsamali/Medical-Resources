@@ -56,8 +56,8 @@
   padding-top: 0.4em;
   padding-bottom: 0.4em;
 
-  margin-top: 1em;
-  margin-bottom: 1em;
+  //margin-top: 1em;
+  //margin-bottom: 1em;
 }
 
 .form-input:focus {
@@ -109,4 +109,31 @@
   margin-top: 0.25em;
   margin-bottom: 0.25em;
   //margin-left: 1em;
+}
+
+.dropdown-menu {
+  height: 9em;
+  overflow-y: scroll;
+
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle{
+  background-color: $color_primary;
+  font-weight: bold;
+  border:none ;
+  border-color: $color_primary_light;
+  color: white;
+  outline: none !important;
+  //border-radius: 0.75em;
+}
+
+.dropdown-toggle, .dropdown-toggle:hover, .dropdown-toggle:focus, .dropdown-toggle,.btn-primary:disabled{
+  background-color: $color_primary;
+  color: white;
+  font-weight: bold;
+  border-color: $color_primary_light;
+  padding-right: 2em;
+  padding-left: 2em;
+  border-radius: 0.75em;
+  //outline: none !important;
 }

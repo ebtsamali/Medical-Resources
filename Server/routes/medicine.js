@@ -16,4 +16,8 @@ router.patch('/:id',[authJwt.verifyToken, authJwt.isPharmacy], medicineControlle
 // delete medicine
 router.delete('/:id',[authJwt.verifyToken, authJwt.isPharmacy], medicineController.deleteMedicine)
 
+// search for medicine
+router.get('/search',[authJwt.verifyToken, authJwt.isUser], medicineController.search)
+
+
 module.exports = router;
