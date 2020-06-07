@@ -50,3 +50,42 @@
   justify-content: space-around;
   margin-top: 0.75em;
 }
+
+
+
+#pharmacys {
+  //font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+
+
+}
+
+#pharmacys td, #pharmacys th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#pharmacys tr:nth-child(even){background-color: #f2f2f2;}
+
+#pharmacys tr:hover {background-color: #ddd;}
+
+#pharmacys th {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 0.95rem;
+  text-align: center;
+  background-color: $color_accent;
+  color: white;
+}
+
+
+.pharmacys-container{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  margin-top: 1em;
+}
+

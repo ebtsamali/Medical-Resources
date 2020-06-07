@@ -137,12 +137,6 @@ const PharmacyInfoCard = () => {
         </div>
         <div className="location-container">
             <div className="d-flex flex-column align-content-center">
-                {/*<input className="form-input" placeholder="Governorate" value={pharmacyGovernorate}*/}
-                {/*       disabled={pharmacyDataEditingMode}*/}
-                {/*       onChange={(e) => {*/}
-                {/*           const {target: {value}} = e;*/}
-                {/*           setPharmacyGovernorate(value)*/}
-                {/*       }}/>*/}
                 <Dropdown className="mt-4" onSelect={handleSelectGovernorate}>
                     <Dropdown.Toggle disabled={pharmacyDataEditingMode} style={{maxHeight: "50px"}} size="sm"
                                      id="dropdown-basic">
@@ -159,11 +153,6 @@ const PharmacyInfoCard = () => {
                 {errors.governorate && <ErrorMessage message={errors.governorate}/>}
             </div>
             {(pharmacyGovernorate !== 'Governorate') && <div className="d-flex flex-column align-content-center">
-                {/*<input className="form-input" placeholder="District" value={pharmacyDistrict}*/}
-                {/*       disabled={pharmacyDataEditingMode} onChange={(e) => {*/}
-                {/*    const {target: {value}} = e;*/}
-                {/*    setPharmacyDistrict(value)*/}
-                {/*}}/>*/}
                 <Dropdown className="mt-4" onSelect={handleSelectDistrict}>
                     <Dropdown.Toggle disabled={pharmacyDataEditingMode} style={{maxHeight: "50px"}} size="sm"
                                      id="dropdown-basic">
