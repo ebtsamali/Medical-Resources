@@ -7,7 +7,7 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
-import PharmacyProfilePage from "./components/PharmacyProfilePage/PharmacyProfilePage";
+import PharmacyProfilePage from "./components/pharmacy/PharmacyProfilePage/PharmacyProfilePage";
 import AuthProvider from "./providers/auth_provider";
 import AuthRoute from "./components/AuthRoute";
 import HomePage from "./components/HomePage";
@@ -17,7 +17,7 @@ import RegistrationPage from './components/Registration/RegistrationPage';
 import HospitalRegistration from "./components/Hospital/hospitalRegistration";
 // import EditHospitalData from './components/Hospital/editHospitalData';
 
-import MedicinesPage from "./components/MedicinesPage/MedicinesPage";
+import MedicinesPage from "./components/pharmacy/MedicinesPage/MedicinesPage";
 import PharmacysPage from "./components/User/PharmacysPage/PharmacysPage";
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
                     {/** <AuthRoute path="/hospital/edit" privilege="hospital">
                         <EditHospitalData/>
                     </AuthRoute>**/}
-                    <AuthRoute path="/hospital" privilege="hospital">
+                    <AuthRoute path="/hospital" type="private" privilege="hospital">
                         <HospitalRegistration/>
                     </AuthRoute>
 

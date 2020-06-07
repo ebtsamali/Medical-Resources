@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {faEdit, faTrashAlt} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import MedicineService from '../../services/medicine_service'
-import Pagination from "../Pagination";
+import MedicineService from '../../../services/medicine_service'
+import Pagination from "../../Pagination";
 
 const AllMedicines = (props) => {
     const {setSelectedMedicine,setSelectedTab} = props

@@ -66,6 +66,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['user', 'pharmacy', 'hospital'],
         default: 'user'
+    },
+    profileIsCompleted:{
+        type:Boolean,
+        default: false
     }
 }, {
     timestamps: true,

@@ -1,6 +1,6 @@
 import React,{ useState, useEffect } from "react";
-import MedicineService from '../../services/medicine_service'
-import ErrorMessage from "../other/ErrorMessage";
+import MedicineService from '../../../services/medicine_service'
+import ErrorMessage from "../../other/ErrorMessage";
 
 const MedicineForm = (props) => {
 

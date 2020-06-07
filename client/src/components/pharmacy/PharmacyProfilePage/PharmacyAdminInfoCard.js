@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
-import ErrorMessage from "../other/ErrorMessage";
-import {AuthContext} from "../../providers/auth_provider";
+import {AuthContext} from "../../../providers/auth_provider";
+import UserService from '../../../services/userServices'
+import ErrorMessage from "../../other/ErrorMessage";
 
 const PharmacyAdminInfoCard = () => {
 
@@ -9,9 +10,16 @@ const PharmacyAdminInfoCard = () => {
     const [adminLastName, setAdminLastName] = useState("")
     const [adminEmail, setAdminEmail] = useState("")
     const [adminPassword, setAdminPassword] = useState("")
-    const {user} = useContext(AuthContext);
+    const [errors, setErrors] = useState({})
+
+    const {user, setUser} = useContext(AuthContext);
     useEffect(() => {
-        setNewAdminInfoState(user)
+        UserService.getUserInfo(user.id).then((response) => {
+            setErrors({})
+            console.log(response.data)
+
+            setNewAdminInfoState(response.data)
+        })
     }, [])
 
     const setNewAdminInfoState = (data) => {
@@ -23,12 +31,27 @@ const PharmacyAdminInfoCard = () => {
 
     const saveUpdatedData = () => {
         setAdminDataEditingMode(true)
+        UserService.update(adminEmail, adminFirstName, adminLastName, null, null, null, adminPassword === "" ? null : adminPassword, user.id).then((response) => {
+            setErrors({})
+            setNewAdminInfoState(response.data)
+            const user = JSON.parse(localStorage.getItem('user'))
+            user.firstName = response.data.user.firstName
+            user.lastName = response.data.user.lastName
+            setUser(user)
+            localStorage.setItem('user',JSON.stringify(user))
+        }).catch((error) => {
+            setAdminDataEditingMode(false)
+            if(error.response.data.message && error.response.data.message.errors){
+                setErrors(error.response.data.message.errors)
+            }else {
+                setErrors({})
+            }
+            // console.log(error.response.data.message.errors)
+        });
     }
 
 
-
-
-    return(<div className="pharmacy-admin-info-card">
+    return (<div className="pharmacy-admin-info-card">
         <div className="x-card-header">
             <h4>Admin Info</h4>
             {adminDataEditingMode && <button onClick={() => {
@@ -43,7 +66,7 @@ const PharmacyAdminInfoCard = () => {
                     const {target: {value}} = e;
                     setAdminFirstName(value)
                 }} disabled={adminDataEditingMode}/>
-                {/*{errors.name && <ErrorMessage message={errors.name}/>}*/}
+                {errors.firstName && <ErrorMessage message={errors.firstName}/>}
             </div>
 
             <div>
@@ -51,7 +74,7 @@ const PharmacyAdminInfoCard = () => {
                     const {target: {value}} = e;
                     setAdminLastName(value)
                 }} disabled={adminDataEditingMode}/>
-                {/*{errors.name && <ErrorMessage message={errors.name}/>}*/}
+                {errors.lastName && <ErrorMessage message={errors.lastName}/>}
             </div>
 
         </div>
@@ -61,15 +84,16 @@ const PharmacyAdminInfoCard = () => {
                 const {target: {value}} = e;
                 setAdminEmail(value)
             }} disabled={adminDataEditingMode}/>
-            {/*{errors.name && <ErrorMessage message={errors.name}/>}*/}
+            {errors.email && <ErrorMessage message={errors.email}/>}
         </div>
 
         <div>
-            <input className="form-input" type="password" value={adminPassword} placeholder="New Password" onChange={(e) => {
-                const {target: {value}} = e;
-                setAdminPassword(value)
-            }} disabled={adminDataEditingMode}/>
-            {/*{errors.name && <ErrorMessage message={errors.name}/>}*/}
+            <input className="form-input" type="password" value={adminPassword} placeholder="New Password"
+                   onChange={(e) => {
+                       const {target: {value}} = e;
+                       setAdminPassword(value)
+                   }} disabled={adminDataEditingMode}/>
+            {errors.password && <ErrorMessage message={errors.password}/>}
         </div>
     </div>)
 }

@@ -1,9 +1,12 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Link, withRouter} from "react-router-dom";
 import '../styles/header.scss'
 import {AuthContext} from "../providers/auth_provider";
+import UserService from "../services/userServices";
 
 const Header = (props) => {
+
+
     const logout = () => {
         localStorage.removeItem('user')
         props.history.push("/")
@@ -13,9 +16,9 @@ const Header = (props) => {
     return (<div className="header">
         <div className="nav-container">
             {(user.role === "pharmacy") ? <ul>
-                <li className="nav-list">
+                {(user.profileIsCompleted) && <li className="nav-list">
                     <Link to="/medicines">Medicines</Link>
-                </li>
+                </li>}
             </ul> : (user.role === "user") ? <ul>
                 <li className="nav-list">
                     <Link to="/pharmacys">Pharmacys</Link>
