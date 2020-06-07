@@ -18,6 +18,7 @@ import HospitalRegistration from "./components/Hospital/hospitalRegistration";
 // import EditHospitalData from './components/Hospital/editHospitalData';
 
 import MedicinesPage from "./components/MedicinesPage/MedicinesPage";
+import PharmacysPage from "./components/User/PharmacysPage/PharmacysPage";
 
 function App() {
     return (
@@ -45,6 +46,10 @@ function App() {
                     </AuthRoute>**/}
                     <AuthRoute path="/hospital" privilege="hospital">
                         <HospitalRegistration/>
+                    </AuthRoute>
+
+                    <AuthRoute path="/pharmacys" type="private" privilege="user">
+                        <PharmacysPage/>
                     </AuthRoute>
 
                     <AuthRoute path="/pharmacy_profile" type="private" privilege="pharmacy">

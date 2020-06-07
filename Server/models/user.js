@@ -90,6 +90,30 @@ userSchema.pre('save', function (next) {
     }
 });
 
+userSchema.post('save', function (error, doc, next) {
+    if (error.name === 'MongoError' && error.code === 11000) {
+        if (Object.keys(error.keyPattern)[0] === 'email') {
+            next({
+                errors: {
+                    email: 'email must be unique',
+                }
+            });
+        } /*else if(Object.keys(error.keyPattern)[0] === 'name') {
+            next(new Error('name must be unique'));
+        }*/
+    } else {
+        const keys = Object.keys(error.errors);
+        console.log(keys)
+        const errors = keys.reduce((acc,key)=>{
+            return {
+                ...acc,
+                [key.split('.')[key.split('.').length - 1]]:error.errors[key].properties.message
+            }
+        },{})
+        next({errors});
+    }
+})
+
 
 const User = mongoose.model('User', userSchema);
 

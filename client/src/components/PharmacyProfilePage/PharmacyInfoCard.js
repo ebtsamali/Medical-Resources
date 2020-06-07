@@ -1,21 +1,28 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 import PharmacyService from '../../services/pharmacy_service'
+import GovernorateService from '../../services/governorateService'
 import ErrorMessage from "../other/ErrorMessage";
+import {AuthContext} from "../../providers/auth_provider";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const PharmacyInfoCard = () => {
 
     const [pharmacyDataEditingMode, setPharmacyDataEditingMode] = useState(true)
     const [pharmacyName, setPharmacyName] = useState("")
-    const [pharmacyGovernorate, setPharmacyGovernorate] = useState("")
-    const [pharmacyDistrict, setPharmacyDistrict] = useState("")
+    const [pharmacyGovernorate, setPharmacyGovernorate] = useState("Governorate")
+    const [pharmacyDistrict, setPharmacyDistrict] = useState("District")
     const [pharmacyStreet, setPharmacyStreet] = useState("")
     const [pharmacyHasDeliveryService, setPharmacyHasDeliveryService] = useState(false)
     const [phoneNumbers, setPhoneNumbers] = useState([])
     const [pharmacyId, setPharmacyId] = useState('')
     const [maxTimeLimit, setMaxTimeLimit] = useState('')
     const [errors, setErrors] = useState({})
+    const [governorates, setGovernorates] = useState([])
+    const [districts, setDistricts] = useState([])
+    const {user} = useContext(AuthContext);
+
 
     const setNewPharmacyState = (data) => {
         setPharmacyName(data.name)
@@ -29,13 +36,28 @@ const PharmacyInfoCard = () => {
     }
 
     useEffect(() => {
-        PharmacyService.getPharmacyData().then((response) => {
+        PharmacyService.getPharmacyData(user.id).then((response) => {
             setNewPharmacyState(response.data)
 
         }).catch(error => {
 
         })
+        GovernorateService.getAllGovernorates().then((response) => {
+            console.log(response.data)
+            setGovernorates(response.data.governorates)
+        })
     }, [])
+
+    useEffect(() => {
+        if (pharmacyGovernorate !== 'Governorate') {
+            governorates.forEach((governorate) => {
+                if (governorate.name === pharmacyGovernorate) {
+                    setDistricts(governorate.districts)
+                    setPharmacyDistrict('District')
+                }
+            })
+        }
+    }, [pharmacyGovernorate])
 
     const removePhone = (id) => {
         return (e) => {
@@ -50,7 +72,11 @@ const PharmacyInfoCard = () => {
         const pharmacy = {
             delivery: pharmacyHasDeliveryService,
             phoneNumbers,
-            location: [{governorate: pharmacyGovernorate, district: pharmacyDistrict, street: pharmacyStreet}],
+            location: [{
+                governorate: pharmacyGovernorate === 'Governorate' ? "" : pharmacyGovernorate,
+                district: pharmacyDistrict === 'District' ? "" : pharmacyDistrict,
+                street: pharmacyStreet
+            }],
             name: pharmacyName,
             maxTimeLimit,
         }
@@ -72,6 +98,14 @@ const PharmacyInfoCard = () => {
             });
         }
 
+    }
+
+    const handleSelectGovernorate = (e) => {
+        setPharmacyGovernorate(e)
+    }
+
+    const handleSelectDistrict = (e) => {
+        setPharmacyDistrict(e)
     }
 
     const handleChangePhone = (id) => {
@@ -102,23 +136,48 @@ const PharmacyInfoCard = () => {
             {errors.name && <ErrorMessage message={errors.name}/>}
         </div>
         <div className="location-container">
-            <div>
-                <input className="form-input" placeholder="Governorate" value={pharmacyGovernorate}
-                       disabled={pharmacyDataEditingMode}
-                       onChange={(e) => {
-                           const {target: {value}} = e;
-                           setPharmacyGovernorate(value)
-                       }}/>
+            <div className="d-flex flex-column align-content-center">
+                {/*<input className="form-input" placeholder="Governorate" value={pharmacyGovernorate}*/}
+                {/*       disabled={pharmacyDataEditingMode}*/}
+                {/*       onChange={(e) => {*/}
+                {/*           const {target: {value}} = e;*/}
+                {/*           setPharmacyGovernorate(value)*/}
+                {/*       }}/>*/}
+                <Dropdown className="mt-4" onSelect={handleSelectGovernorate}>
+                    <Dropdown.Toggle disabled={pharmacyDataEditingMode} style={{maxHeight: "50px"}} size="sm"
+                                     id="dropdown-basic">
+                        {pharmacyGovernorate}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        {governorates.map((governorate) => {
+                            return (<Dropdown.Item key={governorate._id}
+                                                   eventKey={governorate.name}>{governorate.name}</Dropdown.Item>)
+                        })}
+                    </Dropdown.Menu>
+                </Dropdown>
                 {errors.governorate && <ErrorMessage message={errors.governorate}/>}
             </div>
-            <div>
-                <input className="form-input" placeholder="District" value={pharmacyDistrict}
-                       disabled={pharmacyDataEditingMode} onChange={(e) => {
-                    const {target: {value}} = e;
-                    setPharmacyDistrict(value)
-                }}/>
-                {errors.district && <ErrorMessage message={errors.district}/>}
-            </div>
+            {(pharmacyGovernorate !== 'Governorate') && <div className="d-flex flex-column align-content-center">
+                {/*<input className="form-input" placeholder="District" value={pharmacyDistrict}*/}
+                {/*       disabled={pharmacyDataEditingMode} onChange={(e) => {*/}
+                {/*    const {target: {value}} = e;*/}
+                {/*    setPharmacyDistrict(value)*/}
+                {/*}}/>*/}
+                <Dropdown className="mt-4" onSelect={handleSelectDistrict}>
+                    <Dropdown.Toggle disabled={pharmacyDataEditingMode} style={{maxHeight: "50px"}} size="sm"
+                                     id="dropdown-basic">
+                        {pharmacyDistrict}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        {districts.map((district, index) => {
+                            return (<Dropdown.Item key={index} eventKey={district}>{district}</Dropdown.Item>)
+                        })}
+                    </Dropdown.Menu>
+                </Dropdown>
+                { errors.district && (pharmacyDistrict === "District") && <ErrorMessage message={errors.district}/>}
+            </div>}
             <div>
                 <input className="form-input" placeholder="Street" value={pharmacyStreet}
                        disabled={pharmacyDataEditingMode}
