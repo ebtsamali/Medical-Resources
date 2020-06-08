@@ -1,11 +1,13 @@
-const Pharmacy = require('../models/pharmacy')
+const db = require('../models/index');
+const User = db.user;
+const Pharmacy = db.pharmacy;
 
 const addPharmacy = async (req,res) => {
-    // console.log(req.body)
     const {userId} = req;
     const {body:{  name, location, phoneNumbers, delivery, maxTimeLimit }} = req
     try {
         const pharmacy = await Pharmacy.create({admin_id:userId, name, location, phoneNumbers, delivery, maxTimeLimit})
+        await User.findByIdAndUpdate(userId,{profileIsCompleted:true})
         res.status(201).send(pharmacy)
     } catch (e) {
         // console.log(e.message)
