@@ -42,6 +42,7 @@ exports.signin = (req, res) => {
             lastName: user.lastName,
             email: user.email,
             role: user.role,
+            profileIsCompleted:user.profileIsCompleted,
             accessToken: token
         })
     })

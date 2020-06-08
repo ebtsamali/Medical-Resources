@@ -1,10 +1,10 @@
 import React, {useState, useEffect, useContext} from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTimesCircle} from '@fortawesome/free-solid-svg-icons'
-import PharmacyService from '../../services/pharmacy_service'
-import GovernorateService from '../../services/governorateService'
-import ErrorMessage from "../other/ErrorMessage";
-import {AuthContext} from "../../providers/auth_provider";
+import PharmacyService from '../../../services/pharmacy_service'
+import GovernorateService from '../../../services/governorateService'
+import ErrorMessage from "../../other/ErrorMessage";
+import {AuthContext} from "../../../providers/auth_provider";
 import Dropdown from "react-bootstrap/Dropdown";
 
 const PharmacyInfoCard = () => {
@@ -21,7 +21,7 @@ const PharmacyInfoCard = () => {
     const [errors, setErrors] = useState({})
     const [governorates, setGovernorates] = useState([])
     const [districts, setDistricts] = useState([])
-    const {user} = useContext(AuthContext);
+    const {user,setUser} = useContext(AuthContext);
 
 
     const setNewPharmacyState = (data) => {
@@ -92,6 +92,10 @@ const PharmacyInfoCard = () => {
             PharmacyService.addNewPharmacy(pharmacy).then((response) => {
                 setErrors({})
                 setNewPharmacyState(response.data)
+                const user = JSON.parse(localStorage.getItem('user'))
+                user.profileIsCompleted = true
+                setUser(user)
+                localStorage.setItem('user',JSON.stringify(user))
             }).catch((error) => {
                 setPharmacyDataEditingMode(false)
                 setErrors(error.response.data.errors)

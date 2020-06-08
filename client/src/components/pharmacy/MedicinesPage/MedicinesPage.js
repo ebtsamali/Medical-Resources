@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import Header from "../Header";
-import '../../styles/medicines.scss'
+import Header from "../../Header";
+import '../../../styles/medicines.scss'
 import Sidebar from "./Sidebar";
 import MedicineForm from "./MedicineForm";
 import AllMedicines from "./AllMedicines";

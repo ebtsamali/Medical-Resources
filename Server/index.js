@@ -7,6 +7,7 @@ const medicineRouter = require('./routes/medicine');
 const governorateRouter = require('./routes/governorate');
 const pharmacyRouter = require('./routes/pharmacy');
 const {tokenMiddleware, authRouter} = require('./routes/auth');
+const hospitalRouter = require('./routes/hospital');
 
 const DB_PORT = process.env.DB_PORT;
 const DB_HOST = process.env.DB_HOST;
@@ -65,6 +66,7 @@ app.listen(PORT, (err) => {
 app.use(tokenMiddleware);
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
+app.use('/hospitals', hospitalRouter);
 app.use('/pharmacys', pharmacyRouter);
 app.use('/medicines', medicineRouter);
 app.use('/governorates', governorateRouter);

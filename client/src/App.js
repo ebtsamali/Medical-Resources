@@ -7,16 +7,20 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
-import PharmacyProfilePage from "./components/PharmacyProfilePage/PharmacyProfilePage";
+import PharmacyProfilePage from "./components/pharmacy/PharmacyProfilePage/PharmacyProfilePage";
 import AuthProvider from "./providers/auth_provider";
 import AuthRoute from "./components/AuthRoute";
 import HomePage from "./components/HomePage";
-import HomePageHospital from "./components/HomePageHospital";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
 import RegistrationPage from './components/Registration/RegistrationPage';
 
-import MedicinesPage from "./components/MedicinesPage/MedicinesPage";
+import HospitalRegistration from "./components/Hospital/hospitalRegistration";
+// import EditHospitalData from './components/Hospital/editHospitalData';
+
+import MedicinesPage from "./components/pharmacy/MedicinesPage/MedicinesPage";
 import PharmacysPage from "./components/User/PharmacysPage/PharmacysPage";
+
+import HospitalsPage from './components/User/HospitalsPage/hospitalsPage';
 
 function App() {
     return (
@@ -39,13 +43,19 @@ function App() {
                     <AuthRoute path="/user" type="private" privilege="user">
                         <HomePage/>
                     </AuthRoute>
+                    {/** <AuthRoute path="/hospital/edit" privilege="hospital">
+                        <EditHospitalData/>
+                    </AuthRoute>**/}
+                    <AuthRoute path="/hospital" type="private" privilege="hospital">
+                        <HospitalRegistration/>
+                    </AuthRoute>
+
+                    <AuthRoute path="/hospitals" type="private" privilege="user">
+                        <HospitalsPage />
+                    </AuthRoute>
 
                     <AuthRoute path="/pharmacys" type="private" privilege="user">
                         <PharmacysPage/>
-                    </AuthRoute>
-
-                    <AuthRoute path="/hospital" type="private" privilege="hospital">
-                        <HomePageHospital/>
                     </AuthRoute>
 
                     <AuthRoute path="/pharmacy_profile" type="private" privilege="pharmacy">
