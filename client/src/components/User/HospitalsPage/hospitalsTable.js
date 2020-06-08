@@ -1,9 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../../../styles/pharmacys.scss';
+import Pagination from './Pagination';
+
 
 
 export default (props) => {
-    const hospitals = props.hospitals
+    const hospitals = props.hospitals;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [hospitalsPerPage] = useState(5);
+
+    const indexOfLastHospital = currentPage * hospitalsPerPage;
+    const indexOfFirstHospital = indexOfLastHospital - hospitalsPerPage;
+    const currentHospitals = hospitals.slice(indexOfFirstHospital, indexOfLastHospital);
+
+    const paginate = pageNumber => setCurrentPage(pageNumber);
     
     return (
         <div className="pharmacys-container">
@@ -11,7 +21,7 @@ export default (props) => {
                 <thead>
                     <tr id="hospitals">
                         <th>Hospital Name</th>
-                        <th>Phone Numbers</th>
+                        <th>Available Beds</th>
                         <th>Governorate</th>
                         <th>District</th>
                         <th>Street</th>
@@ -19,16 +29,18 @@ export default (props) => {
                 </thead>
                 <tbody>
                 {
-                    hospitals.map(hospital => {
+                    currentHospitals.map(hospital => {
                         return(
                             <tr key={hospital._id}>
                                 <td>{hospital.name}</td>
-                                <td>{
+                                
+                                {/** 
                                     hospital.phoneNumbers.map( (phone, index) => {
                                         return(<p key={index}> {phone} </p>)
-                                    }
-                                )}
-                                </td>
+                                    })
+                                **/}
+                                
+                                <td>{hospital.avaalableBeds? hospital.avaalableBeds : "-"}</td>
                                 <td>{hospital.location? hospital.location[0].governorate : ""}</td>
                                 <td>{hospital.location? hospital.location[0].district : ""}</td>
                                 <td>{hospital.location? hospital.location[0].street : ""}</td>
@@ -38,6 +50,12 @@ export default (props) => {
                 }
                 </tbody>
             </table>
+            <Pagination
+                booksPerPage={hospitalsPerPage}
+                totalBooks={hospitals.length}
+                currentPage={currentPage}
+                paginate={paginate}
+            />
         </div>
     )
 }
