@@ -36,7 +36,8 @@ exports.updateUser = (req, res) => {
         if(updatedInfo.address) instance.address = updatedInfo.address;
         if(updatedInfo.birthdate) instance.birthdate = updatedInfo.birthdate;
         
-
+        instance.profileIsCompleted = true;
+        
         instance.save((err, user) => {
             if(err) {
                 console.log(err);

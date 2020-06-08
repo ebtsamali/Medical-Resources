@@ -14,7 +14,7 @@ import HomePage from "./components/HomePage";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
 import RegistrationPage from './components/Registration/RegistrationPage';
 
-import HospitalRegistration from "./components/Hospital/hospitalRegistration";
+import HospitalRegistration from "./components/Hospital/Hospital Profile/hospitalRegistration";
 // import EditHospitalData from './components/Hospital/editHospitalData';
 
 import MedicinesPage from "./components/pharmacy/MedicinesPage/MedicinesPage";

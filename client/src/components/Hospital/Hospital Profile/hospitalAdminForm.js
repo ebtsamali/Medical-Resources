@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { getAdminData, editAdminData} from '../../services/hospitalService';
+import { getAdminData, editAdminData} from '../../../services/hospitalService';
 
 export default () => {
     const [firstName, setFirstName] = useState("");
