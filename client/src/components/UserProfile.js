@@ -244,7 +244,7 @@ const UserProfile = () => {
             }
         }
         let reqGov = RegistrationValidations.required(address.governorate);
-        if(reqGov) {
+        if (reqGov) {
             setValidGov(false);
             setValidGovMessage(reqGov);
             setMessage('');
@@ -252,7 +252,7 @@ const UserProfile = () => {
             return;
         }
         let reqDis = RegistrationValidations.required(address.district);
-        if(reqDis) {
+        if (reqDis) {
             setValidDistrict(false);
             setValidDistrictMessage(reqDis);
             setMessage('');
@@ -386,7 +386,7 @@ const UserProfile = () => {
                         </Select>
                     </FormControl><br />
                     {!validGov && <div style={{ width: "30rem" }}>{validGovMessage}</div>}
-                    <FormControl style={{ width: "29rem", marginLeft: "0.8rem", marginTop: "0.6rem"}}>
+                    <FormControl style={{ width: "29rem", marginLeft: "0.8rem", marginTop: "0.6rem" }}>
                         <InputLabel id="demo-simple-select-outlined-label">District</InputLabel>
                         <Select
                             labelId="demo-simple-select-outlined-label"
