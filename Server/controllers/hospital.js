@@ -1,8 +1,55 @@
 const HospitalModel = require('../models/hospital');
 
+// get all hospital
+const allHospitals = async (req, res) => {
+    await HospitalModel.find()
+    .then((hospitals)=>{
+        if(hospitals.length === 0)
+        {
+            return res.status(404).send('No Hospitals Found');
+        }
+        res.status(200).send(hospitals);
+    }).catch((error)=>{
+        console.log(error);
+        res.status(500).send(error)
+    })
+}
+
+
+// filter by governorate or district or name
+const hospitalSearch = async (req, res) => {
+    let key = "";
+    let value = "";
+    if(req.query.governorate){   
+        key = "location.governorate";
+        value = req.query.governorate;
+    } else if(req.query.district) {
+        key = "location.district";
+        value = req.query.district;
+    } else {
+        key = "name";
+        value = req.query.name;
+    }
+    await HospitalModel.find({
+        [key]: {
+            $regex: value, 
+            $options: "i"
+        }
+    }).populate({ path: 'adminId' })
+    .then((hospitals)=>{
+        if(hospitals.length === 0){
+            return res.status(404).send('No Hospitals Found');
+        }
+        res.status(200).send(hospitals);
+    }).catch((error)=>{
+        console.log(error);
+        res.status(500).send(error)
+    })
+   
+}
+
 const saveHospitalData = async (req, res )=>{
-    console.log("inside save function");
-    
+
     const {
         body: {
             adminId,
@@ -78,5 +125,7 @@ const editHospitalData = (req, res)=>{
 module.exports = {
     saveHospitalData,
     getHospitalData,
-    editHospitalData
+    editHospitalData,
+    hospitalSearch,
+    allHospitals
 }
