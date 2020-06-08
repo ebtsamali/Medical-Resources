@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { getAdminData, editAdminData} from '../../../services/hospitalService';
+import { getAdminData, editAdminData} from '../../services/hospitalService';
+import UserServices from '../../services/userServices';
+import ErrorMessage from "../other/ErrorMessage";
 
 export default () => {
     const [firstName, setFirstName] = useState("");
@@ -7,10 +9,11 @@ export default () => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [status, setStatus] = useState("show");
+    const [errors, setErrors] = useState({});
     const adminId = JSON.parse(localStorage.getItem("user")).id;
 
     useEffect(() => { 
-        getAdminData(adminId).then(response => {
+        UserServices.getUserInfo(adminId).then(response => {
             if (response) {                                
                 const retrievedAdminData = response.data;
                 setAdminData(retrievedAdminData);
@@ -46,19 +49,23 @@ export default () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const data = {
-            firstName,
-            lastName,
-            email
-        }
-
-        editAdminData(data, adminId).then(response => {
+        // const data = {
+        //     firstName,
+        //     lastName,
+        //     email
+        // }
+        UserServices.update(email, firstName, lastName, null, null, null, password, adminId)
+        .then(response => {
             if (response) {
-                // console.log(response);
-                window.location.reload(false);
+                console.log(response);
+                setPassword("");
+                setErrors({})
+                setStatus("show");
             }
-        }).catch(error => {
-            console.log(error.response); 
+        }).catch(error => {   
+            console.log(error.response);
+                   
+            setErrors(error.response.data.message.errors); 
         });
     }
 
@@ -84,6 +91,7 @@ export default () => {
                         placeholder="First Name"
                         disabled = {status === "show"? true : false} 
                     />
+                    {errors.firstName && <ErrorMessage message={errors.firstName}/>}
                 </div>
                 <div>
                     <input 
@@ -95,6 +103,7 @@ export default () => {
                         placeholder="Last Name"
                         disabled = {status === "show"? true : false}
                     />
+                    {errors.lastName && <ErrorMessage message={errors.lastName}/>}
                 </div>
             </div>
             <div>
@@ -108,6 +117,7 @@ export default () => {
                     disabled = {status === "show"? true : false}
                 />
             </div>
+            {errors.email && <ErrorMessage message={errors.email}/>}
             <div>
                 <input 
                     type="password"
@@ -119,6 +129,7 @@ export default () => {
                     disabled = {status === "show"? true : false}
                 />
             </div>
+            {errors.password && <ErrorMessage message={errors.password}/>}
         </div>
     )
 }
