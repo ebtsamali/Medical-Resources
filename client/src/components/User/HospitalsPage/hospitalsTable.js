@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import '../../../styles/pharmacys.scss';
 import Pagination from './Pagination';
+import { Link } from 'react-router-dom';
 
 
 
@@ -32,7 +33,14 @@ export default (props) => {
                     currentHospitals.map(hospital => {
                         return(
                             <tr key={hospital._id}>
-                                <td>{hospital.name}</td>
+                                <td> <Link to={{ 
+                                        pathname: `/hospitals/${hospital.name}`, 
+                                        hash: "#411@%19#", 
+                                        state: { hospital }
+                                    }}>
+                                        {hospital.name} 
+                                    </Link>
+                                </td>
                                 
                                 {/** 
                                     hospital.phoneNumbers.map( (phone, index) => {

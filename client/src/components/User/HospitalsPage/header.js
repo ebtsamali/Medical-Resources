@@ -14,7 +14,7 @@ export default () => {
         history.push('/');
     }
     return (
-        <Navbar bg="dark" variant="dark" style={{maxHeight: "60px"}}>
+        <Navbar bg="dark" variant="dark" style={{maxHeight: "10%"}}>
             <Navbar.Brand href="#" className="mr-auto">Hospitals</Navbar.Brand>
 
             <div className="user-profile-container">
