@@ -23,6 +23,7 @@ import PharmacysPage from "./components/User/PharmacysPage/PharmacysPage";
 import HospitalsPage from './components/User/HospitalsPage/hospitalsPage';
 import AppProvider from "./providers/AppProvider";
 import AppHead from "./components/other/AppHead";
+import HospitalProfile from './components/User/HospitalsPage/hospitalProfile';
 
 function App() {
     return (
@@ -45,6 +46,19 @@ function App() {
                             <RegistrationPage/>
                         </AuthRoute>
 
+                    <AuthRoute path="/user" type="private" privilege="user">
+                        <HomePage/>
+                    </AuthRoute>
+                    {/** <AuthRoute path="/hospital/edit" privilege="hospital">
+                        <EditHospitalData/>
+                    </AuthRoute>**/}
+                    <AuthRoute path="/hospital" type="private" privilege="hospital">
+                        <HospitalRegistration/>
+                    </AuthRoute>
+
+                    <Route exact path="/hospitals/:name" >
+                        <HospitalProfile />
+                    </Route>
                         <AuthRoute path="/user" type="private" privilege="user">
                             <HomePage/>
                         </AuthRoute>
@@ -59,6 +73,10 @@ function App() {
                             <HospitalsPage/>
                         </AuthRoute>
 
+
+                    <AuthRoute path="/pharmacys" type="private" privilege="user">
+                        <PharmacysPage/>
+                    </AuthRoute>
                         <AuthRoute path="/pharmacys" type="private" privilege="user">
                             <PharmacysPage/>
                         </AuthRoute>
