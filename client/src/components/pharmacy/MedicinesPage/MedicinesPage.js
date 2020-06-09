@@ -1,14 +1,17 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import Header from "../../Header";
 import '../../../styles/medicines.scss'
 import Sidebar from "./Sidebar";
 import MedicineForm from "./MedicineForm";
 import AllMedicines from "./AllMedicines";
+import {AppContext} from "../../../providers/AppProvider";
 
 const MedicinesPage = () => {
 
     const [selectedTab, setSelectedTab] = useState('all_medicine')
     const [selectedMedicine, setSelectedMedicine] = useState({})
+    const {setTitle} = useContext(AppContext)
+    setTitle('Medicines')
     return (<div className="x-container-medicines">
         <Header/>
         <div className="body-medicines-container ">

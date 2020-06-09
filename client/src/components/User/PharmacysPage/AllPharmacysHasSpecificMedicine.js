@@ -3,16 +3,13 @@ import Pagination from "../../Pagination";
 
 const AllPharmacysHasSpecificMedicine = (props) => {
     const {pharmacys, pages,setPage, page} = props
-    // console.log(props)
     return (<div className="pharmacys-container">
         <table id="pharmacys">
             <thead>
             <tr>
                 <th>Pharmacy Name</th>
-                <th>Pharmacy Phones</th>
-                <th>Pharmacy Governorate</th>
-                <th>Pharmacy District</th>
-                <th>Pharmacy Street</th>
+                {/*<th>Pharmacy Phones</th>*/}
+                <th>Pharmacy Address</th>
                 <th>Delivery?</th>
                 <th>Medicine Name</th>
                 <th>Medicine Price</th>
@@ -24,18 +21,12 @@ const AllPharmacysHasSpecificMedicine = (props) => {
                 pharmacys.map((pharmacy) => {
                     return (<tr key={pharmacy._id}>
                         <td>{pharmacy.pharmacy && pharmacy.pharmacy.name}</td>
-                        <td>{pharmacy.pharmacy && pharmacy.pharmacy.phoneNumbers.map((phone) => {
-                                return (<div key={phone}>{phone}<br/></div>)
-                            })
-                        }</td>
+                        {/*<td>{pharmacy.pharmacy && pharmacy.pharmacy.phoneNumbers.map((phone) => {*/}
+                        {/*        return (<div key={phone}>{phone}<br/></div>)*/}
+                        {/*    })*/}
+                        {/*}</td>*/}
                         <td>
-                            {pharmacy.pharmacy && pharmacy.pharmacy.location[0].governorate}
-                        </td>
-                        <td>
-                            {pharmacy.pharmacy && pharmacy.pharmacy.location[0].district}
-                        </td>
-                        <td>
-                            {pharmacy.pharmacy && pharmacy.pharmacy.location[0].street}
+                            {pharmacy.pharmacy && `${ pharmacy.pharmacy.location[0].street}, ${pharmacy.pharmacy.location[0].district}, ${pharmacy.pharmacy.location[0].governorate}`}
                         </td>
                         <td>
                             {pharmacy.pharmacy &&  pharmacy.pharmacy.delivery ? 'Yes' : 'No'}

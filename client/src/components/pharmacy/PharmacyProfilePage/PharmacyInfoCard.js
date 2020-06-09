@@ -6,7 +6,27 @@ import GovernorateService from '../../../services/governorateService'
 import ErrorMessage from "../../other/ErrorMessage";
 import {AuthContext} from "../../../providers/auth_provider";
 import Dropdown from "react-bootstrap/Dropdown";
+import {MenuItem, Select} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 
+const useStyles = makeStyles((theme) => ({
+    select: {
+        '&:before': {
+            borderColor: "#4ABBA9",
+        },
+        '&:after': {
+            borderColor: "#4ABBA9",
+        }
+    },
+    icon: {
+        fill: "#4ABBA9",
+    },
+    label: {
+        '.MuiInputLabel-root': {
+            color: "#4ABBA9",
+        }
+    },
+}));
 const PharmacyInfoCard = () => {
 
     const [pharmacyDataEditingMode, setPharmacyDataEditingMode] = useState(true)
@@ -23,6 +43,7 @@ const PharmacyInfoCard = () => {
     const [districts, setDistricts] = useState([])
     const {user,setUser} = useContext(AuthContext);
 
+    const classes = useStyles();
 
     const setNewPharmacyState = (data) => {
         setPharmacyName(data.name)
@@ -105,11 +126,11 @@ const PharmacyInfoCard = () => {
     }
 
     const handleSelectGovernorate = (e) => {
-        setPharmacyGovernorate(e)
+        setPharmacyGovernorate(e.target.value)
     }
 
     const handleSelectDistrict = (e) => {
-        setPharmacyDistrict(e)
+        setPharmacyDistrict(e.target.value)
     }
 
     const handleChangePhone = (id) => {
@@ -141,34 +162,47 @@ const PharmacyInfoCard = () => {
         </div>
         <div className="location-container">
             <div className="d-flex flex-column align-content-center">
-                <Dropdown className="mt-4" onSelect={handleSelectGovernorate}>
-                    <Dropdown.Toggle disabled={pharmacyDataEditingMode} style={{maxHeight: "50px"}} size="sm"
-                                     id="dropdown-basic">
-                        {pharmacyGovernorate}
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                        {governorates.map((governorate) => {
-                            return (<Dropdown.Item key={governorate._id}
-                                                   eventKey={governorate.name}>{governorate.name}</Dropdown.Item>)
-                        })}
-                    </Dropdown.Menu>
-                </Dropdown>
+                <Select
+                    disabled={pharmacyDataEditingMode}
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={pharmacyGovernorate}
+                    onChange={handleSelectGovernorate}
+                    className={classes.select}
+                    inputProps={{
+                        classes: {
+                            icon: classes.icon,
+                        }
+                    }}
+                >
+                    {governorates.map((gov) => {
+                        return (
+                            <MenuItem key={gov._id} value={gov.name}>{gov.name}</MenuItem>
+                        )
+                    })}
+                </Select>
                 {errors.governorate && <ErrorMessage message={errors.governorate}/>}
             </div>
             {(pharmacyGovernorate !== 'Governorate') && <div className="d-flex flex-column align-content-center">
-                <Dropdown className="mt-4" onSelect={handleSelectDistrict}>
-                    <Dropdown.Toggle disabled={pharmacyDataEditingMode} style={{maxHeight: "50px"}} size="sm"
-                                     id="dropdown-basic">
-                        {pharmacyDistrict}
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                        {districts.map((district, index) => {
-                            return (<Dropdown.Item key={index} eventKey={district}>{district}</Dropdown.Item>)
-                        })}
-                    </Dropdown.Menu>
-                </Dropdown>
+                <Select
+                    disabled={pharmacyDataEditingMode}
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={pharmacyDistrict}
+                    onChange={handleSelectDistrict}
+                    className={classes.select}
+                    inputProps={{
+                        classes: {
+                            icon: classes.icon,
+                        }
+                    }}
+                >
+                    {districts.map((district) => {
+                        return (
+                            <MenuItem key={district} value={district}>{district}</MenuItem>
+                        )
+                    })}
+                </Select>
                 { errors.district && (pharmacyDistrict === "District") && <ErrorMessage message={errors.district}/>}
             </div>}
             <div>

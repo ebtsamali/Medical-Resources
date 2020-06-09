@@ -21,54 +21,61 @@ import MedicinesPage from "./components/pharmacy/MedicinesPage/MedicinesPage";
 import PharmacysPage from "./components/User/PharmacysPage/PharmacysPage";
 
 import HospitalsPage from './components/User/HospitalsPage/hospitalsPage';
+import AppProvider from "./providers/AppProvider";
+import AppHead from "./components/other/AppHead";
 
 function App() {
     return (
-        <Router>
-            <AuthProvider>
-                <Switch>
-                    <AuthRoute exact={true} path="/" type="guest">
-                        <LoginPage/>
-                    </AuthRoute>
+        <>
+            <AppProvider>
+            <AppHead/>
+            <Router>
+                <AuthProvider>
+                    <Switch>
+                        <AuthRoute exact={true} path="/" type="guest">
+                            <LoginPage/>
+                        </AuthRoute>
 
-                    <AuthRoute path="/login" type="guest">
-                        <LoginPage/>
+                        <AuthRoute path="/login" type="guest">
+                            <LoginPage/>
 
-                    </AuthRoute>
+                        </AuthRoute>
 
-                    <AuthRoute path="/register" type="guest">
-                        <RegistrationPage/>
-                    </AuthRoute>
+                        <AuthRoute path="/register" type="guest">
+                            <RegistrationPage/>
+                        </AuthRoute>
 
-                    <AuthRoute path="/user" type="private" privilege="user">
-                        <HomePage/>
-                    </AuthRoute>
-                    {/** <AuthRoute path="/hospital/edit" privilege="hospital">
-                        <EditHospitalData/>
-                    </AuthRoute>**/}
-                    <AuthRoute path="/hospital" type="private" privilege="hospital">
-                        <HospitalRegistration/>
-                    </AuthRoute>
+                        <AuthRoute path="/user" type="private" privilege="user">
+                            <HomePage/>
+                        </AuthRoute>
+                        {/** <AuthRoute path="/hospital/edit" privilege="hospital">
+                         <EditHospitalData/>
+                         </AuthRoute>**/}
+                        <AuthRoute path="/hospital" type="private" privilege="hospital">
+                            <HospitalRegistration/>
+                        </AuthRoute>
 
-                    <AuthRoute path="/hospitals" type="private" privilege="user">
-                        <HospitalsPage />
-                    </AuthRoute>
+                        <AuthRoute path="/hospitals" type="private" privilege="user">
+                            <HospitalsPage/>
+                        </AuthRoute>
 
-                    <AuthRoute path="/pharmacys" type="private" privilege="user">
-                        <PharmacysPage/>
-                    </AuthRoute>
+                        <AuthRoute path="/pharmacys" type="private" privilege="user">
+                            <PharmacysPage/>
+                        </AuthRoute>
 
-                    <AuthRoute path="/pharmacy_profile" type="private" privilege="pharmacy">
-                        <PharmacyProfilePage/>
-                    </AuthRoute>
-                    <AuthRoute path="/medicines" type="private" privilege="pharmacy">
-                        <MedicinesPage/>
-                    </AuthRoute>
+                        <AuthRoute path="/pharmacy_profile" type="private" privilege="pharmacy">
+                            <PharmacyProfilePage/>
+                        </AuthRoute>
+                        <AuthRoute path="/medicines" type="private" privilege="pharmacy">
+                            <MedicinesPage/>
+                        </AuthRoute>
 
-                    <Route path="/unauthorized" component={Unauthorized}/>
-                </Switch>
-            </AuthProvider>
-        </Router>
+                        <Route path="/unauthorized" component={Unauthorized}/>
+                    </Switch>
+                </AuthProvider>
+            </Router>
+            </AppProvider>
+        </>
     );
 }
 
