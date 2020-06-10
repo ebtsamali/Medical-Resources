@@ -13,7 +13,8 @@ const Header = (props) => {
     }
     const { user } = useContext(AuthContext);
     // console.log(user)
-    return (<div className="header">
+    return (
+    <div className="header">
         <div className="nav-container">
             {(user.role === "pharmacy") ? <ul>
                 {(user.profileIsCompleted) && <li className="nav-list">
@@ -22,6 +23,10 @@ const Header = (props) => {
             </ul> : (user.role === "user") ? <ul>
                 <li className="nav-list">
                     <Link to="/pharmacys">Pharmacys</Link>
+                </li>
+            </ul> : (user.role === "hospital") ? <ul>
+                <li className="nav-list">
+                    <Link to="/hospital/beds/edit">Beds</Link>
                 </li>
             </ul> : <ul>
                         <li className="nav-list">
@@ -43,7 +48,8 @@ const Header = (props) => {
             </div>
         </div>
 
-    </div>)
+    </div>
+    )
 }
 
 export default withRouter(Header)

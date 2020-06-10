@@ -14,27 +14,18 @@ exports.getUser = (req, res) => {
 }
 
 exports.updateUser = (req, res) => {
-    let updatedInfo = { }; 
     const { body } = req;
-
-    if(body.firstName) updatedInfo['firstName'] = body.firstName;
-    if(body.lastName) updatedInfo['lastName'] = body.lastName;
-    if(body.email) updatedInfo['email'] = body.email;
-    if(body.password) updatedInfo['password'] = body.password;
-    if(body.phoneNumber) updatedInfo['phoneNumber'] = body.phoneNumber;
-    if(body.address) updatedInfo['address'] = body.address;
-    if(body.birthdate) updatedInfo['birthdate'] = body.birthdate;
+    const updatedKeys = Object.keys(body);
 
     User.findById(req.userId, (err, instance) => { 
         if(err) return res.send(err);
 
-        if(updatedInfo.firstName) instance.firstName = updatedInfo.firstName;
-        if(updatedInfo.lastName) instance.lastName = updatedInfo.lastName;
-        if(updatedInfo.email) instance.email = updatedInfo.email;
-        if(updatedInfo.password) instance.password = updatedInfo.password;
-        if(updatedInfo.phoneNumber) instance.phoneNumber = updatedInfo.phoneNumber;
-        if(updatedInfo.address) instance.address = updatedInfo.address;
-        if(updatedInfo.birthdate) instance.birthdate = updatedInfo.birthdate;
+        updatedKeys.forEach((info) => {
+            if (key === 'user') {
+                return;
+            }
+            instance[key] = req.body[key]
+        });
         
         instance.profileIsCompleted = true;
         
