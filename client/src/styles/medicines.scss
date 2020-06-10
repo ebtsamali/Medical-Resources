@@ -172,4 +172,12 @@
   justify-content: space-between;
 }
 
+.MuiSelect-select:focus{
+  background-color: white;
+}
 
+
+.MuiSelect-select.MuiSelect-select {
+  padding-left: 24px;
+  //padding-right: 0px;
+}

@@ -16,7 +16,7 @@ const order = new mongoose.Schema({
     }
 })
 
-const medicineReservationSchema = new mongoose.Schema({
+const medicineOrderSchema = new mongoose.Schema({
     pharmacy: {
         type: mongoose.Schema.Types.ObjectId,
         required: [true, 'Pharmacy is required!'],
@@ -36,14 +36,25 @@ const medicineReservationSchema = new mongoose.Schema({
         required: [true, "Total Price is required"]
     },
 
-    // timeLimit: {
-    //     type: Number,
-    //     required: [true, "Time Limit is required"]
-    // }
+    userAddress : {
+        type: String,
+        required: [true, 'Address is required!']
+    },
+
+    userPhone: {
+        type: String,
+        required: [true, 'Phone Number is required!']
+    },
+
+    status: {
+        type: String,
+        enum: ['placed', 'shiped', 'delivered'],
+        default: 'placed'
+    }
 },{
     timestamps: true,
 })
 
-const MedicineReservation = mongoose.model('MedicineReservation', medicineReservationSchema);
+const MedicineOrder = mongoose.model('MedicineOrder', medicineOrderSchema);
 
-module.exports = MedicineReservation;
+module.exports = MedicineOrder;

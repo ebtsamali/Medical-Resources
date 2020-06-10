@@ -2,7 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import '../styles/header.scss'
 import { AuthContext } from "../providers/auth_provider";
-import UserService from "../services/userServices";
+// import UserService from "../services/userServices";
+import {AuthContext} from "../providers/auth_provider";
+import {faShoppingCart} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 const Header = (props) => {
 
@@ -41,6 +44,9 @@ const Header = (props) => {
                     (user.role === "pharmacy") ? "/pharmacy_profile" : (user.role === "user") ? "" : ""
                 }><p className="user-name">{`${user.firstName} ${user.lastName}`}</p></Link>
             </div>
+            {user.role === "user" && <div className="ml-3">
+                <Link to="/user_cart"><FontAwesomeIcon color="#ffffff" size="2x" icon={faShoppingCart}/></Link>
+            </div>}
             <div className="logout-container">
                 <ul>
                     <li className="logout-list"><a onClick={logout}>Logout</a></li>

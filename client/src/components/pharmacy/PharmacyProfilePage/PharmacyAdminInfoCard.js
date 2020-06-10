@@ -41,6 +41,7 @@ const PharmacyAdminInfoCard = () => {
             localStorage.setItem('user',JSON.stringify(user))
         }).catch((error) => {
             setAdminDataEditingMode(false)
+            console.log(error.response.data)
             if(error.response.data.message && error.response.data.message.errors){
                 setErrors(error.response.data.message.errors)
             }else {
