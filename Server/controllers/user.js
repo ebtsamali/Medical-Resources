@@ -73,9 +73,14 @@ exports.getCart = async (req, res) => {
 exports.reserveMidicine = async (req, res) => {
     const {params:{id,pharmacy_id}} = req
     const {body:{totalPrice,order}} = req
-    console.log(req.body)
+    // console.log(req.body)
     try {
         const reservation = await MedicineReservation.create({totalPrice,order,pharmacy:pharmacy_id, user:id })
+        for(let i = 0; i<order.length;++i) {
+            const medicine = await Medicine.findById(order[i].medicine)
+            medicine.quantity-=order[i].quantity
+            await medicine.save()
+        }
         res.send(reservation)
     } catch (e) {
         console.log(e)
