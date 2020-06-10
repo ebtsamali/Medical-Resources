@@ -38,6 +38,24 @@ function UserServices () {
         },
         searchMedicines: (query) => {
             return axios.get(`${API_URL}/medicines/search${query}`,{headers: authHeader()})
+        },
+        getCartDetails: (data)=>{
+            return axios({
+                headers: authHeader(),
+                url: `${process.env.REACT_APP_BACKEND_URL}/users/cart`,
+                data:{
+                    pharmacys:data
+                },
+                method: 'post'
+            });
+        },
+        reserveMedicine: (userId, pharmacyId, data) => {
+            return axios({
+                headers: authHeader(),
+                url: `${process.env.REACT_APP_BACKEND_URL}/users/${userId}/pharmacys/${pharmacyId}/reserve`,
+                data,
+                method: 'post'
+            });
         }
     })
 }

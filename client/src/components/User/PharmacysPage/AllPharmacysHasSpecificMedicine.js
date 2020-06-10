@@ -1,8 +1,29 @@
-import React from "react";
+import React, {useState} from "react";
 import Pagination from "../../Pagination";
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
+import {addToCart, medicineIsExist, removeMedicineFromCart, getCart} from "../../../utils/cart_utils";
 
 const AllPharmacysHasSpecificMedicine = (props) => {
-    const {pharmacys, pages,setPage, page} = props
+
+    const {pharmacys, pages,setPage, page} = props;
+    const [cart, setCart] = useState(getCart())
+    const handleAddToCart = (pharmacyId,medicineId) => {
+        return () => {
+            // console.log(pharmacyId, medicineId)
+            setCart(addToCart(pharmacyId, medicineId));
+            // addToCart(pharmacyId, medicineId)
+        }
+    }
+
+    // console.log(medicineIsExist("5edb81b6fc83641956b788c2"))
+
+    const handleRemoveFromCart = (pharmacyId,medicineId) => {
+        return () => {
+            // removeMedicineFromCart(pharmacyId,medicineId)
+            setCart(removeMedicineFromCart(pharmacyId,medicineId))
+        }
+    }
     return (<div className="pharmacys-container">
         <table id="pharmacys">
             <thead>
@@ -14,11 +35,13 @@ const AllPharmacysHasSpecificMedicine = (props) => {
                 <th>Medicine Name</th>
                 <th>Medicine Price</th>
                 <th>Medicine Quantity</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
             {pharmacys &&
                 pharmacys.map((pharmacy) => {
+                    // console.log(pharmacy)
                     return (<tr key={pharmacy._id}>
                         <td>{pharmacy.pharmacy && pharmacy.pharmacy.name}</td>
                         {/*<td>{pharmacy.pharmacy && pharmacy.pharmacy.phoneNumbers.map((phone) => {*/}
@@ -39,6 +62,9 @@ const AllPharmacysHasSpecificMedicine = (props) => {
                         </td>
                         <td>
                             {pharmacy.quantity}
+                        </td>
+                        <td>
+                            {pharmacy.pharmacy && ((medicineIsExist(pharmacy._id)) ? <RemoveShoppingCartIcon onClick={handleRemoveFromCart( pharmacy.pharmacy._id,pharmacy._id)}/> : <AddShoppingCartIcon onClick={handleAddToCart( pharmacy.pharmacy._id,pharmacy._id)}/>)}
                         </td>
                     </tr>)
                 })

@@ -1,0 +1,144 @@
+@import "main";
+
+.x-container-cart {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  flex-direction: column;
+}
+
+.body-cart-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  align-items: center;
+  margin-bottom: 8em;
+  justify-content: space-around;
+}
+
+.pharmacy-cart-card {
+  border-radius: 1em;
+  border: $color_primary solid 0.1em;
+  height: fit-content;
+  padding: 1em;
+  width: 50%;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2), 0 4px 15px 0 rgba(0, 0, 0, 0.19);
+}
+
+.medicines-container-cart{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  //align-content: space-around;
+}
+
+.medicines-card{
+  margin-top: 1em;
+  border-radius: 1em;
+  padding: 0.75em;
+  margin-left: 1em;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2), 0 4px 15px 0 rgba(0, 0, 0, 0.19);
+  p{
+    margin-bottom: 0;
+    margin-top: 0.5em;
+    font-weight: bold;
+  }
+}
+
+.quantity-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  p{
+    margin: 0;
+  }
+  input[type=number]{
+    width: 9em;
+    height: fit-content;
+    margin-left: 0.2em;
+  }
+}
+
+.pharmacy-cart-card-footer{
+  margin-top: 3em;
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h5{
+    margin-bottom: 0;
+  }
+}
+
+
+.btn-container{
+  button {
+    background-color: $color_primary;
+    //background: linear-gradient(90deg, rgba(76,187,158,1) 0%, rgba(34,96,87,1) 100%);
+    border: none;
+    border-radius: 1em;
+    //text-transform: capitalize;
+    padding-bottom: 0.25em;
+    padding-top: 0.25em;
+    font-weight: bold;
+    padding-left: 2em;
+    padding-right: 2em;
+    margin-right: 1em;
+    color: white;
+    //margin-top: 2em;
+    //margin-bottom: 1em;
+  }
+}
+
+.medicines-card-content{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  //width: fit-content;
+  justify-content: center;
+}
+
+.medicines-card-cart-arrows{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.pharmacy-cart-card-header{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 0.5em;
+}
+
+.x-footer{
+  //width: 50%;
+  display: flex;
+  //justify-content: space-between;
+  //margin-top: 3em;
+  //padding-right: 3em;
+  //padding-left: 3em;
+}
+
+.medicines-card-header{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 0.1em;
+  margin-right: 0.2em;
+}
+
+.empty-cart-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  h2{
+    font-weight: bold;
+    color: $color_accent_light;
+  }
+}

@@ -36,10 +36,10 @@ const medicineReservationSchema = new mongoose.Schema({
         required: [true, "Total Price is required"]
     },
 
-    timeLimit: {
-        type: Number,
-        required: [true, "Time Limit is required"]
-    }
+    // timeLimit: {
+    //     type: Number,
+    //     required: [true, "Time Limit is required"]
+    // }
 },{
     timestamps: true,
 })

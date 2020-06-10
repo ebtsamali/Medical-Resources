@@ -24,13 +24,14 @@ import HospitalsPage from './components/User/HospitalsPage/hospitalsPage';
 import AppProvider from "./providers/AppProvider";
 import AppHead from "./components/other/AppHead";
 import HospitalProfile from './components/User/HospitalsPage/hospitalProfile';
+import CartPage from "./components/User/CartPage/CartPage";
 
 function App() {
     return (
         <>
             <AppProvider>
-            <AppHead/>
             <Router>
+            <AppHead/>
                 <AuthProvider>
                     <Switch>
                         <AuthRoute exact={true} path="/" type="guest">
@@ -61,6 +62,10 @@ function App() {
                     </Route>
                         <AuthRoute path="/user" type="private" privilege="user">
                             <HomePage/>
+                        </AuthRoute>
+
+                        <AuthRoute path="/user_cart" type="private" privilege="user">
+                            <CartPage/>
                         </AuthRoute>
                         {/** <AuthRoute path="/hospital/edit" privilege="hospital">
                          <EditHospitalData/>
