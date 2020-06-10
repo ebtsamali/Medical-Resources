@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {AuthContext} from "../../../providers/auth_provider";
-import {removePharmacyFromCart} from "../../../utils/cart_utils";
+import {removePharmacyFromCart, removeMedicineFromCart} from "../../../utils/cart_utils";
 import {Link} from "react-router-dom";
 
 const CartPage = () => {
@@ -47,10 +47,27 @@ const CartPage = () => {
                 return acc + (medicine.price*medicine.userQuantity)
             }, 0))
         } else {
-            setCurrentPharmacyIndex(-1)
+            setCurrentMedicineIndex(-1)
         }
 
     }, [currentPharmacyIndex])
+
+    useEffect(() => {
+        if(cartDetails.length === 0) {
+            setCurrentPharmacyIndex(-1)
+            setCurrentMedicineIndex(-1)
+        }
+    }, [cartDetails.length])
+
+    useEffect(() => {
+        if(currentMedicines.length === 0 && currentPharmacyIndex>=0) {
+            setCartDetails(cartDetails.filter((pharmacy)=> cartDetails[currentPharmacyIndex].pharmacy._id !== pharmacy.pharmacy._id))
+            removePharmacyFromCart(cartDetails[currentPharmacyIndex].pharmacy._id)
+            setCurrentPharmacyIndex(0)
+        } else {
+            setCurrentMedicineIndex(0)
+        }
+    }, [currentMedicines.length])
 
     const handleChangeQuantity = (index) => {
         return (e) => {
@@ -77,6 +94,19 @@ const CartPage = () => {
         return () => {
             setCartDetails(cartDetails.filter((pharmacy)=> pharmacyId!== pharmacy.pharmacy._id))
             removePharmacyFromCart(pharmacyId)
+
+        }
+    }
+
+    const handleClickRemoveMedicine = (pharmacyId, medicineId) => {
+        return () => {
+            currentMedicines.forEach((medicine) => {
+                if(medicine._id === medicineId){
+                    setTotalPrice(totalPrice -( medicine.userQuantity*medicine.price))
+                }
+            })
+            removeMedicineFromCart(pharmacyId, medicineId)
+            setCurrentMedicines(currentMedicines.filter((medicine) => medicineId !== medicine._id))
         }
     }
 
@@ -84,7 +114,7 @@ const CartPage = () => {
     return (<div className="x-container-cart">
         <Header/>
 
-        {currentPharmacyIndex<0 ? <div className="empty-cart-container">
+        {currentPharmacyIndex < 0 ? <div className="empty-cart-container">
             <img src="../../../../img/empty-cart.png"/>
             <h2>Your cart is empty!</h2>
             <Link to="/pharmacys"><h5>Add Medicines To Cart</h5></Link>
@@ -118,7 +148,7 @@ const CartPage = () => {
                         {(currentMedicineIndex >= 0 && currentMedicines[currentMedicineIndex]) &&
                         <div className="medicines-card">
                             <div className="medicines-card-header">
-                                <FontAwesomeIcon size="xs" icon={faTimes}/>
+                                <FontAwesomeIcon onClick={handleClickRemoveMedicine(cartDetails[currentPharmacyIndex].pharmacy._id,currentMedicines[currentMedicineIndex]._id)} size="xs" icon={faTimes}/>
                             </div>
                             <h5>{currentMedicines[currentMedicineIndex].name}</h5>
                             <div className="quantity-container">
@@ -132,10 +162,10 @@ const CartPage = () => {
                         </div>}
 
 
-                        {(currentMedicineIndex >= 0 && currentMedicineIndex + 1 < currentMedicines.length && currentMedicines[currentMedicineIndex]) &&
+                        {(currentMedicineIndex >= 0 && currentMedicineIndex + 1 < currentMedicines.length && currentMedicines[currentMedicineIndex+1]) &&
                         <div className="medicines-card">
                             <div className="medicines-card-header">
-                                <FontAwesomeIcon size="xs" icon={faTimes}/>
+                                <FontAwesomeIcon onClick={handleClickRemoveMedicine(cartDetails[currentPharmacyIndex].pharmacy._id,currentMedicines[currentMedicineIndex+1]._id)} size="xs" icon={faTimes}/>
                             </div>
                             <h5>{currentMedicines[currentMedicineIndex + 1].name}</h5>
                             <div className="quantity-container">
