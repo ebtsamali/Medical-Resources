@@ -2,37 +2,21 @@ import React, { useState, useRef } from "react";
 import Form from 'react-validation/build/form';
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { makeStyles } from '@material-ui/core/styles';
 import '../../styles/login.scss'
 import ErrorMessage from "../other/ErrorMessage";
 import UserServices from '../../services/userServices';
 import RegistrationValidations from "./RegistrationValidations";
-import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownToggle from 'react-bootstrap/DropdownToggle';
+import DropdownMenu from 'react-bootstrap/DropdownMenu';
+import DropdownItem from 'react-bootstrap/DropdownItem';
 
-const useStyles = makeStyles((theme) => ({
-    select: {
-        '&:before': {
-            borderColor: "#4ABBA9",
-        },
-        '&:after': {
-            borderColor: "#4ABBA9",
-        }
-    },
-    icon: {
-        fill: "#4ABBA9",
-    },
-    label: {
-        '.MuiInputLabel-root': {
-            color: "#4ABBA9",
-        }
-    },
-}));
 let originalPassword = '';
 
 const validateConfirmPassword = (value) => {
     if (value.length < 8 || value.length > 40 || value !== originalPassword) {
         return (
-            <ErrorMessage message={"The password does not match."}/>
+            <ErrorMessage message={"The password does not match."} />
         );
     }
 }
@@ -53,7 +37,6 @@ const RegistrationPage = (props) => {
     const checkBtn = useRef(null);
     const form = useRef(null);
     const [roles] = useState(["user", "hospital", "pharmacy"]);
-    const classes = useStyles();
 
     const onChangeFirstName = (e) => {
         setFirstName(e.target.value);
@@ -77,17 +60,17 @@ const RegistrationPage = (props) => {
     }
 
     const onChangeRole = (e) => {
-        setRole(e.target.value);
+        setRole(e);
         setValidRole(true);
         setValidRoleMessage(null);
-        let reqReturn = RegistrationValidations.required(e.target.value);
-        if(reqReturn) {
+        let reqReturn = RegistrationValidations.required(e);
+        if (reqReturn) {
             setValidRole(false);
             setValidRoleMessage(reqReturn);
             return;
         }
-        let validReturn = RegistrationValidations.validateRole(e.target.value);
-        if(validReturn) {
+        let validReturn = RegistrationValidations.validateRole(e);
+        if (validReturn) {
             setValidRole(false);
             setValidRoleMessage(validReturn);
         }
@@ -103,7 +86,7 @@ const RegistrationPage = (props) => {
 
         form.current.validateAll();
         let reqReturn = RegistrationValidations.required(role);
-        if(reqReturn) {
+        if (reqReturn) {
             setValidRole(false);
             setValidRoleMessage(reqReturn);
             setMessage('');
@@ -111,7 +94,7 @@ const RegistrationPage = (props) => {
             return;
         }
         let validReturn = RegistrationValidations.validateRole(role);
-        if(validReturn) {
+        if (validReturn) {
             setValidRole(false);
             setValidRoleMessage(validReturn);
             setMessage('');
@@ -144,97 +127,88 @@ const RegistrationPage = (props) => {
         }
     }
 
-    return(
-    <div className="x-container">
-        <div className="login-card">
-            <h3>Register</h3>
-            <Form
-                onSubmit={handleRegister}
-                ref={form}
-            >
-                <Input
-                    type="text"
-                    className="email-input"
-                    placeholder="First Name"
-                    name="firstname"
-                    value={firstName}
-                    onChange={onChangeFirstName}
-                    validations={[RegistrationValidations.required, RegistrationValidations.validateFirstname]}
-                    style={{width: "30rem"}}
-                />
-                <Input
-                    type="text"
-                    className="email-input"
-                    placeholder="Last Name"
-                    name="lastname"
-                    value={lastName}
-                    onChange={onChangeLastName}
-                    validations={[RegistrationValidations.required, RegistrationValidations.validateLastname]}
-                    style={{width: "30rem"}}
-                />
-                <Input
-                    type="text"
-                    className="email-input"
-                    placeholder="Email"
-                    name="email"
-                    value={email}
-                    onChange={onChangeEmail}
-                    validations={[RegistrationValidations.required, RegistrationValidations.validateEmail]}
-                    style={{width: "30rem"}}
-                />
-                <Input
-                    type="password"
-                    className="password-input"
-                    placeholder="Password"
-                    name="password"
-                    value={password}
-                    onChange={onChangePassword}
-                    validations={[RegistrationValidations.required, RegistrationValidations.validatePassword]}
-                    style={{width: "30rem"}}
-                />
-                <Input
-                    type="password"
-                    className="password-input"
-                    placeholder="Re-type Password"
-                    name="confirm-password"
-                    value={confirmPass}
-                    onChange={onChangeConfirmPassword}
-                    validations={[RegistrationValidations.required, validateConfirmPassword]}
-                    style={{width: "30rem"}}
-                />
-                <FormControl style={{width: "29rem", marginLeft: "0.8rem"}}>
-                    <InputLabel id="demo-simple-select-outlined-label">Account Type</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={role}
-                    onChange={onChangeRole}
-                    className={classes.select}
-                    inputProps={{
-                        classes: {
-                            icon: classes.icon,
-                        }
-                    }}
-                    >        
-                        {roles.map((r) => {
-                            return (
-                                <MenuItem key={r} value={r}>{r}</MenuItem>
-                            )
-                        })}
-                    </Select>
-                </FormControl><br/>
-                {!validRole && <div style={{width: "30rem"}}>{validRoleMessage}</div>}
-                <button
-                    className="login-btn"
-                    disabled={loading}
-                    style={{width: "30rem"}}
+    return (
+        <div className="x-container">
+            <div className="login-card">
+                <h3>Register</h3>
+                <Form
+                    onSubmit={handleRegister}
+                    ref={form}
                 >
-                    {loading && (
-                        <span className="spinner-border spinner-border-sm"></span>
-                    )}
-                    <span>Sign Up</span>
-                </button>
-                {message && (
+                    <Input
+                        type="text"
+                        className="email-input"
+                        placeholder="First Name"
+                        name="firstname"
+                        value={firstName}
+                        onChange={onChangeFirstName}
+                        validations={[RegistrationValidations.required, RegistrationValidations.validateFirstname]}
+                        style={{ width: "30rem" }}
+                    />
+                    <Input
+                        type="text"
+                        className="email-input"
+                        placeholder="Last Name"
+                        name="lastname"
+                        value={lastName}
+                        onChange={onChangeLastName}
+                        validations={[RegistrationValidations.required, RegistrationValidations.validateLastname]}
+                        style={{ width: "30rem" }}
+                    />
+                    <Input
+                        type="text"
+                        className="email-input"
+                        placeholder="Email"
+                        name="email"
+                        value={email}
+                        onChange={onChangeEmail}
+                        validations={[RegistrationValidations.required, RegistrationValidations.validateEmail]}
+                        style={{ width: "30rem" }}
+                    />
+                    <Input
+                        type="password"
+                        className="password-input"
+                        placeholder="Password"
+                        name="password"
+                        value={password}
+                        onChange={onChangePassword}
+                        validations={[RegistrationValidations.required, RegistrationValidations.validatePassword]}
+                        style={{ width: "30rem" }}
+                    />
+                    <Input
+                        type="password"
+                        className="password-input"
+                        placeholder="Re-type Password"
+                        name="confirm-password"
+                        value={confirmPass}
+                        onChange={onChangeConfirmPassword}
+                        validations={[RegistrationValidations.required, validateConfirmPassword]}
+                        style={{ width: "30rem" }}
+                    />
+                    <Dropdown onSelect={onChangeRole} style={{ marginLeft: "0.4rem" }}>
+                        <DropdownToggle style={{ width: "29rem" }}>
+                            {role ? role : "Account Type"}
+                        </DropdownToggle>
+                        <DropdownMenu style={{ width: "29rem" }}>
+                            {roles.map((r) => {
+                                return (
+                                    <DropdownItem key={r} eventKey={r}>{r}</DropdownItem>
+                                )
+                            })}
+                        </DropdownMenu>
+                    </Dropdown>
+                    {!validRole && <div style={{ width: "30rem" }}>{validRoleMessage}</div>}
+                    <button
+                        className="login-btn"
+                        disabled={loading}
+                        style={{ width: "30rem" }}
+                    >
+                        {loading && (
+                            <span className="spinner-border spinner-border-sm"></span>
+                        )}
+                        <span>Sign Up</span>
+                    </button>
+                    {message && (
                         <div className="form-group">
                             <div
                                 className={
@@ -252,9 +226,9 @@ const RegistrationPage = (props) => {
                         style={{ display: "none" }}
                         ref={checkBtn}
                     />
-            </Form>
-        </div>
-    </div>)
+                </Form>
+            </div>
+        </div>)
 }
 
 export default RegistrationPage;

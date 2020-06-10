@@ -1,6 +1,8 @@
-import React, {useContext, useEffect, useState} from "react";
-import {Link, withRouter} from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, withRouter } from "react-router-dom";
 import '../styles/header.scss'
+import { AuthContext } from "../providers/auth_provider";
+// import UserService from "../services/userServices";
 import {AuthContext} from "../providers/auth_provider";
 import {faShoppingCart} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -12,9 +14,10 @@ const Header = (props) => {
         localStorage.removeItem('user')
         props.history.push("/")
     }
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     // console.log(user)
-    return (<div className="header">
+    return (
+    <div className="header">
         <div className="nav-container">
             {(user.role === "pharmacy") ? <ul>
                 {(user.profileIsCompleted) && <li className="nav-list">
@@ -24,15 +27,19 @@ const Header = (props) => {
                 <li className="nav-list">
                     <Link to="/pharmacys">Pharmacys</Link>
                 </li>
-            </ul> : <ul>
+            </ul> : (user.role === "hospital") ? <ul>
                 <li className="nav-list">
-                    <Link to="/">Home</Link>
+                    <Link to="/hospital/beds/edit">Beds</Link>
                 </li>
-            </ul>}
+            </ul> : <ul>
+                        <li className="nav-list">
+                            <Link to="/">Home</Link>
+                        </li>
+                    </ul>}
         </div>
-        <div style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+        <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
             <div className="user-profile-container">
-                <img src="../../img/user_avatar.jpg" alt="Avatar" className="avatar"/>
+                <img src="../../img/user_avatar.jpg" alt="Avatar" className="avatar" />
                 <Link to={
                     (user.role === "pharmacy") ? "/pharmacy_profile" : (user.role === "user") ? "" : ""
                 }><p className="user-name">{`${user.firstName} ${user.lastName}`}</p></Link>
@@ -47,7 +54,8 @@ const Header = (props) => {
             </div>
         </div>
 
-    </div>)
+    </div>
+    )
 }
 
 export default withRouter(Header)
