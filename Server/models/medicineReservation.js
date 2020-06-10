@@ -36,6 +36,11 @@ const medicineReservationSchema = new mongoose.Schema({
         required: [true, "Total Price is required"]
     },
 
+    status: {
+        type: String,
+        enum: ['pending', 'cancelled'],
+        default: 'pending'
+    }
     // timeLimit: {
     //     type: Number,
     //     required: [true, "Time Limit is required"]
