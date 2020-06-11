@@ -15,8 +15,6 @@ import Unauthorized from "./components/Unauthorized/Unauthorized";
 import RegistrationPage from './components/Registration/RegistrationPage';
 
 import HospitalRegistration from "./components/Hospital/hospitalRegistration";
-import AllBeds from './components/Hospital/Beds/AllBeds';
-import AddBed from './components/Hospital/Beds/BedForm';
 import BedPage from './components/Hospital/Beds/BedPage';
 
 import MedicinesPage from "./components/pharmacy/MedicinesPage/MedicinesPage";

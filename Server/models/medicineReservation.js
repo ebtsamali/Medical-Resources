@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+// const db = require("./index");
+// const Pharmacy = db.pharmacy;
 
 const order = new mongoose.Schema({
     medicine: {
@@ -45,9 +47,38 @@ const medicineReservationSchema = new mongoose.Schema({
     //     type: Number,
     //     required: [true, "Time Limit is required"]
     // }
-},{
+}, {
     timestamps: true,
-})
+});
+
+// medicineReservationSchema.pre("find", async (next) => {
+//     let reserv = this;
+//     try {
+//         const pharmacy = await Pharmacy.findOne({ _id: reserv.pharmacy });
+
+//         if (!pharmacy) {
+//             return next({
+//                 errors: {
+//                     message: "Pharmacy Not Found"
+//                 }
+//             });
+//         }
+
+//         let hoursDiff = (Date.now() - reserv.createdAt) / 36e5;
+//         if (hoursDiff > pharmacy.maxTimeLimit) {
+//             reserv.status = 'cancelled';
+//             await reserv.save();
+//         }
+//     } catch (error) {
+//         return next({
+//             errors: {
+//                 message: error
+//             }
+//         })
+//     }
+// });
+
+
 
 const MedicineReservation = mongoose.model('MedicineReservation', medicineReservationSchema);
 

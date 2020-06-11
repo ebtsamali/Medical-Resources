@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const medicineController = require('../controllers/medicine');
-const { authJwt } = require("../middlewares");
+const { authJwt, checkReservations } = require("../middlewares");
 
 
 // adding new medicine
@@ -19,5 +19,7 @@ router.delete('/:id',[authJwt.verifyToken, authJwt.isPharmacy], medicineControll
 // search for medicine
 router.get('/search',[authJwt.verifyToken, authJwt.isUser], medicineController.search)
 
+// get all medicine reservations
+router.get('/reservations', [authJwt.verifyToken, authJwt.isPharmacy, checkReservations.checkReservationStatus], medicineController.getAllMedicineReservations);
 
 module.exports = router;
