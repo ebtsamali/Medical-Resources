@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import ReservationModal from './bedReservationModal';
-import { BrowserRouter as Router, Switch, useLocation } from "react-router-dom"; 
+import { BrowserRouter as Router, useLocation } from "react-router-dom"; 
 import Header from './header';
 import '../../../styles/hospitalProfile.scss';
-import { Card, Button, ListGroup } from 'react-bootstrap';
+import { Card, ListGroup } from 'react-bootstrap';
 import { FaPhone, FaPoundSign } from 'react-icons/fa';
 import { MdLocationOn } from 'react-icons/md';
 import {GiBed} from 'react-icons/gi';
@@ -17,7 +17,7 @@ export default () => {
     const [beds, setBeds] = useState([]);
     const [bedsNumber, setBedsNumber] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const [bedsPerPage] = useState(3);
+    const [bedsPerPage] = useState(4);
 
     const indexOfLastBed = currentPage * bedsPerPage;
     const indexOfFirstBed = indexOfLastBed - bedsPerPage;
