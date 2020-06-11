@@ -57,9 +57,7 @@ const medicineOrderSchema = new mongoose.Schema({
         enum: ['placed', 'shiped', 'delivered'],
         default: 'placed'
     },
-    useCurrentUserInfo:{
-        type: Boolean,
-    }
+
 }, {
     timestamps: true,
 })

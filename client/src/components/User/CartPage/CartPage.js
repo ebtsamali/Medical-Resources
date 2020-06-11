@@ -128,7 +128,7 @@ const CartPage = () => {
         const params = buildData()
         const address = (!useCurrentInfo) ? userAddress : `${userProfile.address.street}, ${userProfile.address.district}, ${userProfile.address.governorate}, Flat Number: ${userProfile.address.flatNum}`
         const phone = (!useCurrentInfo) ? userPhone : `${userProfile.phoneNumber}`
-        const data = {...params.data, userAddress:address, userPhone: phone, useCurrentUserInfo:useCurrentInfo}
+        const data = {...params.data, userAddress:address, userPhone: phone}
         UserService.orderMedicine(user.id, params.pharmacyId, data).then((response) => {
             setCartDetails(cartDetails.filter((pharmacy) => params.pharmacyId !== pharmacy.pharmacy._id))
             removePharmacyFromCart(params.pharmacyId)
