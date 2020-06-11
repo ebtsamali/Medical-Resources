@@ -83,10 +83,10 @@ exports.reserveMidicine = async (req, res) => {
 
 exports.orderMidicine = async (req, res) => {
     const {params:{id,pharmacy_id}} = req
-    const {body:{totalPrice,order, userAddress, userPhone}} = req
+    const {body:{totalPrice,order, userAddress, userPhone, useCurrentUserInfo}} = req
     console.log(req.body)
     try {
-        const orderDetails = await MedicineOrder.create({totalPrice,order,pharmacy:pharmacy_id, user:id , userAddress, userPhone})
+        const orderDetails = await MedicineOrder.create({totalPrice,order,pharmacy:pharmacy_id, user:id , userAddress, userPhone, useCurrentUserInfo})
         for(let i = 0; i<order.length;++i) {
             const medicine = await Medicine.findById(order[i].medicine)
             medicine.quantity-=order[i].quantity
