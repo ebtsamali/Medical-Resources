@@ -1,6 +1,7 @@
 const db = require('../models/index');
 const Medicine = db.medicine;
 const Pharmacy = db.pharmacy;
+const MedicineReservations = db.medicineReservation;
 
 const addMedicine = async (req, res) => {
     const {userId} = req;
@@ -139,11 +140,39 @@ const search = async (req, res) => {
     }
 }
 
+const getAllMedicineReservations = async (req, res) => {
+    const {userId} = req;
+    const pageNum = (req.query.page && parseInt(req.query.page) - 1) || 0;
+    const recordsPerPage = 5;
+    const pageProps = {
+        hasPrev: (req.query.page && req.query.page > 1) ? true : false,
+        hasNext: true,
+    }
+    try{
+        const pharmacy = await Pharmacy.findOne({admin_id: userId});
+        if (!pharmacy) {
+            return res.status(404).send({errors: {message: "Please Complete Your Profile"}})
+        }
+
+        const medicineReservCount = await MedicineReservations.find({pharmacy: pharmacy}).countDocuments();
+        pageProps.hasNext = (medicineReservCount > (pageNum + 1)*recordsPerPage)
+        
+        const reservations = await MedicineReservations.find({pharmacy: pharmacy})
+                                   .populate('user', 'firstName lastName phoneNumber')
+                                   .populate('order.medicine', 'name')
+                                   .limit(recordsPerPage).skip(recordsPerPage * pageNum);
+        res.status(200).send({reservations, pageProps});
+    } catch(err) {
+        res.status(500).send(err);
+    }
+}
+
 
 module.exports = {
     addMedicine,
     getAllMedicine,
     updateMedicine,
     deleteMedicine,
-    search
+    search,
+    getAllMedicineReservations
 }

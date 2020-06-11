@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const Sidebar = (props) => {
 
@@ -17,10 +16,10 @@ const Sidebar = (props) => {
         <div className="sidebar">
             <ul className={"sidebar-ul"}>
                 <li className={(selectedTab === 'all_beds') ? "sidebar-li active" : "sidebar-li"}>
-                    <Link onClick={selectAllBeds}>All Beds</Link>
+                    <a onClick={selectAllBeds}>All Beds</a>
                 </li>
                 <li className={(selectedTab === 'add_bed') ? "sidebar-li active" : "sidebar-li"}>
-                    <Link onClick={selectAddBed}>Add Bed</Link>
+                    <a onClick={selectAddBed}>Add Bed</a>
                 </li>
             </ul>
         </div>

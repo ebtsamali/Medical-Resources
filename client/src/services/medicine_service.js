@@ -33,6 +33,11 @@ function MedicineService() {
                 method: 'delete',
             });
         },
+        getMedicineReservations: (pageQuery) => {
+            return(
+                axios.get(`${process.env.REACT_APP_BACKEND_URL}/medicines/reservations?${pageQuery}`, {headers: authHeader()})
+            )
+        },
     })
 }
 

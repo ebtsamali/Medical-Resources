@@ -10,6 +10,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownToggle from 'react-bootstrap/DropdownToggle';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import DropdownItem from 'react-bootstrap/DropdownItem';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { Link } from "react-router-dom";
 
 let originalPassword = '';
 
@@ -130,6 +132,12 @@ const RegistrationPage = (props) => {
     return (
         <div className="x-container">
             <div className="login-card">
+                <Link to="/" style={{color: "black", width: "70px"}}>
+                    <span>
+                        <ArrowBackIosIcon style={{ fontSize: "20px" }} />
+                        <b>Back</b>
+                    </span>
+                </Link>
                 <h3>Register</h3>
                 <Form
                     onSubmit={handleRegister}

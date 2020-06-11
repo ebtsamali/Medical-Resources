@@ -24,7 +24,7 @@ exports.updateUser = (req, res) => {
     User.findById(req.userId, (err, instance) => { 
         if(err) return res.send(err);
 
-        updatedKeys.forEach((info) => {
+        updatedKeys.forEach((key) => {
             if (key === 'user') {
                 return;
             }

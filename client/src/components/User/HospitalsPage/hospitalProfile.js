@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { BrowserRouter as Router, Switch, useLocation } from "react-router-dom"; 
+import React from 'react';
+import { BrowserRouter as useLocation } from "react-router-dom"; 
 import Header from './header';
 import '../../../styles/hospitalProfile.scss';
 import { Card, Button } from 'react-bootstrap';
