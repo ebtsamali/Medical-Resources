@@ -16,4 +16,5 @@ router.get("/:id", [authJwt.verifyToken], userController.getUser);
 router.patch("/:id", [authJwt.verifyToken], userController.updateUser);
 router.post("/cart", [authJwt.verifyToken, authJwt.isUser], userController.getCart);
 router.post("/:id/pharmacys/:pharmacy_id/reserve", [authJwt.verifyToken, authJwt.isUser], userController.reserveMidicine);
+router.post("/:id/pharmacys/:pharmacy_id/order", [authJwt.verifyToken, authJwt.isUser], userController.orderMidicine);
 module.exports = router;

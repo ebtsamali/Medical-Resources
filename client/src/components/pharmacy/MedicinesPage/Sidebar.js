@@ -7,6 +7,11 @@ const Sidebar = (props) => {
     const selectAllReservations = () => {
         props.setSelectedTab('all_reservations');
     }
+
+    const selectAllOrders = () => {
+        props.setSelectedTab('all_orders');
+    }
+
     return (
         <div className="sidebar">
             <ul className={"sidebar-ul"}>
@@ -18,6 +23,9 @@ const Sidebar = (props) => {
                 }}>Add Medicine</a></li>
                 <li className={(selectedTab === 'all_reservations') ? "sidebar-li active" : "sidebar-li"}>
                     <a onClick={selectAllReservations}>All Reservations</a>
+                </li>
+                <li className={(selectedTab === 'all_orders') ? "sidebar-li active" : "sidebar-li"}>
+                    <a onClick={selectAllOrders}>All Orders</a>
                 </li>
             </ul>
         </div>

@@ -153,7 +153,7 @@ const getAllMedicineReservations = async (req, res) => {
         const reservations = await MedicineReservations.find({ pharmacy: pharmacy })
             .populate('user', 'firstName lastName phoneNumber')
             .populate('order.medicine', 'name')
-        res.status(200).send({ reservations, pageProps });
+        res.status(200).send({ reservations });
     } catch (err) {
         res.status(500).send(err);
     }
