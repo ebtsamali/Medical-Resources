@@ -7,28 +7,12 @@ import Form from 'react-validation/build/form';
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import ErrorMessage from "./other/ErrorMessage";
-import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownToggle from 'react-bootstrap/DropdownToggle';
+import DropdownMenu from 'react-bootstrap/DropdownMenu';
+import DropdownItem from 'react-bootstrap/DropdownItem';
 
 let originalPassword = '';
-const useStyles = makeStyles((theme) => ({
-    select: {
-        '&:before': {
-            borderColor: "#4ABBA9",
-        },
-        '&:after': {
-            borderColor: "#4ABBA9",
-        }
-    },
-    icon: {
-        fill: "#4ABBA9",
-    },
-    label: {
-        '.MuiInputLabel-root': {
-            color: "#4ABBA9",
-        }
-    },
-}));
 
 const validateConfirmPassword = (value) => {
     if (value.length < 8 || value.length > 40 || value !== originalPassword) {
@@ -64,7 +48,6 @@ const UserProfile = () => {
     const [loading, setLoading] = useState(false);
     const checkBtn = useRef(null);
     const form = useRef(null);
-    const classes = useStyles();
 
     useEffect(() => {
         UserServices.getUserInfo(user.id)
@@ -183,10 +166,10 @@ const UserProfile = () => {
     }
 
     const onChangeGovernorate = (e) => {
-        setAddress({ ...address, governorate: e.target.value });
+        setAddress({ ...address, governorate: e});
         setValidGov(true);
         setValidGovMessage(null);
-        let reqReturn = RegistrationValidations.required(e.target.value);
+        let reqReturn = RegistrationValidations.required(e);
         if (reqReturn) {
             setValidGov(false);
             setValidGovMessage(reqReturn);
@@ -195,10 +178,10 @@ const UserProfile = () => {
     }
 
     const onChangeDistrict = (e) => {
-        setAddress({ ...address, district: e.target.value });
+        setAddress({ ...address, district: e });
         setValidDistrict(true);
         setValidDistrictMessage(null);
-        let reqReturn = RegistrationValidations.required(e.target.value);
+        let reqReturn = RegistrationValidations.required(e);
         if (reqReturn) {
             setValidDistrict(false);
             setValidDistrictMessage(reqReturn);
@@ -244,7 +227,7 @@ const UserProfile = () => {
             }
         }
         let reqGov = RegistrationValidations.required(address.governorate);
-        if(reqGov) {
+        if (reqGov) {
             setValidGov(false);
             setValidGovMessage(reqGov);
             setMessage('');
@@ -252,7 +235,7 @@ const UserProfile = () => {
             return;
         }
         let reqDis = RegistrationValidations.required(address.district);
-        if(reqDis) {
+        if (reqDis) {
             setValidDistrict(false);
             setValidDistrictMessage(reqDis);
             setMessage('');
@@ -364,49 +347,29 @@ const UserProfile = () => {
                         validations={[RegistrationValidations.required, RegistrationValidations.validatePhone]}
                         style={{ width: "30rem" }}
                     />
-                    <FormControl style={{ width: "29rem", marginLeft: "0.8rem" }}>
-                        <InputLabel id="demo-simple-select-outlined-label">Governorate</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-outlined-label"
-                            id="demo-simple-select-outlined"
-                            value={address.governorate}
-                            onChange={onChangeGovernorate}
-                            className={classes.select}
-                            inputProps={{
-                                classes: {
-                                    icon: classes.icon,
-                                }
-                            }}
-                        >
+                    <Dropdown onSelect={onChangeGovernorate} style={{ marginLeft: "0.4rem"}}>
+                        <DropdownToggle style={{width: "29rem"}}>
+                            {address.governorate ? address.governorate : "Governorate"}
+                        </DropdownToggle>
+                        <DropdownMenu style={{width: "29rem"}}>
                             {governorates.map((gov) => {
                                 return (
-                                    <MenuItem key={gov._id} value={gov.name}>{gov.name}</MenuItem>
+                                    <DropdownItem key={gov._id} eventKey={gov.name}>{gov.name}</DropdownItem>
                                 )
                             })}
-                        </Select>
-                    </FormControl><br />
+                        </DropdownMenu>
+                    </Dropdown>
                     {!validGov && <div style={{ width: "30rem" }}>{validGovMessage}</div>}
-                    <FormControl style={{ width: "29rem", marginLeft: "0.8rem", marginTop: "0.6rem"}}>
-                        <InputLabel id="demo-simple-select-outlined-label">District</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-outlined-label"
-                            id="demo-simple-select-outlined"
-                            value={address.district}
-                            onChange={onChangeDistrict}
-                            className={classes.select}
-                            inputProps={{
-                                classes: {
-                                    icon: classes.icon,
-                                }
-                            }}
-                        >
-                            {districts.map((r) => {
-                                return (
-                                    <MenuItem key={r} value={r}>{r}</MenuItem>
-                                )
+                    <Dropdown onSelect={onChangeDistrict} style={{ marginLeft: "0.4rem", marginTop: "0.8rem"}}>
+                        <DropdownToggle style={{width: "29rem"}}>
+                            {address.district ? address.district : "District"}
+                        </DropdownToggle>
+                        <DropdownMenu style={{width: "29rem"}}>
+                            {districts.map((district, index) => {
+                                return (<DropdownItem key={index} eventKey={district}>{district}</DropdownItem>)
                             })}
-                        </Select>
-                    </FormControl><br />
+                        </DropdownMenu>
+                    </Dropdown>
                     {!validDistrict && <div style={{ width: "30rem", marginBottom: "0.6rem" }}>{validDistrictMessage}</div>}
                     <Input
                         type="text"

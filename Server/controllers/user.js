@@ -1,6 +1,9 @@
 
 const db = require('../models/index');
 const User = db.user;
+const Pharmacy = db.pharmacy;
+const Medicine = db.medicine;
+const MedicineReservation = db.medicineReservation;
 
 exports.getUser = (req, res) => {
     User.findById(req.params.id)
@@ -14,29 +17,21 @@ exports.getUser = (req, res) => {
 }
 
 exports.updateUser = (req, res) => {
-    let updatedInfo = { }; 
     const { body } = req;
-
-    if(body.firstName) updatedInfo['firstName'] = body.firstName;
-    if(body.lastName) updatedInfo['lastName'] = body.lastName;
-    if(body.email) updatedInfo['email'] = body.email;
-    if(body.password) updatedInfo['password'] = body.password;
-    if(body.phoneNumber) updatedInfo['phoneNumber'] = body.phoneNumber;
-    if(body.address) updatedInfo['address'] = body.address;
-    if(body.birthdate) updatedInfo['birthdate'] = body.birthdate;
+    const updatedKeys = Object.keys(body);
 
     User.findById(req.userId, (err, instance) => { 
         if(err) return res.send(err);
 
-        if(updatedInfo.firstName) instance.firstName = updatedInfo.firstName;
-        if(updatedInfo.lastName) instance.lastName = updatedInfo.lastName;
-        if(updatedInfo.email) instance.email = updatedInfo.email;
-        if(updatedInfo.password) instance.password = updatedInfo.password;
-        if(updatedInfo.phoneNumber) instance.phoneNumber = updatedInfo.phoneNumber;
-        if(updatedInfo.address) instance.address = updatedInfo.address;
-        if(updatedInfo.birthdate) instance.birthdate = updatedInfo.birthdate;
+        updatedKeys.forEach((info) => {
+            if (key === 'user') {
+                return;
+            }
+            instance[key] = req.body[key]
+        });
         
-
+        instance.profileIsCompleted = true;
+        
         instance.save((err, user) => {
             if(err) {
                 console.log(err);
@@ -46,4 +41,41 @@ exports.updateUser = (req, res) => {
             }
         })
     });
+}
+
+exports.getCart = async (req, res) => {
+    const {body:{pharmacys}} = req
+    const cart = []
+    try {
+        for (let i = 0; i<pharmacys.length;++i) {
+            const pharmacy = await Pharmacy.findById(pharmacys[i].id);
+            const item = {pharmacy,medicines:[]}
+            for(let j=0;j<pharmacys[i].medicines.length;++j) {
+                const medicine = await Medicine.findById(pharmacys[i].medicines[j])
+                item.medicines.push(medicine)
+            }
+            cart.push(item)
+        }
+        res.status(200).send(cart)
+    } catch (e) {
+        res.status(500).end()
+    }
+}
+
+exports.reserveMidicine = async (req, res) => {
+    const {params:{id,pharmacy_id}} = req
+    const {body:{totalPrice,order}} = req
+    // console.log(req.body)
+    try {
+        const reservation = await MedicineReservation.create({totalPrice,order,pharmacy:pharmacy_id, user:id })
+        for(let i = 0; i<order.length;++i) {
+            const medicine = await Medicine.findById(order[i].medicine)
+            medicine.quantity-=order[i].quantity
+            await medicine.save()
+        }
+        res.send(reservation)
+    } catch (e) {
+        console.log(e)
+        res.status(500).end()
+    }
 }

@@ -1,14 +1,17 @@
 import React from "react";
 import HospitalForm from './hospitalForm';
 import HospitalAdminForm from './hospitalAdminForm';
-import Header from '../User/HospitalsPage/header';
+// import Header from '../User/HospitalsPage/header';
+import Header from '../Header';
 
 const HospitalRegistration = () => {
-    return(
+    return (
         <div>
             <Header />
-            <HospitalAdminForm />
-            <HospitalForm status="add"/>
+            <div className="x-content">
+                <HospitalAdminForm />
+                <HospitalForm status="add" />
+            </div>
         </div>
     )
 }

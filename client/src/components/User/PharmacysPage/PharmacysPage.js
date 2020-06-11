@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Header from "../../Header";
 import '../../../styles/pharmacys.scss'
 import AllPharmacysTable from "./AllPharmacysTable";
@@ -6,6 +6,7 @@ import UserService from '../../../services/userServices'
 import {buildQuery} from '../../../utils/utils'
 import SearchCard from "./SearchCard";
 import AllPharmacysHasSpecificMedicine from "./AllPharmacysHasSpecificMedicine";
+import {AppContext} from "../../../providers/AppProvider";
 
 const PharmacysPage = () => {
 
@@ -17,6 +18,9 @@ const PharmacysPage = () => {
         setQuery({...query, page})
     }
 
+    const {setTitle} = useContext(AppContext)
+    setTitle('Pharmacys')
+
     useEffect(() => {
         UserService.searchMedicines(buildQuery(query)).then((response) => {
             setPharmacys(response.data.pharmacys)
@@ -25,7 +29,6 @@ const PharmacysPage = () => {
             console.log(error.response)
         })
     }, [query])
-
     return (<div className="x-container-pharmacys">
         <Header/>
         <div className="pharmacys-content">

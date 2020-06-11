@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-// import { getAdminData, editAdminData} from '../../services/hospitalService';
+import { getAdminData, editAdminData} from '../../services/hospitalService';
 import UserServices from '../../services/userServices';
 import ErrorMessage from "../other/ErrorMessage";
 
