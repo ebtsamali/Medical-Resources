@@ -55,6 +55,20 @@ const medicineOrderSchema = new mongoose.Schema({
     timestamps: true,
 })
 
+
+
+medicineOrderSchema.post('save', function (error, doc, next) {
+    const keys = Object.keys(error.errors);
+    const errors = keys.reduce((acc,key)=>{
+        return {
+            ...acc,
+            [key.split('.')[key.split('.').length - 1]]:error.errors[key].properties.message
+        }
+    },{})
+    next({errors});
+
+})
+
 const MedicineOrder = mongoose.model('MedicineOrder', medicineOrderSchema);
 
 module.exports = MedicineOrder;

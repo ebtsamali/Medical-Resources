@@ -131,6 +131,35 @@
   margin-right: 0.2em;
 }
 
+.form-input {
+  border-radius: 1.5em;
+  border-style: solid;
+  border-width: 0.126em;
+  border-color: $color_primary_light;
+
+  outline: none !important;
+
+  padding-left: 1.1em;
+  padding-right: 1.1em;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+
+  margin-top: 0.5em;
+  flex-grow: 8;
+
+}
+
+.form-input:focus {
+  outline: none;
+  border: 0.126em solid $color_primary;
+}
+
+.inputs-modal-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
 .empty-cart-container{
   display: flex;
   flex-direction: column;

@@ -12,6 +12,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {AuthContext} from "../../../providers/auth_provider";
 import {removePharmacyFromCart, removeMedicineFromCart} from "../../../utils/cart_utils";
 import {Link} from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 const CartPage = () => {
 
@@ -21,7 +23,10 @@ const CartPage = () => {
     const [currentPharmacyIndex, setCurrentPharmacyIndex] = useState(-1)
     const [currentMedicineIndex, setCurrentMedicineIndex] = useState(-1)
     const [totalPrice, setTotalPrice] = useState(0)
+    const [show, setShow] = useState(false);
 
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         UserService.getCartDetails(getCart()).then((response) => {
@@ -188,7 +193,7 @@ const CartPage = () => {
                 <div className="pharmacy-cart-card-footer">
                     <h5>Total Price : {totalPrice}LE</h5>
                     <div className="btn-container">
-                        {cartDetails[currentPharmacyIndex].pharmacy.delivery && <button>Order</button>}
+                        {cartDetails[currentPharmacyIndex].pharmacy.delivery && <button onClick={handleShow}>Order</button>}
                         <button onClick={handleClickReserve}>Reserve</button>
                     </div>
                 </div>
@@ -200,6 +205,40 @@ const CartPage = () => {
                 }} color="#28303A" size="3x" icon={faArrowRight}/>}
             </div>
         </div>}
+
+        <>
+            <Modal
+                show={show}
+                onHide={() => setShow(false)}
+                size="lg"
+                aria-labelledby="example-custom-modal-styling-title"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-custom-modal-styling-title">
+                        Order Confirmation
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div>
+                        <p>Please Enter Your Address & Phone Number</p>
+                        <div className="inputs-modal-container">
+                            <div>
+                                <input className="form-input" type="text" placeholder="Phone Number..."/>
+                            </div>
+                            <div>
+                                <input className="form-input" type="text" placeholder="Address..."/>
+                            </div>
+                        </div>
+                        <p className="mt-3">Are You Sure You Want to Order this medicines list <b>(asdads, eqwqeqew, kjhkjhk, zcxads, zxcccz)</b> with <b>total price: {totalPrice}LE</b></p>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className="btn-container">
+                        <button >Confirm</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+        </>
     </div>)
 }
 

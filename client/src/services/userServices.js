@@ -56,6 +56,14 @@ function UserServices() {
                 data,
                 method: 'post'
             });
+        },
+        orderMedicine: (userId, pharmacyId, data) => {
+            return axios({
+                headers: authHeader(),
+                url: `${process.env.REACT_APP_BACKEND_URL}/users/${userId}/pharmacys/${pharmacyId}/order`,
+                data,
+                method: 'post'
+            });
         }
     })
 }

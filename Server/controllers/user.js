@@ -4,6 +4,7 @@ const User = db.user;
 const Pharmacy = db.pharmacy;
 const Medicine = db.medicine;
 const MedicineReservation = db.medicineReservation;
+const MedicineOrder = db.medicineOrder;
 
 exports.getUser = (req, res) => {
     User.findById(req.params.id)
@@ -74,6 +75,24 @@ exports.reserveMidicine = async (req, res) => {
             await medicine.save()
         }
         res.send(reservation)
+    } catch (e) {
+        console.log(e)
+        res.status(500).end()
+    }
+}
+
+exports.orderMidicine = async (req, res) => {
+    const {params:{id,pharmacy_id}} = req
+    const {body:{totalPrice,order, userAddress, userPhone}} = req
+    // console.log(req.body)
+    try {
+        const orderDetails = await MedicineOrder.create({totalPrice,order,pharmacy:pharmacy_id, user:id , userAddress, userPhone})
+        for(let i = 0; i<order.length;++i) {
+            const medicine = await Medicine.findById(order[i].medicine)
+            medicine.quantity-=order[i].quantity
+            await medicine.save()
+        }
+        res.send(orderDetails)
     } catch (e) {
         console.log(e)
         res.status(500).end()
