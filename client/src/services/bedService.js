@@ -24,6 +24,11 @@ function BedServices() {
             return (
                 axios.delete(`${API_URL}/beds/${bedId}`, {headers: authHeader()})
             )
+        },
+        getAllHospitalBeds: (hospitalId) => {
+            return (
+                axios.get(`${API_URL}/beds/${hospitalId}`, {headers: authHeader()})
+            )
         }
 
     })

@@ -111,7 +111,7 @@ export default (props) => {
                 </Container>
             </Modal.Body>
             <div>
-                <small style={{marginLeft: "15%"}}>Reservation will be canceled automatically after hours</small>
+                <small style={{marginLeft: "15%"}}>Reservation will be canceled automatically after {props.hospital.maxTimeLimit} hours</small>
             </div>
             <Modal.Footer>
                 <button onClick={props.onHide} className="modalBtn">Close</button>

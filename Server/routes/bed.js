@@ -3,6 +3,7 @@ const router = express.Router();
 const bedController = require('../controllers/bed');
 const { authJwt } = require("../middlewares");
 
+router.get('/:hospitalId', [authJwt.verifyToken, authJwt.isUser], bedController.getAllHospitalBeds)
 
 // adding new bed
 router.post('/',[authJwt.verifyToken, authJwt.isHospital], bedController.addBed)

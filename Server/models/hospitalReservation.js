@@ -42,9 +42,10 @@ const hospitalReservationSchema = new mongoose.Schema({
             }
         }
     },
-    roomNumber: {
-        type: Number,
-        // required: [true, "Room Number is required"]
+    bed: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: [true, 'Bed data is required!'],
+        ref: 'Bed'
     },
     dayCost: {
         type: Number,
@@ -66,7 +67,7 @@ const hospitalReservationSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'approved', 'fulfilled', 'rejected'],
+        enum: ['pending', 'fulfilled', 'rejected'],
         default: 'pending'
     }
 },{
