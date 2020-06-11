@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import ReservationModal from './bedReservationModal';
 import { BrowserRouter as Router, Switch, useLocation } from "react-router-dom"; 
 import Header from './header';
 import '../../../styles/hospitalProfile.scss';
@@ -8,9 +9,9 @@ import { MdLocationOn } from 'react-icons/md';
 import {GiBed} from 'react-icons/gi';
 import { FcOvertime } from 'react-icons/fc';
 
-export default (props) => {
-    console.log(useLocation().state.hospital);
+export default () => {
     const hospital = useLocation().state.hospital;
+    const [modalShow, setModalShow] = useState(false);
     return(
         <>
             <Header />
@@ -65,8 +66,8 @@ export default (props) => {
 
                         <div className="headerChild headerSmallerChild">
                                 <h4> <FaPoundSign style={{color: "gray"}} /> 250<small style={{color: "gray"}}>/DAY</small> </h4>
-                                <Button className="reservBtn">Reserve Bed</Button>
-                            
+                                <button className="reservBtn" onClick={() => setModalShow(true)} >Reserve Bed</button>
+                                <ReservationModal show={modalShow} onHide={() => setModalShow(false)} hospital={hospital} />
                         </div>
                     </div>
                     

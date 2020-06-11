@@ -15,9 +15,36 @@ const hospitalReservationSchema = new mongoose.Schema({
         type: String, 
         required: [true, "Patient Name is required"]
     },
+    patientID: {
+        type: String, 
+        required: [true, "National Identity is required"],
+        validate: function (val) {
+                    if(val.trim().length === 0) {
+                        throw new Error('National Identity can not be empty')
+                    }
+                    if(val.trim().length !== 14){
+                        throw new Error('National Identity must be 14 number')
+                    }
+                    if(!val.trim().match(/^[0-9]+$/)) {
+                        throw new Error('National Identity not valid')
+                    }
+                }
+    },
+    patientPhone: {
+        type: String, 
+        required: [true, "Patient Phone Number is required"],
+        validate: function (val) {
+            if(val.trim().length === 0) {
+                throw new Error('Patient Phone Number can not be empty')
+            }
+            if(!val.trim().match(/^[0-9]+$/)) {
+                throw new Error('Phone Number not valid')
+            }
+        }
+    },
     roomNumber: {
         type: Number,
-        required: [true, "Room Number is required"]
+        // required: [true, "Room Number is required"]
     },
     dayCost: {
         type: Number,
@@ -25,11 +52,22 @@ const hospitalReservationSchema = new mongoose.Schema({
     },
     totalCost: {
         type: Number,
-        required: [true, "Total Cost is required"]
+        // required: [true, "Total Cost is required"]
     },
     timeLimit: {
         type: Number,
-        required: [true, "Time Limit is required"]
+        required: [true, "Time Limit is required"],
+        validate: function (val) {
+            console.log(val)
+            if(!val.toString().trim().match(/^[0-9]+$/) && val<0) {
+                throw new Error('Time Limit must be a positive number')
+            }
+        }
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'approved', 'fulfilled', 'rejected'],
+        default: 'pending'
     }
 },{
     timestamps: true,
