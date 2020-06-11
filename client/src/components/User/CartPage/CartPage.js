@@ -13,6 +13,7 @@ import {AuthContext} from "../../../providers/auth_provider";
 import {removePharmacyFromCart, removeMedicineFromCart} from "../../../utils/cart_utils";
 import {Link} from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
+import ErrorMessage from "../../other/ErrorMessage";
 
 const CartPage = () => {
 
@@ -29,6 +30,8 @@ const CartPage = () => {
     const [userPhone, setUserPhone] = useState('')
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [errors, setErrors] = useState({})
+    const [medicinesList, setMedicinesList] = useState('')
 
     useEffect(() => {
         UserService.getUserInfo(user.id).then((response) => {
@@ -58,6 +61,13 @@ const CartPage = () => {
     useEffect(() => {
         if (currentPharmacyIndex >= 0) {
             setCurrentMedicineIndex(0)
+            setMedicinesList(cartDetails[currentPharmacyIndex].medicines.reduce((acc, medicine) => {
+                if(acc.length > 1) {
+                    acc = `${acc}, `
+                }
+                return `${acc} ${medicine.name}`
+            },''))
+            // console.log(medicinesList)
             setCurrentMedicines(cartDetails[currentPharmacyIndex].medicines)
             setTotalPrice(cartDetails[currentPharmacyIndex].medicines.reduce((acc, medicine) => {
                 return acc + (medicine.price * medicine.userQuantity)
@@ -121,10 +131,16 @@ const CartPage = () => {
         const phone = (!useCurrentInfo) ? userPhone : `${userProfile.phoneNumber}`
         const data = {...params.data, userAddress:address, userPhone: phone}
         UserService.orderMedicine(user.id, params.pharmacyId, data).then((response) => {
-            // console.log(response.data)
             setCartDetails(cartDetails.filter((pharmacy) => params.pharmacyId !== pharmacy.pharmacy._id))
             removePharmacyFromCart(params.pharmacyId)
             setShow(false)
+        }).catch((error)=>{
+                console.log(error.response.data)
+            if(error.response.data.errors){
+                setErrors(error.response.data.errors)
+            }else {
+                setErrors({})
+            }
         })
     }
 
@@ -268,12 +284,14 @@ const CartPage = () => {
                                        placeholder="Phone Number..." onChange={(event => {
                                     setUserPhone(event.target.value)
                                 })}/>
+                                {errors.userPhone && <ErrorMessage message={errors.userPhone}/>}
                             </div>
                             <div>
                                 <input className="form-input" type="text" disabled={useCurrentInfo}  value={userAddress} placeholder="Address..."
                                        onChange={(event => {
                                            setUserAddress(event.target.value)
                                        })}/>
+                                {errors.userAddress && <ErrorMessage message={errors.userAddress}/>}
                             </div>
                         </div>
                         <div className="use-defualt-current-account-data-constainer">
@@ -285,8 +303,7 @@ const CartPage = () => {
                             />
                             <label htmlFor="use-defualt-current-account-data">Use the address and phone number you entered before ?</label>
                         </div>
-                        <p className="mt-1">Are You Sure You Want to Order this medicines list <b>(asdads, eqwqeqew,
-                            kjhkjhk, zcxads, zxcccz)</b> with <b>total price: {totalPrice}LE</b></p>
+                        <p className="mt-1">Are You Sure You Want to Order this medicines list <b>({`${medicinesList} `})</b> with <b>total price: {totalPrice}LE</b></p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

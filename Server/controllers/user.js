@@ -95,6 +95,6 @@ exports.orderMidicine = async (req, res) => {
         res.send(orderDetails)
     } catch (e) {
         console.log(e)
-        res.status(500).end()
+        res.status(500).send(e)
     }
 }
