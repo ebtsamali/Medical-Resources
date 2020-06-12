@@ -14,7 +14,7 @@ const PharmacyInfo = (props) => {
             </div>
         </div>
         <h6 className="mt-3 ml-3"><b>Status: </b>{data.status}</h6>
-        <h6 className="mt-2 ml-3">Mecicine List</h6>
+        <h6 className="mt-2 ml-3">Medicine List</h6>
         {data.medicines && <MedicineList data={data.medicines}/>}
     </div>)
 }

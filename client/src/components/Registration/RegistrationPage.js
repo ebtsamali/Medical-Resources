@@ -6,12 +6,29 @@ import '../../styles/login.scss'
 import ErrorMessage from "../other/ErrorMessage";
 import UserServices from '../../services/userServices';
 import RegistrationValidations from "./RegistrationValidations";
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownToggle from 'react-bootstrap/DropdownToggle';
-import DropdownMenu from 'react-bootstrap/DropdownMenu';
-import DropdownItem from 'react-bootstrap/DropdownItem';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { Link } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+    select: {
+        '&:before': {
+            borderColor: "#4ABBA9",
+        },
+        '&:after': {
+            borderColor: "#4ABBA9",
+        }
+    },
+    icon: {
+        fill: "#4ABBA9",
+    },
+    label: {
+        '.MuiInputLabel-root': {
+            color: "#4ABBA9",
+        }
+    },
+}));
 
 let originalPassword = '';
 
@@ -29,8 +46,8 @@ const RegistrationPage = (props) => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [role, setRole] = useState("");
     const [confirmPass, setConfirmPass] = useState('');
+    const [role, setRole] = useState("");
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [successful, setSuccessful] = useState(false);
@@ -39,6 +56,7 @@ const RegistrationPage = (props) => {
     const checkBtn = useRef(null);
     const form = useRef(null);
     const [roles] = useState(["user", "hospital", "pharmacy"]);
+    const classes = useStyles();
 
     const onChangeFirstName = (e) => {
         setFirstName(e.target.value);
@@ -62,16 +80,16 @@ const RegistrationPage = (props) => {
     }
 
     const onChangeRole = (e) => {
-        setRole(e);
+        setRole(e.target.value);
         setValidRole(true);
         setValidRoleMessage(null);
-        let reqReturn = RegistrationValidations.required(e);
+        let reqReturn = RegistrationValidations.required(e.target.value);
         if (reqReturn) {
             setValidRole(false);
             setValidRoleMessage(reqReturn);
             return;
         }
-        let validReturn = RegistrationValidations.validateRole(e);
+        let validReturn = RegistrationValidations.validateRole(e.target.value);
         if (validReturn) {
             setValidRole(false);
             setValidRoleMessage(validReturn);
@@ -110,6 +128,7 @@ const RegistrationPage = (props) => {
                         setMessage(response.data.message);
                         setSuccessful(true);
                         setLoading(false);
+                        // resetAll();
                     },
                     error => {
                         const resMessage =
@@ -132,7 +151,7 @@ const RegistrationPage = (props) => {
     return (
         <div className="x-container">
             <div className="login-card">
-                <Link to="/" style={{color: "black", width: "70px"}}>
+                <Link to="/" style={{ color: "black", width: "70px" }}>
                     <span>
                         <ArrowBackIosIcon style={{ fontSize: "20px" }} />
                         <b>Back</b>
@@ -193,18 +212,28 @@ const RegistrationPage = (props) => {
                         validations={[RegistrationValidations.required, validateConfirmPassword]}
                         style={{ width: "30rem" }}
                     />
-                    <Dropdown onSelect={onChangeRole} style={{ marginLeft: "0.4rem" }}>
-                        <DropdownToggle style={{ width: "29rem" }}>
-                            {role ? role : "Account Type"}
-                        </DropdownToggle>
-                        <DropdownMenu style={{ width: "29rem" }}>
+                    <FormControl style={{ width: "29rem", marginLeft: "0.8rem" }}>
+                        <InputLabel id="demo-simple-select-outlined-label">Account Type</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            value={role}
+                            onChange={onChangeRole}
+                            label="Account Type"
+                            className={classes.select}
+                            inputProps={{
+                                classes: {
+                                    icon: classes.icon,
+                                }
+                            }}
+                        >
                             {roles.map((r) => {
                                 return (
-                                    <DropdownItem key={r} eventKey={r}>{r}</DropdownItem>
+                                    <MenuItem key={r} value={r}>{r}</MenuItem>
                                 )
                             })}
-                        </DropdownMenu>
-                    </Dropdown>
+                        </Select>
+                    </FormControl><br />
                     {!validRole && <div style={{ width: "30rem" }}>{validRoleMessage}</div>}
                     <button
                         className="login-btn"
