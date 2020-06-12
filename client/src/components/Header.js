@@ -2,18 +2,21 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import '../styles/header.scss'
 import { AuthContext } from "../providers/auth_provider";
-// import UserService from "../services/userServices";
 import {faShoppingCart} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {deleteCart} from "../utils/cart_utils";
 
 const Header = (props) => {
 
+    const { user } = useContext(AuthContext);
 
     const logout = () => {
+        if(user.role === 'user'){
+            deleteCart()
+        }
         localStorage.removeItem('user')
         props.history.push("/")
     }
-    const { user } = useContext(AuthContext);
     // console.log(user)
     return (
     <div className="header">

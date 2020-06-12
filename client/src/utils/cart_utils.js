@@ -52,6 +52,9 @@ export const getCart = () => {
     return JSON.parse(localStorage.getItem(USER_CART_KEY)) || [];
 }
 
+export const deleteCart = () => {
+    localStorage.removeItem(USER_CART_KEY)
+}
 
 
 const saveCart = (myCart) =>{

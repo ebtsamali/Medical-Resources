@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import ReservationModal from './bedReservationModal';
-import { BrowserRouter as Router, useLocation } from "react-router-dom"; 
+import { useLocation } from "react-router-dom";
 import Header from './header';
 import '../../../styles/hospitalProfile.scss';
 import { Card, ListGroup } from 'react-bootstrap';

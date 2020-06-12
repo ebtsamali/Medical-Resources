@@ -77,9 +77,7 @@ function App() {
                         <AuthRoute path="/user_cart" type="private" privilege="user">
                             <CartPage/>
                         </AuthRoute>
-                        {/** <AuthRoute path="/hospital/edit" privilege="hospital">
-                         <EditHospitalData/>
-                         </AuthRoute>**/}
+
                         <AuthRoute path="/hospital" type="private" privilege="hospital">
                             <HospitalRegistration/>
                         </AuthRoute>
