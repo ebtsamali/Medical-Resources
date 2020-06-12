@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const bedController = require('../controllers/bed');
-const { authJwt } = require("../middlewares");
+const { authJwt, checkHospitalReservation } = require("../middlewares");
 
 // get all beds for user
-router.get('/:hospitalId', [authJwt.verifyToken, authJwt.isUser], bedController.getAllHospitalBeds)
+router.get('/:hospitalId', [authJwt.verifyToken, authJwt.isUser, checkHospitalReservation.checkHospitalReservation], bedController.getAllHospitalBeds);
+
+//edit bed, req from user
 router.patch('/edit/:id', [authJwt.verifyToken, authJwt.isUser], bedController.updateBed)
 
 // adding new bed

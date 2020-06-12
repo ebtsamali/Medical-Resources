@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import '../../../styles/pharmacys.scss';
 import Pagination from './Pagination';
 import { Link } from 'react-router-dom';
+import BedsServices from '../../../services/bedService';
 
 
 
@@ -9,12 +10,25 @@ export default (props) => {
     const hospitals = props.hospitals;
     const [currentPage, setCurrentPage] = useState(1);
     const [hospitalsPerPage] = useState(5);
+    const [bedsNumber, setBedsNumber] = useState(0);
 
     const indexOfLastHospital = currentPage * hospitalsPerPage;
     const indexOfFirstHospital = indexOfLastHospital - hospitalsPerPage;
     const currentHospitals = hospitals.slice(indexOfFirstHospital, indexOfLastHospital);
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
+
+    const availableBedsNumber = (id) => {
+        BedsServices.getAllHospitalBeds(id).then(response => {
+            if(response.data.length === 0){
+                setBedsNumber(0);
+            }else {
+                setBedsNumber(response.data.length);
+            }
+        }).catch(error => {
+            console.log(error.response);   
+        })
+    }
     
     return (
         <div className="pharmacys-container">

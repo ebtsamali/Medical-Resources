@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const hospitalReservationController = require('../controllers/hospitalReservation');
-const { authJwt } = require("../middlewares");
+const { authJwt, checkHospitalReservation } = require("../middlewares");
 
 exports.tokenMiddleware = function (req, res, next) {
     res.header(
@@ -11,5 +11,7 @@ exports.tokenMiddleware = function (req, res, next) {
 }
 
 router.post('/',  [authJwt.verifyToken, authJwt.isUser], hospitalReservationController.savePatientReservation);
+
+router.get('/allReservations', [authJwt.verifyToken, authJwt.isHospital, checkHospitalReservation.checkHospitalReservation], hospitalReservationController.getHospitalReservations);
 
 module.exports = router;

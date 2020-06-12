@@ -10,3 +10,11 @@ export const saveReservationData = (data) => {
         data
     })
 }
+
+export const getHospitalReservations = () => {
+    return axios({
+        headers: authHeader(),
+        url: `${process.env.REACT_APP_BACKEND_URL}/hospital-reservation/allReservations`, 
+        method: 'get'
+    })
+}

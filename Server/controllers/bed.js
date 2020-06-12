@@ -84,7 +84,7 @@ exports.deleteBed = async (req, res) => {
 }
 
 
-// get All Beds by hospital id
+// get All Beds available by hospital id
 
 exports.getAllHospitalBeds = async (req, res) => {
     const hospitalId = req.params.hospitalId;

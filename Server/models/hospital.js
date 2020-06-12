@@ -26,7 +26,6 @@ const hospitalSchema = new mongoose.Schema({
         required: [true, "Name is required"], 
         minlength: 2
     },
-
     location: [location],
 
     phoneNumbers: { 
