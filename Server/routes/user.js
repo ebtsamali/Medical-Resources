@@ -17,4 +17,6 @@ router.patch("/:id", [authJwt.verifyToken], userController.updateUser);
 router.post("/cart", [authJwt.verifyToken, authJwt.isUser], userController.getCart);
 router.post("/:id/pharmacys/:pharmacy_id/reserve", [authJwt.verifyToken, authJwt.isUser], userController.reserveMidicine);
 router.post("/:id/pharmacys/:pharmacy_id/order", [authJwt.verifyToken, authJwt.isUser], userController.orderMidicine);
+router.get("/:id/medicines_reservation/:reservation_id", [authJwt.verifyToken, authJwt.isUser], userController.getReservationDetails);
+
 module.exports = router;
