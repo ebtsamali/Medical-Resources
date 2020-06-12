@@ -31,6 +31,21 @@ const savePatientReservation = async (req, res) => {
     }
 }
 
+
+// const applyReservationTimePolicy = async () => {
+//     await HospitalReservationModel.find({status: "pending"})
+//     .then((reservations)=> {
+//         if(reservations.length !== 0){
+//             reservations.map(reservation => {
+
+//             })
+//         }
+//     }).catch(error => {
+//         console.log(error);
+//     })
+// }
+
+
 module.exports = {
     savePatientReservation
 }

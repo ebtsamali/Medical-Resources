@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import Header from './header';
+import Header from '../../Header';
 import {getAllHospitals} from '../../../services/hospitalService';
 import GovernorateService from '../../../services/governorateService';
 import Dropdown from "react-bootstrap/Dropdown";

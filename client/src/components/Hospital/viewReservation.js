@@ -7,44 +7,36 @@ import BedsServices from '../../../services/bedService';
 
 
 export default (props) => {
-    const hospitals = props.hospitals;
+    const [reservations, setReservations]
     const [currentPage, setCurrentPage] = useState(1);
-    const [hospitalsPerPage] = useState(5);
-    const [bedsNumber, setBedsNumber] = useState(0);
+    const [reservationsPerPage] = useState(5);
 
-    const indexOfLastHospital = currentPage * hospitalsPerPage;
-    const indexOfFirstHospital = indexOfLastHospital - hospitalsPerPage;
-    const currentHospitals = hospitals.slice(indexOfFirstHospital, indexOfLastHospital);
+    const indexOfLastReservation = currentPage * reservationsPerPage;
+    const indexOfFirstReservation = indexOfLastReservation - reservationsPerPage;
+    const currentReservations = reservations.slice(indexOfFirstReservation, indexOfLastReservation);
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
-    const availableBedsNumber = (id) => {
-        BedsServices.getAllHospitalBeds(id).then(response => {
-            if(response.data.length === 0){
-                setBedsNumber(0);
-            }else {
-                setBedsNumber(response.data.length);
-            }
-        }).catch(error => {
-            console.log(error.response);   
-        })
-    }
     
     return (
         <div className="pharmacys-container">
             <table id="medicines">
                 <thead>
                     <tr id="hospitals">
-                        <th>Hospital Name</th>
-                        <th>Available Beds</th>
-                        <th>Governorate</th>
-                        <th>District</th>
-                        <th>Street</th>
+                        <th>Patient Name</th>
+                        <th>National Identity</th>
+                        <th>Phone Number</th>
+                        <th>Room Number</th>
+                        <th>Cost Per day</th>
+                        <th>Number of Days</th>
+                        <th>Total Cost</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                 {
-                    currentHospitals.map(hospital => {
+                    currentReservations.map(hospital => {
                         return(
                             <tr key={hospital._id}>
                                 <td> <Link to={{ 
@@ -73,8 +65,8 @@ export default (props) => {
                 </tbody>
             </table>
             <Pagination
-                booksPerPage={hospitalsPerPage}
-                totalBooks={hospitals.length}
+                booksPerPage={reservationsPerPage}
+                totalBooks={reservations.length}
                 currentPage={currentPage}
                 paginate={paginate}
             />
