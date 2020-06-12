@@ -33,9 +33,19 @@ function MedicineService() {
                 method: 'delete',
             });
         },
-        getMedicineReservations: (pageQuery) => {
-            return(
-                axios.get(`${process.env.REACT_APP_BACKEND_URL}/medicines/reservations?${pageQuery}`, {headers: authHeader()})
+        getMedicineReservations: () => {
+            return (
+                axios.get(`${process.env.REACT_APP_BACKEND_URL}/medicines/reservations`, { headers: authHeader() })
+            )
+        },
+        getMedicineOrders: () => {
+            return (
+                axios.get(`${process.env.REACT_APP_BACKEND_URL}/medicines/orders`, { headers: authHeader() })
+            )
+        },
+        updateOrderStatus: (orderId, status) => {
+            return (
+                axios.patch(`${process.env.REACT_APP_BACKEND_URL}/medicines/orders/${orderId}`, { status }, { headers: authHeader() })
             )
         },
     })

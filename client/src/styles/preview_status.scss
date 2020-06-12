@@ -12,6 +12,75 @@
   height: 100%;
   display: flex;
   //flex-direction: column;
+  background-color: $color_accent_lighter;
   justify-content: center;
   align-items: center;
+}
+
+.info-card-container{
+  border-radius: 1em;
+  border: $color_primary solid 0.2em;
+  width: 42%;
+  padding: 0.5em;
+  background-color: white;
+}
+
+.user-info-container, .pharmacy-info-container{
+  display: flex;
+  padding: 0.5em;
+  flex-direction: column;
+}
+
+.basic-info-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.medicines-list-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.medicines-list-card{
+  //margin-top: 1em;
+  border-radius: 1em;
+  padding: 0.75em;
+  //margin-left: 1em;
+  min-width: 60%;
+  max-width: fit-content;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2), 0 4px 15px 0 rgba(0, 0, 0, 0.19);
+  p{
+    margin-bottom: 0;
+    margin-top: 0.5em;
+    font-weight: bold;
+  }
+}
+
+.medicines-list-arrows{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.x-footer{
+  //width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 1em;
+  //justify-content: space-between;
+  margin-top: 1em;
+  //padding-right: 3em;
+  //padding-left: 3em;
+}
+
+.medicines-list-content{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  //width: fit-content;
+  width: 70%;
+  justify-content: center;
 }

@@ -54,7 +54,7 @@ const medicineOrderSchema = new mongoose.Schema({
 
     status: {
         type: String,
-        enum: ['placed', 'shiped', 'delivered'],
+        enum: ['placed', 'shipped', 'delivered'],
         default: 'placed'
     },
 

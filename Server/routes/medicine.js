@@ -22,4 +22,10 @@ router.get('/search',[authJwt.verifyToken, authJwt.isUser], medicineController.s
 // get all medicine reservations
 router.get('/reservations', [authJwt.verifyToken, authJwt.isPharmacy, checkReservations.checkReservationStatus], medicineController.getAllMedicineReservations);
 
+// get all medicine orders
+router.get('/orders', [authJwt.verifyToken, authJwt.isPharmacy], medicineController.getAllMedicineOrders);
+
+// change medicine order status
+router.patch('/orders/:id', [authJwt.verifyToken, authJwt.isPharmacy], medicineController.changeOrderStatus);
+
 module.exports = router;

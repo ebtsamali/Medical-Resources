@@ -64,6 +64,9 @@ function UserServices() {
                 data,
                 method: 'post'
             });
+        },
+        getMedicineReservationDetails: (userId, reservationId) => {
+            return axios.get(`${API_URL}/users/${userId}/medicines_reservation/${reservationId}`,{headers: authHeader()})
         }
     })
 }
