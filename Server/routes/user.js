@@ -18,5 +18,6 @@ router.post("/cart", [authJwt.verifyToken, authJwt.isUser], userController.getCa
 router.post("/:id/pharmacys/:pharmacy_id/reserve", [authJwt.verifyToken, authJwt.isUser], userController.reserveMidicine);
 router.post("/:id/pharmacys/:pharmacy_id/order", [authJwt.verifyToken, authJwt.isUser], userController.orderMidicine);
 router.get("/:id/medicines_reservation/:reservation_id", [authJwt.verifyToken, authJwt.isUser], userController.getReservationDetails);
+router.get("/:id/medicines_order/:order_id", [authJwt.verifyToken, authJwt.isUser], userController.getOrderDetails);
 
 module.exports = router;
