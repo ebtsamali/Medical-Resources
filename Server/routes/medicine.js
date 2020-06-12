@@ -25,4 +25,7 @@ router.get('/reservations', [authJwt.verifyToken, authJwt.isPharmacy, checkReser
 // get all medicine orders
 router.get('/orders', [authJwt.verifyToken, authJwt.isPharmacy], medicineController.getAllMedicineOrders);
 
+// change medicine order status
+router.patch('/orders/:id', [authJwt.verifyToken, authJwt.isPharmacy], medicineController.changeOrderStatus);
+
 module.exports = router;

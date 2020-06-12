@@ -34,15 +34,20 @@ function MedicineService() {
             });
         },
         getMedicineReservations: () => {
-            return(
-                axios.get(`${process.env.REACT_APP_BACKEND_URL}/medicines/reservations`, {headers: authHeader()})
+            return (
+                axios.get(`${process.env.REACT_APP_BACKEND_URL}/medicines/reservations`, { headers: authHeader() })
             )
         },
         getMedicineOrders: () => {
-            return(
-                axios.get(`${process.env.REACT_APP_BACKEND_URL}/medicines/orders`, {headers: authHeader()})
+            return (
+                axios.get(`${process.env.REACT_APP_BACKEND_URL}/medicines/orders`, { headers: authHeader() })
             )
-        }
+        },
+        updateOrderStatus: (orderId, status) => {
+            return (
+                axios.patch(`${process.env.REACT_APP_BACKEND_URL}/medicines/orders/${orderId}`, { status }, { headers: authHeader() })
+            )
+        },
     })
 }
 

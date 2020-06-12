@@ -22,6 +22,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import HourglassFullIcon from '@material-ui/icons/HourglassFull';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
+import MedicineService from '../../../services/medicine_service';
 
 const useRowStyles = makeStyles({
     root: {
@@ -90,34 +91,49 @@ function TablePaginationActions(props) {
 }
 
 function Row(props) {
-    const { row } = props;
+    const { row, setStatusChanged, statusChanged } = props;
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
 
+    const handleChangeOrderStatus = (orderId, status) => {
+
+        MedicineService.updateOrderStatus(orderId, status)
+            .then(response => {
+                console.log(response.data.order);
+                setStatusChanged(!statusChanged);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
     return (
         <React.Fragment>
-            <TableRow className={classes.root} style={{width: "80rem"}}>
+            <TableRow className={classes.root} style={{ width: "80rem" }}>
                 <TableCell>
                     <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
                 <TableCell style={{ fontSize: "16px" }} component="th" scope="row">
-                    {row.status === "placed" ? <HourglassFullIcon style={{ marginRight: "0.3rem" }} /> :
-                     (row.status === "shipped") ? <LocalShippingIcon style={{ marginRight: "0.3rem" }} /> : 
-                     <DoneAllIcon style={{ marginRight: "0.3rem" }} />
-                     }
+                    {row.status === "placed" ? <HourglassFullIcon style={{ color: "#5bc0de", marginRight: "0.3rem" }} /> :
+                        (row.status === "shipped") ? <LocalShippingIcon style={{ color: "#f0ad4e ", marginRight: "0.3rem" }} /> :
+                            <DoneAllIcon style={{ color: "#5cb85c", marginRight: "0.3rem" }} />
+                    }
                     {row.status}
                 </TableCell>
                 <TableCell style={{ fontSize: "16px" }} align="center">{row.createdAt.split('T')[0]} {row.createdAt.split('T')[1].substring(0, row.createdAt.split('T')[1].length - 2)}</TableCell>
                 <TableCell style={{ fontSize: "16px" }} align="center">{row.totalPrice}</TableCell>
                 <TableCell style={{ fontSize: "16px" }} align="center">{row.user.firstName} {row.user.lastName}</TableCell>
                 <TableCell style={{ fontSize: "16px" }} align="center">{row.userPhone}</TableCell>
-                <TableCell style={{ fontSize: "16px" }} align="center">{row.userAddress}</TableCell>
-                {/* <TableCell align="center"><button>Ship Order</button></TableCell> */}
+                <TableCell style={{ fontSize: "16px", width:"200px" }} align="center">{row.userAddress}</TableCell>
+                <TableCell align="center">
+                    <button className="btn btn-dark mr-2" disabled={row.status === "shipped" || row.status === "delivered"} onClick={() => handleChangeOrderStatus(row._id, "shipped")}>Ship</button>
+                    <button className="btn btn-dark" disabled={row.status === "delivered"} onClick={() => handleChangeOrderStatus(row._id, "delivered")}>Deliver</button>
+                </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
                             <Typography variant="h6" gutterBottom component="div">
@@ -153,7 +169,7 @@ function Row(props) {
 
 export default function CollapsibleTable(props) {
 
-    const { rows } = props;
+    const { rows, setStatusChanged, statusChanged } = props;
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -178,13 +194,14 @@ export default function CollapsibleTable(props) {
                         <TableCell style={{ color: "white", fontSize: "16px" }} align="center"><b>Customer Name</b></TableCell>
                         <TableCell style={{ color: "white", fontSize: "16px" }} align="center"><b>Customer Phone</b></TableCell>
                         <TableCell style={{ color: "white", fontSize: "16px" }} align="center"><b>Customer Address</b></TableCell>
+                        <TableCell style={{ color: "white", fontSize: "16px" }} align="center"><b>Actions</b></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {(rowsPerPage > 0
                         ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         : rows).map((row) => (
-                            <Row key={row._id} row={row} />
+                            <Row key={row._id} row={row} setStatusChanged={setStatusChanged} statusChanged={statusChanged} />
                         ))}
                 </TableBody>
                 <TableFooter>
