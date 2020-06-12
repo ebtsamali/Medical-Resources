@@ -29,6 +29,11 @@ function BedServices() {
             return (
                 axios.get(`${API_URL}/beds/${hospitalId}`, {headers: authHeader()})
             )
+        },
+        updateReservedBed: (bedObj) => {
+            return (
+                axios.patch(`${API_URL}/beds/edit/${bedObj._id}`, bedObj, {headers: authHeader()})
+            )
         }
 
     })

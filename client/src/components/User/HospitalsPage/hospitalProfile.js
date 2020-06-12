@@ -6,6 +6,7 @@ import '../../../styles/hospitalProfile.scss';
 import { Card, ListGroup } from 'react-bootstrap';
 import { FaPhone, FaPoundSign } from 'react-icons/fa';
 import { MdLocationOn } from 'react-icons/md';
+import { IoIosPaper } from 'react-icons/io';
 import {GiBed} from 'react-icons/gi';
 import { FcOvertime } from 'react-icons/fc';
 import BedServices from '../../../services/bedService';
@@ -18,6 +19,7 @@ export default () => {
     const [bedsNumber, setBedsNumber] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [bedsPerPage] = useState(4);
+    const [clickedBed, setClickedBed] = useState({});
 
     const indexOfLastBed = currentPage * bedsPerPage;
     const indexOfFirstBed = indexOfLastBed - bedsPerPage;
@@ -37,7 +39,8 @@ export default () => {
         }).catch(error => {
             console.log(error.response);   
         })
-    }, [])
+    }, [modalShow])
+
 
     return(
         <>
@@ -68,7 +71,8 @@ export default () => {
                         </Card.Header>
                        { hospital.phoneNumbers.map((phone, index) => {
                            return (<p key={index}> {phone} </p>)
-                       })}  
+                       })} 
+                    
                     </div>
                 </div>
                 
@@ -92,9 +96,22 @@ export default () => {
                         </div>
 
                         <div className="headerChild headerSmallerChild">
-                                {/**<h4> <FaPoundSign style={{color: "gray"}} /> 250<small style={{color: "gray"}}>/DAY</small> </h4>
-                                <button className="reservBtn" onClick={() => setModalShow(true)} >Reserve Bed</button>**/}
-                                <ReservationModal show={modalShow} onHide={() => setModalShow(false)} hospital={hospital} />
+                            <div>
+                                <Card.Header>
+                                    <IoIosPaper className="timeIcon" />
+                                    Regulations
+                                </Card.Header>
+                                <ul className="regulationUl">
+                                   {hospital.regulations.length !== 0 ?
+                                        hospital.regulations.map((regulation, index) => {
+                                            return(
+                                                <li key={index} style={{marginTop: "5px"}}> {regulation} </li>
+                                            )
+                                        }): 
+                                        <h5 style={{marginTop: "15%"}}> No Regulations required </h5>
+                                    }
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     
@@ -103,7 +120,7 @@ export default () => {
                             <div className="bedCard">
                                { currentBeds.map(bed => {
                                    return (
-                                    <Card style={{ width: '12rem', height: "65%", marginTop: "3%" }} key={bed._id}>
+                                    <Card style={{ width: '12rem', height: "68%", marginTop: "3%" }} key={bed._id}>
                                         <GiBed style={{fontSize: "100px", marginLeft: "20%"}} />
                                         <ListGroup variant="flush">
                                             <ListGroup.Item>Room Number: {bed.roomNumber} </ListGroup.Item>
@@ -112,11 +129,14 @@ export default () => {
                                                 <small style={{color: "gray"}}>/DAY</small> 
                                             </ListGroup.Item>
                                         </ListGroup>
-                                        <button className="reservBtn" onClick={() => setModalShow(true)} >Reserve</button>
+                                        <button className="reservBtn" onClick={()=>{setModalShow(true); setClickedBed(bed)}} >
+                                            Reserve
+                                        </button>
                                     </Card>
-                                   )
-                               })} 
+                                    )
+                                })} 
                             </div>
+                                <ReservationModal show={modalShow} onHide={() => {setModalShow(false); setClickedBed({});}} hospital={hospital} clickedBed={clickedBed}/>
                             <div className="paginationDiv">
                                 <Pagination
                                     booksPerPage={bedsPerPage}

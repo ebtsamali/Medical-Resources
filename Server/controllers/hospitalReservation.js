@@ -8,7 +8,7 @@ const savePatientReservation = async (req, res) => {
             patientName,
             patientID,
             patientPhone,
-            dayCost,
+            bed,
             timeLimit
         }
     } = req
@@ -19,7 +19,7 @@ const savePatientReservation = async (req, res) => {
         patientName,
         patientID,
         patientPhone,
-        dayCost,
+        bed,
         timeLimit
     })
 

@@ -99,9 +99,7 @@
 .headerSmallerChild {
     flex-basis: 30%;
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
-    align-items: center;
 }
 
 .headerBiggerChild {
@@ -122,6 +120,13 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+}
+
+.regulationUl {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    list-style-type: square;
 }
 
 
@@ -160,9 +165,6 @@
     justify-content: space-around;
 }
 
-.paginationDiv {
-    height: 20%;
-}
 
 .modalBtn {
     background-color: #4ABBA9;

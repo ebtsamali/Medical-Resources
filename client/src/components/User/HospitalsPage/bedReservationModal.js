@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { Modal, Row, Container } from 'react-bootstrap';
-import {saveReservationData} from '../../../services/hospitalReservationService'
+import {saveReservationData} from '../../../services/hospitalReservationService';
+import BedServices from '../../../services/bedService';
 import ErrorMessage from "../../other/ErrorMessage";
 
 
@@ -40,15 +41,22 @@ export default (props) => {
     }
 
     const submitReservation = () => {
+        const bed = {
+            ...props.clickedBed,
+            reserved: true
+        }
         const data = {
             hospital: props.hospital._id,
             user: props.hospital.adminId,
             patientName,
             patientID,
             patientPhone,
-            dayCost: 250,
+            bed: props.clickedBed._id,
             timeLimit: props.hospital.maxTimeLimit
         }
+        BedServices.updateReservedBed(bed).then(response => {
+            console.log(response);
+        })
         saveReservationData(data).then(response => {
             if (response) {
                 console.log(response);

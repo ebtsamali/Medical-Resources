@@ -57,9 +57,9 @@ function App() {
                         <HospitalRegistration/>
                     </AuthRoute>
 
-                    <Route exact path="/hospitals/:name" >
+                    <AuthRoute exact path="/hospitals/:name" type="private" privilege="user">
                         <HospitalProfile />
-                    </Route>
+                    </AuthRoute>
                         <AuthRoute path="/user" type="private" privilege="user">
                             <HomePage/>
                         </AuthRoute>

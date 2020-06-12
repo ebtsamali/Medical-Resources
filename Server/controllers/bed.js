@@ -90,7 +90,7 @@ exports.getAllHospitalBeds = async (req, res) => {
     const hospitalId = req.params.hospitalId;
 
     try {
-        const beds = await Bed.find({hospital: hospitalId})
+        const beds = await Bed.find({hospital: hospitalId, reserved: false})
         if(!beds){
             return res.status(404).send({errors: {message: "Beds Not Found"}});
         }
@@ -101,3 +101,4 @@ exports.getAllHospitalBeds = async (req, res) => {
         res.status(500).send(error);
     }
 }
+
