@@ -27,7 +27,10 @@ const Header = (props) => {
                 </li>}
             </ul> : (user.role === "user") ? <ul>
                 <li className="nav-list">
-                    <Link to="/pharmacys">Pharmacys</Link>
+                    <Link to="/pharmacys">Pharmacies</Link>
+                </li>
+                <li className="nav-list">
+                    <Link to="/hospitals">Hospitals</Link>
                 </li>
                 <li className="nav-list">
                     <Link to="/hospitals">Hospitals</Link>
@@ -49,7 +52,7 @@ const Header = (props) => {
             <div className="user-profile-container">
                 <img src="../../img/user_avatar.jpg" alt="Avatar" className="avatar" />
                 <Link to={
-                    (user.role === "pharmacy") ? "/pharmacy_profile" : (user.role === "user") ? "" : ""
+                    (user.role === "pharmacy") ? "/pharmacy_profile" : (user.role === "user") ? "/user/profile" : ""
                 }><p className="user-name">{`${user.firstName} ${user.lastName}`}</p></Link>
             </div>
             {user.role === "user" && <div className="ml-3">

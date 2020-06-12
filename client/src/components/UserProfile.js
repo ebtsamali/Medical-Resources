@@ -11,6 +11,28 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownToggle from 'react-bootstrap/DropdownToggle';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import DropdownItem from 'react-bootstrap/DropdownItem';
+import Header from "./Header";
+import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    select: {
+        '&:before': {
+            borderColor: "#4ABBA9",
+        },
+        '&:after': {
+            borderColor: "#4ABBA9",
+        }
+    },
+    icon: {
+        fill: "#4ABBA9",
+    },
+    label: {
+        '.MuiInputLabel-root': {
+            color: "#4ABBA9",
+        }
+    },
+}));
 
 let originalPassword = '';
 
@@ -48,6 +70,7 @@ const UserProfile = () => {
     const [loading, setLoading] = useState(false);
     const checkBtn = useRef(null);
     const form = useRef(null);
+    const classes = useStyles();
 
     useEffect(() => {
         UserServices.getUserInfo(user.id)
@@ -166,10 +189,10 @@ const UserProfile = () => {
     }
 
     const onChangeGovernorate = (e) => {
-        setAddress({ ...address, governorate: e});
+        setAddress({ ...address, governorate: e.target.value });
         setValidGov(true);
         setValidGovMessage(null);
-        let reqReturn = RegistrationValidations.required(e);
+        let reqReturn = RegistrationValidations.required(e.target.value);
         if (reqReturn) {
             setValidGov(false);
             setValidGovMessage(reqReturn);
@@ -178,10 +201,10 @@ const UserProfile = () => {
     }
 
     const onChangeDistrict = (e) => {
-        setAddress({ ...address, district: e });
+        setAddress({ ...address, district: e.target.value });
         setValidDistrict(true);
         setValidDistrictMessage(null);
-        let reqReturn = RegistrationValidations.required(e);
+        let reqReturn = RegistrationValidations.required(e.target.value);
         if (reqReturn) {
             setValidDistrict(false);
             setValidDistrictMessage(reqReturn);
@@ -270,170 +293,217 @@ const UserProfile = () => {
 
 
     return (
-        <div className="x-container">
-            <div className="login-card mt-3 mb-3">
-                <h3>Update Profile</h3>
-                <Form
-                    onSubmit={handleUpdate}
-                    ref={form}
-                >
-                    <Input
-                        type="text"
-                        className="email-input"
-                        placeholder="First Name"
-                        name="firstname"
-                        value={firstName}
-                        onChange={onChangeFirstName}
-                        validations={[RegistrationValidations.required, RegistrationValidations.validateFirstname]}
-                        style={{ width: "30rem" }}
-                    />
-                    <Input
-                        type="text"
-                        className="email-input"
-                        placeholder="Last Name"
-                        name="lastname"
-                        value={lastName}
-                        onChange={onChangeLastName}
-                        validations={[RegistrationValidations.required, RegistrationValidations.validateLastname]}
-                        style={{ width: "30rem" }}
-                    />
-                    <Input
-                        type="text"
-                        className="email-input"
-                        placeholder="Email"
-                        name="email"
-                        value={email}
-                        onChange={onChangeEmail}
-                        validations={[RegistrationValidations.required, RegistrationValidations.validateEmail]}
-                        style={{ width: "30rem" }}
-                    />
-                    <Input
-                        type="password"
-                        className="password-input"
-                        placeholder="Enter New Password"
-                        name="password"
-                        value={password}
-                        onChange={onChangePassword}
-                        style={{ width: "30rem" }}
-                    />
-                    {!validPassword && <div style={{ width: "30rem" }}>{validPasswordMessage}</div>}
-                    <Input
-                        type="password"
-                        className="password-input"
-                        placeholder="Re-type Password"
-                        name="confirm-password"
-                        value={confirmPass}
-                        onChange={onChangeConfirmPassword}
-                        disabled={password ? false : true}
-                        style={{ width: "30rem" }}
-                    />
-                    {!validConfirmPassword && <div style={{ width: "30rem" }}>{validConfirmPasswordMessage}</div>}
-                    <Input
-                        type="date"
-                        className="email-input"
-                        placeholder="Birth Date"
-                        name="birthdate"
-                        value={birthdate}
-                        onChange={onChangeBirthdate}
-                        style={{ width: "30rem" }}
-                    />
-                    <Input
-                        type="text"
-                        className="email-input"
-                        placeholder="Phone Number"
-                        name="phonenumber"
-                        value={phoneNumber}
-                        onChange={onChangePhoneNumber}
-                        validations={[RegistrationValidations.required, RegistrationValidations.validatePhone]}
-                        style={{ width: "30rem" }}
-                    />
-                    <Dropdown onSelect={onChangeGovernorate} style={{ marginLeft: "0.4rem"}}>
-                        <DropdownToggle style={{width: "29rem"}}>
-                            {address.governorate ? address.governorate : "Governorate"}
-                        </DropdownToggle>
-                        <DropdownMenu style={{width: "29rem"}}>
-                            {governorates.map((gov) => {
-                                return (
-                                    <DropdownItem key={gov._id} eventKey={gov.name}>{gov.name}</DropdownItem>
-                                )
-                            })}
-                        </DropdownMenu>
-                    </Dropdown>
-                    {!validGov && <div style={{ width: "30rem" }}>{validGovMessage}</div>}
-                    <Dropdown onSelect={onChangeDistrict} style={{ marginLeft: "0.4rem", marginTop: "0.8rem"}}>
-                        <DropdownToggle style={{width: "29rem"}}>
-                            {address.district ? address.district : "District"}
-                        </DropdownToggle>
-                        <DropdownMenu style={{width: "29rem"}}>
-                            {districts.map((district, index) => {
-                                return (<DropdownItem key={index} eventKey={district}>{district}</DropdownItem>)
-                            })}
-                        </DropdownMenu>
-                    </Dropdown>
-                    {!validDistrict && <div style={{ width: "30rem", marginBottom: "0.6rem" }}>{validDistrictMessage}</div>}
-                    <Input
-                        type="text"
-                        className="email-input"
-                        placeholder="Street"
-                        name="street"
-                        value={address.street ? address.street : ''}
-                        onChange={onChangeStreet}
-                        validations={[RegistrationValidations.required]}
-                        style={{ width: "30rem" }}
-                    />
-                    <Input
-                        type="text"
-                        className="email-input"
-                        placeholder="Block Number"
-                        name="block-num"
-                        value={address.blockNum ? address.blockNum : ''}
-                        onChange={onChangeBlockNum}
-                        validations={[RegistrationValidations.required]}
-                        style={{ width: "30rem" }}
-                    />
-                    <Input
-                        type="text"
-                        className="email-input"
-                        placeholder="Flat Number"
-                        name="flat-num"
-                        value={address.flatNum ? address.flatNum : ''}
-                        onChange={onChangeFlatNum}
-                        validations={[RegistrationValidations.required]}
-                        style={{ width: "30rem" }}
-                    />
-
-                    <button
-                        className="login-btn"
-                        disabled={loading}
-                        style={{ width: "30rem" }}
+        <>
+            <Header />
+            <div className="x-container" style={{ height: "65rem", background: "white" }}>
+                <div className="login-card">
+                    <h3>Update Profile</h3>
+                    <Form
+                        onSubmit={handleUpdate}
+                        ref={form}
                     >
-                        {loading && (
-                            <span className="spinner-border spinner-border-sm"></span>
-                        )}
-                        <span>Update</span>
-                    </button>
-                    {message && (
-                        <div className="form-group">
-                            <div
-                                className={
-                                    successful
-                                        ? "alert alert-success"
-                                        : "alert alert-danger"
-                                }
-                                role="alert"
+                        <Input
+                            type="text"
+                            className="email-input"
+                            placeholder="First Name"
+                            name="firstname"
+                            value={firstName}
+                            onChange={onChangeFirstName}
+                            validations={[RegistrationValidations.required, RegistrationValidations.validateFirstname]}
+                            style={{ width: "30rem" }}
+                        />
+                        <Input
+                            type="text"
+                            className="email-input"
+                            placeholder="Last Name"
+                            name="lastname"
+                            value={lastName}
+                            onChange={onChangeLastName}
+                            validations={[RegistrationValidations.required, RegistrationValidations.validateLastname]}
+                            style={{ width: "30rem" }}
+                        />
+                        <Input
+                            type="text"
+                            className="email-input"
+                            placeholder="Email"
+                            name="email"
+                            value={email}
+                            onChange={onChangeEmail}
+                            validations={[RegistrationValidations.required, RegistrationValidations.validateEmail]}
+                            style={{ width: "30rem" }}
+                        />
+                        <Input
+                            type="password"
+                            className="password-input"
+                            placeholder="Enter New Password"
+                            name="password"
+                            value={password}
+                            onChange={onChangePassword}
+                            style={{ width: "30rem" }}
+                        />
+                        {!validPassword && <div style={{ width: "30rem" }}>{validPasswordMessage}</div>}
+                        <Input
+                            type="password"
+                            className="password-input"
+                            placeholder="Re-type Password"
+                            name="confirm-password"
+                            value={confirmPass}
+                            onChange={onChangeConfirmPassword}
+                            disabled={password ? false : true}
+                            style={{ width: "30rem" }}
+                        />
+                        {!validConfirmPassword && <div style={{ width: "30rem" }}>{validConfirmPasswordMessage}</div>}
+                        <Input
+                            type="date"
+                            className="email-input"
+                            placeholder="Birth Date"
+                            name="birthdate"
+                            value={birthdate}
+                            onChange={onChangeBirthdate}
+                            style={{ width: "30rem" }}
+                        />
+                        <Input
+                            type="text"
+                            className="email-input"
+                            placeholder="Phone Number"
+                            name="phonenumber"
+                            value={phoneNumber}
+                            onChange={onChangePhoneNumber}
+                            validations={[RegistrationValidations.required, RegistrationValidations.validatePhone]}
+                            style={{ width: "30rem" }}
+                        />
+                        <FormControl style={{ width: "29rem", marginLeft: "0.8rem" }}>
+                            <InputLabel id="demo-simple-select-outlined-label">Governorate</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-outlined-label"
+                                id="demo-simple-select-outlined"
+                                value={address.governorate}
+                                onChange={onChangeGovernorate}
+                                className={classes.select}
+                                inputProps={{
+                                    classes: {
+                                        icon: classes.icon,
+                                    }
+                                }}
                             >
-                                {message}
-                                {successful && <a href="/user" className="ml-3">Go To Home</a>}
+                                {governorates.map((gov) => {
+                                    return (
+                                        <MenuItem key={gov._id} value={gov.name}>{gov.name}</MenuItem>
+                                    )
+                                })}
+                            </Select>
+                        </FormControl><br />
+                        {!validGov && <div style={{ width: "30rem" }}>{validGovMessage}</div>}
+                        <FormControl style={{ width: "29rem", marginLeft: "0.8rem", marginTop: "0.6rem" }}>
+                            <InputLabel id="demo-simple-select-outlined-label">District</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-outlined-label"
+                                id="demo-simple-select-outlined"
+                                value={address.district}
+                                onChange={onChangeDistrict}
+                                className={classes.select}
+                                inputProps={{
+                                    classes: {
+                                        icon: classes.icon,
+                                    }
+                                }}
+                            >
+                                {districts.map((r) => {
+                                    return (
+                                        <MenuItem key={r} value={r}>{r}</MenuItem>
+                                    )
+                                })}
+                            </Select>
+                        </FormControl><br />
+                        {!validDistrict && <div style={{ width: "30rem", marginBottom: "0.6rem" }}>{validDistrictMessage}</div>}
+                        {/* <Dropdown onSelect={onChangeGovernorate} style={{ marginLeft: "0.4rem"}}>
+                            <DropdownToggle style={{width: "29rem"}}>
+                                {address.governorate ? address.governorate : "Governorate"}
+                            </DropdownToggle>
+                            <DropdownMenu style={{width: "29rem"}}>
+                                {governorates.map((gov) => {
+                                    return (
+                                        <DropdownItem key={gov._id} eventKey={gov.name}>{gov.name}</DropdownItem>
+                                    )
+                                })}
+                            </DropdownMenu>
+                        </Dropdown>
+                        {!validGov && <div style={{ width: "30rem" }}>{validGovMessage}</div>}
+                        <Dropdown onSelect={onChangeDistrict} style={{ marginLeft: "0.4rem", marginTop: "0.8rem"}}>
+                            <DropdownToggle style={{width: "29rem"}}>
+                                {address.district ? address.district : "District"}
+                            </DropdownToggle>
+                            <DropdownMenu style={{width: "29rem"}}>
+                                {districts.map((district, index) => {
+                                    return (<DropdownItem key={index} eventKey={district}>{district}</DropdownItem>)
+                                })}
+                            </DropdownMenu>
+                        </Dropdown>
+                        {!validDistrict && <div style={{ width: "30rem", marginBottom: "0.6rem" }}>{validDistrictMessage}</div>} */}
+                        <Input
+                            type="text"
+                            className="email-input"
+                            placeholder="Street"
+                            name="street"
+                            value={address.street ? address.street : ''}
+                            onChange={onChangeStreet}
+                            validations={[RegistrationValidations.required]}
+                            style={{ width: "30rem" }}
+                        />
+                        <Input
+                            type="text"
+                            className="email-input"
+                            placeholder="Block Number"
+                            name="block-num"
+                            value={address.blockNum ? address.blockNum : ''}
+                            onChange={onChangeBlockNum}
+                            validations={[RegistrationValidations.required]}
+                            style={{ width: "30rem" }}
+                        />
+                        <Input
+                            type="text"
+                            className="email-input"
+                            placeholder="Flat Number"
+                            name="flat-num"
+                            value={address.flatNum ? address.flatNum : ''}
+                            onChange={onChangeFlatNum}
+                            validations={[RegistrationValidations.required]}
+                            style={{ width: "30rem" }}
+                        />
+
+                        <button
+                            className="login-btn"
+                            disabled={loading}
+                            style={{ width: "30rem" }}
+                        >
+                            {loading && (
+                                <span className="spinner-border spinner-border-sm"></span>
+                            )}
+                            <span>Update</span>
+                        </button>
+                        {message && (
+                            <div className="form-group">
+                                <div
+                                    className={
+                                        successful
+                                            ? "alert alert-success"
+                                            : "alert alert-danger"
+                                    }
+                                    role="alert"
+                                >
+                                    {message}
+                                    {successful && <a href="/user" className="ml-3">Go To Home</a>}
+                                </div>
                             </div>
-                        </div>
-                    )}
-                    <CheckButton
-                        style={{ display: "none" }}
-                        ref={checkBtn}
-                    />
-                </Form>
+                        )}
+                        <CheckButton
+                            style={{ display: "none" }}
+                            ref={checkBtn}
+                        />
+                    </Form>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 export default UserProfile;

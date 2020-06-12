@@ -10,7 +10,6 @@ import {
 import PharmacyProfilePage from "./components/pharmacy/PharmacyProfilePage/PharmacyProfilePage";
 import AuthProvider from "./providers/auth_provider";
 import AuthRoute from "./components/AuthRoute";
-import HomePage from "./components/HomePage";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
 import RegistrationPage from './components/Registration/RegistrationPage';
 
@@ -26,6 +25,8 @@ import HospitalProfile from './components/User/HospitalsPage/hospitalProfile';
 import CartPage from "./components/User/CartPage/CartPage";
 import ReservationStatusPage from "./components/User/PreviewStatusPage/ReservationStatusPage";
 import OrderStatusPage from "./components/User/PreviewStatusPage/OrderStatusPage";
+import UserHomePage from "./components/User/HomePage/UserHomePage";
+import UserProfile from "./components/UserProfile";
 
 function App() {
     return (
@@ -46,9 +47,14 @@ function App() {
                             <RegistrationPage/>
                         </AuthRoute>
 
-                        <AuthRoute path="/user" type="private" privilege="user">
-                            <HomePage/>
+                        <AuthRoute path="/user/profile" type="private" privilege="user">
+                            <UserProfile />
                         </AuthRoute>
+                        
+                        <AuthRoute path="/user" type="private" privilege="user">
+                            <UserHomePage />
+                        </AuthRoute>
+                        
                         <AuthRoute path="/hospital/beds/edit" privilege="hospital">
                             <BedPage/>
                         </AuthRoute>
@@ -80,9 +86,9 @@ function App() {
                         <AuthRoute path="/order/:id" type="private" privilege="user">
                             <OrderStatusPage/>
                         </AuthRoute>
-                        <AuthRoute path="/user" type="private" privilege="user">
-                            <HomePage/>
-                        </AuthRoute>
+                        {/* <AuthRoute path="/user/profile" type="private" privilege="user">
+                            <UserHomePage/>
+                        </AuthRoute> */}
 
 
                         <AuthRoute path="/user_cart" type="private" privilege="user">

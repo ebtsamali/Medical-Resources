@@ -37,14 +37,14 @@ function UserServices() {
             )
         },
         searchMedicines: (query) => {
-            return axios.get(`${API_URL}/medicines/search${query}`,{headers: authHeader()})
+            return axios.get(`${API_URL}/medicines/search${query}`, { headers: authHeader() })
         },
-        getCartDetails: (data)=>{
+        getCartDetails: (data) => {
             return axios({
                 headers: authHeader(),
                 url: `${process.env.REACT_APP_BACKEND_URL}/users/cart`,
-                data:{
-                    pharmacys:data
+                data: {
+                    pharmacys: data
                 },
                 method: 'post'
             });
@@ -66,10 +66,19 @@ function UserServices() {
             });
         },
         getMedicineReservationDetails: (userId, reservationId) => {
-            return axios.get(`${API_URL}/users/${userId}/medicines_reservation/${reservationId}`,{headers: authHeader()})
+            return axios.get(`${API_URL}/users/${userId}/medicines_reservation/${reservationId}`, { headers: authHeader() })
         },
         getMedicineOrderDetails: (userId, orderId) => {
-            return axios.get(`${API_URL}/users/${userId}/medicines_order/${orderId}`,{headers: authHeader()})
+            return axios.get(`${API_URL}/users/${userId}/medicines_order/${orderId}`, { headers: authHeader() })
+        },
+        getAllOrders: (pageQuery, userId) => {
+            return axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/orders?${pageQuery}`, { headers: authHeader() })
+        },
+        getAllMedicineReservations: (pageQuery, userId) => {
+            return axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/medicines?${pageQuery}`, { headers: authHeader() })
+        },
+        getAllBedReservations: (pageQuery, userId) => {
+            return axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/beds?${pageQuery}`, { headers: authHeader() })
         }
     })
 }
