@@ -36,23 +36,43 @@ const medicineOrderSchema = new mongoose.Schema({
         required: [true, "Total Price is required"]
     },
 
-    userAddress : {
+    userAddress: {
         type: String,
         required: [true, 'Address is required!']
     },
 
     userPhone: {
         type: String,
-        required: [true, 'Phone Number is required!']
+        required: [true, 'Phone Number is required!'],
+        validate: function (val) {
+            if (!val.trim().match(/^(012|011|010)[0-9]{8,8}$/)) {
+                throw new Error('Invalid Phone Number Format.')
+            }
+
+        }
     },
 
     status: {
         type: String,
         enum: ['placed', 'shiped', 'delivered'],
         default: 'placed'
-    }
-},{
+    },
+
+}, {
     timestamps: true,
+})
+
+
+medicineOrderSchema.post('save', function (error, doc, next) {
+    const keys = Object.keys(error.errors);
+    const errors = keys.reduce((acc, key) => {
+        return {
+            ...acc,
+            [key.split('.')[key.split('.').length - 1]]: error.errors[key].properties.message
+        }
+    }, {})
+    next({errors});
+
 })
 
 const MedicineOrder = mongoose.model('MedicineOrder', medicineOrderSchema);

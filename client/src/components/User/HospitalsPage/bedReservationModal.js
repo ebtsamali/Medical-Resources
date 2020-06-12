@@ -72,7 +72,7 @@ export default (props) => {
     }
     
     return(
-        <Modal {...props} aria-labelledby="contained-modal-title-vcenter">
+        <Modal {...props} aria-labelledby="contained-modal-title-vcenter" className="bedModal">
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Patient Info

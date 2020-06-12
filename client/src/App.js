@@ -25,6 +25,8 @@ import AppProvider from "./providers/AppProvider";
 import AppHead from "./components/other/AppHead";
 import HospitalProfile from './components/User/HospitalsPage/hospitalProfile';
 import CartPage from "./components/User/CartPage/CartPage";
+import ReservationStatusPage from "./components/User/PreviewStatusPage/ReservationStatusPage";
+import OrderStatusPage from "./components/User/PreviewStatusPage/OrderStatusPage";
 
 function App() {
     return (
@@ -47,22 +49,30 @@ function App() {
                             <RegistrationPage/>
                         </AuthRoute>
 
-                    <AuthRoute path="/user" type="private" privilege="user">
-                        <HomePage/>
-                    </AuthRoute>
-                    <AuthRoute path="/hospital/beds/edit" privilege="hospital">
-                        <BedPage/>
-                    </AuthRoute>
-                    <AuthRoute path="/hospital" type="private" privilege="hospital">
-                        <HospitalRegistration/>
-                    </AuthRoute>
-
-                    <AuthRoute exact path="/hospitals/:name" type="private" privilege="user">
-                        <HospitalProfile />
-                    </AuthRoute>
                         <AuthRoute path="/user" type="private" privilege="user">
                             <HomePage/>
                         </AuthRoute>
+                        <AuthRoute path="/hospital/beds/edit" privilege="hospital">
+                            <BedPage/>
+                        </AuthRoute>
+                        <AuthRoute path="/hospital" type="private" privilege="hospital">
+                            <HospitalRegistration/>
+                        </AuthRoute>
+
+                        <AuthRoute exact path="/hospitals/:name" type="private" privilege="user">
+                            <HospitalProfile />
+                        </AuthRoute>
+                        <AuthRoute path="/reservation/:id" type="private" privilege="user">
+                            <ReservationStatusPage/>
+                        </AuthRoute>
+
+                        <AuthRoute path="/order/:id" type="private" privilege="user">
+                            <OrderStatusPage/>
+                        </AuthRoute>
+                        <AuthRoute path="/user" type="private" privilege="user">
+                            <HomePage/>
+                        </AuthRoute>
+
 
                         <AuthRoute path="/user_cart" type="private" privilege="user">
                             <CartPage/>
