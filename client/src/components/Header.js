@@ -34,7 +34,7 @@ const Header = (props) => {
                     <Link to="/hospital/beds/edit">Beds</Link>
                 </li>
                 <li className="nav-list">
-                    <Link to="/hospital/beds/edit">Reservations</Link>
+                    <Link to="/hospital/reservations">Reservations</Link>
                 </li>
             </ul> : <ul>
                         <li className="nav-list">

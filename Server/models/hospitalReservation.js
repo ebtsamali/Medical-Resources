@@ -47,6 +47,11 @@ const hospitalReservationSchema = new mongoose.Schema({
         required: [true, 'Bed data is required!'],
         ref: 'Bed'
     },
+
+    totalDays: {
+        type: Number,
+        // required: [true, "Total Cost is required"]
+    },
     totalCost: {
         type: Number,
         // required: [true, "Total Cost is required"]

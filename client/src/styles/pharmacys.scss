@@ -96,3 +96,12 @@ td {
 #hospitals th {
   text-align: center;
 }
+
+.statusIcon {
+  font-size: x-small;
+}
+
+.statusTd {
+  display: flex;
+  justify-content: space-around;
+}

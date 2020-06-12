@@ -16,6 +16,7 @@ import RegistrationPage from './components/Registration/RegistrationPage';
 
 import HospitalRegistration from "./components/Hospital/hospitalRegistration";
 import BedPage from './components/Hospital/Beds/BedPage';
+import HospitalReservations from './components/Hospital/viewReservation';
 
 import MedicinesPage from "./components/pharmacy/MedicinesPage/MedicinesPage";
 import PharmacysPage from "./components/User/PharmacysPage/PharmacysPage";
@@ -55,6 +56,11 @@ function App() {
                         <AuthRoute path="/hospital/beds/edit" privilege="hospital">
                             <BedPage/>
                         </AuthRoute>
+
+                        <AuthRoute path="/hospital/reservations" type="private" privilege="hospital">
+                            <HospitalReservations/>
+                        </AuthRoute>
+
                         <AuthRoute path="/hospital" type="private" privilege="hospital">
                             <HospitalRegistration/>
                         </AuthRoute>
@@ -76,12 +82,6 @@ function App() {
 
                         <AuthRoute path="/user_cart" type="private" privilege="user">
                             <CartPage/>
-                        </AuthRoute>
-                        {/** <AuthRoute path="/hospital/edit" privilege="hospital">
-                         <EditHospitalData/>
-                         </AuthRoute>**/}
-                        <AuthRoute path="/hospital" type="private" privilege="hospital">
-                            <HospitalRegistration/>
                         </AuthRoute>
 
                         <AuthRoute path="/hospitals" type="private" privilege="user">
