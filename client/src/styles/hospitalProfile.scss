@@ -76,13 +76,15 @@
     height: 100%;
     flex-basis: 82%;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 10px;
 }
 
 .headerDiv {
-    height: 30%;
-    flex-basis: 100%;
+    flex-basis: 30%;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -97,9 +99,7 @@
 .headerSmallerChild {
     flex-basis: 30%;
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
-    align-items: center;
 }
 
 .headerBiggerChild {
@@ -122,36 +122,64 @@
     align-items: center;
 }
 
-.bedBtn {
-    width: 150px;
-    font-size: x-large;
-    background-color: rgb(182, 179, 179);
+.regulationUl {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    list-style-type: square;
 }
+
 
 .reservBtn {
     background-color: #4ABBA9;
     color: white;
-    border: none;    flex-wrap: wrap;
-    justify-content: space-around;
-    border-radius: 20px;
-    width: 70%;
+    border: none;    
+    width: 100%;
     font-weight: bold;
 }
 
 .reservBtn:hover {
     background-color: rgb(107, 214, 196);
+    border: none;
 }
 
 .content {
-    height: 70%;
-    flex-basis: 100%;
-    display: flex;
+    flex-basis: 60%;
+    width: 95%;
     align-items: center;
+}
+
+.bedsDiv {
+    height: 90%;
+    flex-basis: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+}
+
+.bedCard {
+    // height: 80%;
+    flex-basis: 90%;
+    display: flex;
     justify-content: space-around;
 }
 
-.regulationsDiv {
-    height: 85%;
-    flex-basis: 95%;
-    background-color: white;
+
+.modalBtn {
+    background-color: #4ABBA9;
+    border: none;
+    height: 40px;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+}
+
+.modalBtn:hover {
+    background-color: rgb(107, 214, 196);
+    border: none;
+}
+
+.bedModal {
+    border: solid 1px rgb(107, 214, 196);
 }

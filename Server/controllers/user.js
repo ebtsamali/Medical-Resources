@@ -84,7 +84,7 @@ exports.reserveMidicine = async (req, res) => {
 exports.orderMidicine = async (req, res) => {
     const {params:{id,pharmacy_id}} = req
     const {body:{totalPrice,order, userAddress, userPhone}} = req
-    console.log(req.body)
+    // console.log(req.body)
     try {
         const orderDetails = await MedicineOrder.create({totalPrice,order,pharmacy:pharmacy_id, user:id , userAddress, userPhone})
         for(let i = 0; i<order.length;++i) {
@@ -96,5 +96,31 @@ exports.orderMidicine = async (req, res) => {
     } catch (e) {
         console.log(e)
         res.status(500).send(e)
+    }
+}
+
+
+exports.getReservationDetails = async (req, res) => {
+    const {params:{id,reservation_id}} = req
+    try {
+        const reservation = await MedicineReservation.findOne({_id:reservation_id, user:id}).populate({
+            path:'pharmacy',
+            model:'Pharmacy',
+            select:['location', 'name']
+        }).populate({
+            path:'user',
+            model:'User',
+            select:['address', 'firstName', 'lastName', 'phoneNumber']
+        }).populate({
+            path:'order.medicine',
+            model:'Medicine',
+            select:['name']
+        })
+        if(!reservation) {
+            return res.status(404).end();
+        }
+        return res.status(200).send(reservation)
+    } catch (e) {
+        res.status(500).end()
     }
 }

@@ -49,19 +49,19 @@ function App() {
                             <RegistrationPage/>
                         </AuthRoute>
 
-                    <AuthRoute path="/user" type="private" privilege="user">
-                        <HomePage/>
-                    </AuthRoute>
-                    <AuthRoute path="/hospital/beds/edit" privilege="hospital">
-                        <BedPage/>
-                    </AuthRoute>
-                    <AuthRoute path="/hospital" type="private" privilege="hospital">
-                        <HospitalRegistration/>
-                    </AuthRoute>
+                        <AuthRoute path="/user" type="private" privilege="user">
+                            <HomePage/>
+                        </AuthRoute>
+                        <AuthRoute path="/hospital/beds/edit" privilege="hospital">
+                            <BedPage/>
+                        </AuthRoute>
+                        <AuthRoute path="/hospital" type="private" privilege="hospital">
+                            <HospitalRegistration/>
+                        </AuthRoute>
 
-                    <Route exact path="/hospitals/:name" >
-                        <HospitalProfile />
-                    </Route>
+                        <AuthRoute exact path="/hospitals/:name" type="private" privilege="user">
+                            <HospitalProfile />
+                        </AuthRoute>
                         <AuthRoute path="/reservation/:id" type="private" privilege="user">
                             <ReservationStatusPage/>
                         </AuthRoute>
