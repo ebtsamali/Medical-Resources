@@ -89,9 +89,6 @@ function App() {
                         </AuthRoute>
 
 
-                    <AuthRoute path="/pharmacys" type="private" privilege="user">
-                        <PharmacysPage/>
-                    </AuthRoute>
                         <AuthRoute path="/pharmacys" type="private" privilege="user">
                             <PharmacysPage/>
                         </AuthRoute>

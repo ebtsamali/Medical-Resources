@@ -67,6 +67,9 @@ function UserServices() {
         },
         getMedicineReservationDetails: (userId, reservationId) => {
             return axios.get(`${API_URL}/users/${userId}/medicines_reservation/${reservationId}`,{headers: authHeader()})
+        },
+        getMedicineOrderDetails: (userId, orderId) => {
+            return axios.get(`${API_URL}/users/${userId}/medicines_order/${orderId}`,{headers: authHeader()})
         }
     })
 }

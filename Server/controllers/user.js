@@ -136,6 +136,10 @@ exports.getOrderDetails = async (req, res) => {
             path:'order.medicine',
             model:'Medicine',
             select:['name']
+        }).populate({
+            path:'user',
+            model:'User',
+            select:['firstName', 'lastName']
         })
         if(!order) {
             return res.status(404).end();
