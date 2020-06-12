@@ -16,6 +16,7 @@
   align-items: center;
   margin-bottom: 8em;
   justify-content: space-around;
+  background-color: $color_accent_lighter;
 }
 
 .pharmacy-cart-card {
@@ -24,6 +25,7 @@
   height: fit-content;
   padding: 1em;
   width: 50%;
+  background-color: white;
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2), 0 4px 15px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -97,6 +99,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   //width: fit-content;
+  //width: 70%;
   justify-content: center;
 }
 
@@ -114,14 +117,7 @@
   margin-bottom: 0.5em;
 }
 
-.x-footer{
-  //width: 50%;
-  display: flex;
-  //justify-content: space-between;
-  //margin-top: 3em;
-  //padding-right: 3em;
-  //padding-left: 3em;
-}
+
 
 .medicines-card-header{
   display: flex;
@@ -166,6 +162,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  background-color: $color_accent_lighter;
   h2{
     font-weight: bold;
     color: $color_accent_light;
