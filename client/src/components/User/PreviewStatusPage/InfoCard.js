@@ -11,6 +11,10 @@ const InfoCard = (props) => {
             user.name = `${data.user.firstName} ${data.user.lastName}`
             user.phone = `${data.user.phoneNumber}`
             user.address = `${data.user.address.street}, ${data.user.address.district}, ${data.user.address.governorate}, Flat Number: ${data.user.address.flatNum}`
+        } else if(type === 'order' && data.user) {
+            user.name = `${data.user.firstName} ${data.user.lastName}`
+            user.phone = data.userPhone
+            user.address = data.userAddress
         }
         return user
     }

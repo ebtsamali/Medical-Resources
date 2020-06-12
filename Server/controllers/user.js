@@ -124,3 +124,28 @@ exports.getReservationDetails = async (req, res) => {
         res.status(500).end()
     }
 }
+
+exports.getOrderDetails = async (req, res) => {
+    const {params:{id,order_id}} = req
+    try {
+        const order = await MedicineOrder.findOne({_id:order_id, user:id}).populate({
+            path:'pharmacy',
+            model:'Pharmacy',
+            select:['location', 'name']
+        }).populate({
+            path:'order.medicine',
+            model:'Medicine',
+            select:['name']
+        }).populate({
+            path:'user',
+            model:'User',
+            select:['firstName', 'lastName']
+        })
+        if(!order) {
+            return res.status(404).end();
+        }
+        return res.status(200).send(order)
+    } catch (e) {
+        res.status(500).end()
+    }
+}
