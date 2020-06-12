@@ -8,6 +8,7 @@ import {AuthContext} from "../../../providers/auth_provider";
 import Dropdown from "react-bootstrap/Dropdown";
 import {MenuItem, Select} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
+import WorkingHours from "../../other/WorkingHours";
 
 const useStyles = makeStyles((theme) => ({
     select: {
@@ -42,6 +43,17 @@ const PharmacyInfoCard = () => {
     const [governorates, setGovernorates] = useState([])
     const [districts, setDistricts] = useState([])
     const {user,setUser} = useContext(AuthContext);
+    const [weekDetails, setWeekDetails] = useState([{day: 'Mon', start: 0, end: 0, isOpen: false}, {
+        day: 'Tue',
+        start: 0,
+        end: 0,
+        isOpen: false
+    }, {day: 'Wed', start: 0, end: 0, isOpen: false}, {day: 'Thu', start: 0, end: 0, isOpen: false}, {
+        day: 'Fri',
+        start: 0,
+        end: 0,
+        isOpen: false
+    }, {day: 'Sat', start: 0, end: 0, isOpen: false}, {day: 'Sun', start: 0, end: 0, isOpen: false}])
 
     const classes = useStyles();
 
@@ -241,7 +253,10 @@ const PharmacyInfoCard = () => {
             </div>
             {errors.maxTimeLimit && <ErrorMessage message={errors.maxTimeLimit}/>}
         </div>
-
+        <div>
+            <label>Working Hours</label>
+        <WorkingHours weekDetails={weekDetails} setWeekDetails={setWeekDetails}/>
+        </div>
         <div className="phones-card">
             {phoneNumbers.map((phone, index) => {
                 return (<div key={index}><input className="form-input" placeholder="Phone" value={phone}

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, {useState, useRef, useEffect, useContext} from "react";
 import Form from 'react-validation/build/form';
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -12,6 +12,7 @@ import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import DropdownItem from 'react-bootstrap/DropdownItem';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { Link } from "react-router-dom";
+import {AppContext} from "../../providers/AppProvider";
 
 let originalPassword = '';
 
@@ -25,6 +26,7 @@ const validateConfirmPassword = (value) => {
 
 const RegistrationPage = (props) => {
 
+    const { setTitle } = useContext(AppContext);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -40,6 +42,9 @@ const RegistrationPage = (props) => {
     const form = useRef(null);
     const [roles] = useState(["user", "hospital", "pharmacy"]);
 
+    useEffect(()=>{
+        setTitle('Medical Resources::Sign Up')
+    },[])
     const onChangeFirstName = (e) => {
         setFirstName(e.target.value);
     }
@@ -110,6 +115,7 @@ const RegistrationPage = (props) => {
                         setMessage(response.data.message);
                         setSuccessful(true);
                         setLoading(false);
+
                     },
                     error => {
                         const resMessage =

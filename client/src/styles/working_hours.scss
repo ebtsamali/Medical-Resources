@@ -1,0 +1,29 @@
+@import "main";
+
+.working-hours-container {
+  display: flex;
+  flex-direction: column;
+  //align-items: center;
+}
+
+.day-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  //justify-content: space-between;
+
+}
+
+.time-picker{
+  width: fit-content;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.row-container{
+  display: flex;
+  flex-direction: row;
+  //justify-content: flex-start;
+  margin-top: 0.75em;
+  width: 83%;
+}

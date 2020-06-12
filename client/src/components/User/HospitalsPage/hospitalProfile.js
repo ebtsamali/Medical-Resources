@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import ReservationModal from './bedReservationModal';
-import { useLocation } from "react-router-dom";
-import Header from './header';
 import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import '../../../styles/hospitalProfile.scss';
 import { Card, ListGroup } from 'react-bootstrap';
@@ -12,6 +10,7 @@ import {GiBed} from 'react-icons/gi';
 import { FcOvertime } from 'react-icons/fc';
 import BedServices from '../../../services/bedService';
 import Pagination from './Pagination';
+import Header from "../../Header";
 
 export default () => {
     const hospital = useLocation().state.hospital;
@@ -44,7 +43,7 @@ export default () => {
 
     return(
         <>
-            <Header />
+            <Header/>
             <div className="containerDiv">
                 <div className="sidebarDiv">
                     <div className="sidebarChild sidebarBiggerChild">

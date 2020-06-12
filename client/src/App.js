@@ -22,42 +22,39 @@ import MedicinesPage from "./components/pharmacy/MedicinesPage/MedicinesPage";
 import PharmacysPage from "./components/User/PharmacysPage/PharmacysPage";
 
 import HospitalsPage from './components/User/HospitalsPage/hospitalsPage';
-import AppProvider from "./providers/AppProvider";
-import AppHead from "./components/other/AppHead";
 import HospitalProfile from './components/User/HospitalsPage/hospitalProfile';
 import CartPage from "./components/User/CartPage/CartPage";
 import ReservationStatusPage from "./components/User/PreviewStatusPage/ReservationStatusPage";
 import OrderStatusPage from "./components/User/PreviewStatusPage/OrderStatusPage";
-import Header from "./components/Header";
 
 function App() {
     return (
         <>
             <Router>
-                    <AuthProvider>
-                        <Switch>
-                            <AuthRoute exact={true} path="/" type="guest">
-                                <LoginPage/>
-                            </AuthRoute>
+                <AuthProvider>
+                    <Switch>
+                        <AuthRoute exact={true} path="/" type="guest">
+                            <LoginPage/>
+                        </AuthRoute>
 
-                            <AuthRoute path="/login" type="guest">
-                                <LoginPage/>
+                        <AuthRoute path="/login" type="guest">
+                            <LoginPage/>
 
-                            </AuthRoute>
+                        </AuthRoute>
 
-                            <AuthRoute path="/register" type="guest">
-                                <RegistrationPage/>
-                            </AuthRoute>
+                        <AuthRoute path="/register" type="guest">
+                            <RegistrationPage/>
+                        </AuthRoute>
 
-                            <AuthRoute path="/user" type="private" privilege="user">
-                                <HomePage/>
-                            </AuthRoute>
-                            <AuthRoute path="/hospital/beds/edit" privilege="hospital">
-                                <BedPage/>
-                            </AuthRoute>
-                            <AuthRoute path="/hospital" type="private" privilege="hospital">
-                                <HospitalRegistration/>
-                            </AuthRoute>
+                        <AuthRoute path="/user" type="private" privilege="user">
+                            <HomePage/>
+                        </AuthRoute>
+                        <AuthRoute path="/hospital/beds/edit" privilege="hospital">
+                            <BedPage/>
+                        </AuthRoute>
+                        <AuthRoute path="/hospital" type="private" privilege="hospital">
+                            <HospitalRegistration/>
+                        </AuthRoute>
                         <AuthRoute path="/user" type="private" privilege="user">
                             <HomePage/>
                         </AuthRoute>
@@ -73,52 +70,51 @@ function App() {
                             <HospitalRegistration/>
                         </AuthRoute>
 
-                            <AuthRoute exact path="/hospitals/:name" type="private" privilege="user">
-                                <HospitalProfile />
-                            </AuthRoute>
-                            <AuthRoute path="/reservation/:id" type="private" privilege="user">
-                                <ReservationStatusPage/>
-                            </AuthRoute>
+                        <AuthRoute exact path="/hospitals/:name" type="private" privilege="user">
+                            <HospitalProfile/>
+                        </AuthRoute>
+                        <AuthRoute path="/reservation/:id" type="private" privilege="user">
+                            <ReservationStatusPage/>
+                        </AuthRoute>
 
-                            <AuthRoute path="/order/:id" type="private" privilege="user">
-                                <OrderStatusPage/>
-                            </AuthRoute>
-                            <AuthRoute path="/user" type="private" privilege="user">
-                                <HomePage/>
-                            </AuthRoute>
+                        <AuthRoute path="/order/:id" type="private" privilege="user">
+                            <OrderStatusPage/>
+                        </AuthRoute>
+                        <AuthRoute path="/user" type="private" privilege="user">
+                            <HomePage/>
+                        </AuthRoute>
 
 
-                            <AuthRoute path="/user_cart" type="private" privilege="user">
-                                <CartPage/>
-                            </AuthRoute>
-
-                            <AuthRoute path="/hospital" type="private" privilege="hospital">
-                                <HospitalRegistration/>
-                            </AuthRoute>
                         <AuthRoute path="/user_cart" type="private" privilege="user">
                             <CartPage/>
                         </AuthRoute>
 
-                            <AuthRoute path="/hospitals" type="private" privilege="user">
-                                <HospitalsPage/>
-                            </AuthRoute>
+                        <AuthRoute path="/hospital" type="private" privilege="hospital">
+                            <HospitalRegistration/>
+                        </AuthRoute>
+                        <AuthRoute path="/user_cart" type="private" privilege="user">
+                            <CartPage/>
+                        </AuthRoute>
 
+                        <AuthRoute path="/hospitals" type="private" privilege="user">
+                            <HospitalsPage/>
+                        </AuthRoute>
 
-                            <AuthRoute path="/pharmacys" type="private" privilege="user">
-                                <PharmacysPage/>
-                            </AuthRoute>
+                        <AuthRoute path="/pharmacys" type="private" privilege="user">
+                            <PharmacysPage/>
+                        </AuthRoute>
 
-                            <AuthRoute path="/pharmacy_profile" type="private" privilege="pharmacy">
-                                <PharmacyProfilePage/>
-                            </AuthRoute>
-                            <AuthRoute path="/medicines" type="private" privilege="pharmacy">
-                                <MedicinesPage/>
-                            </AuthRoute>
+                        <AuthRoute path="/pharmacy_profile" type="private" privilege="pharmacy">
+                            <PharmacyProfilePage/>
+                        </AuthRoute>
+                        <AuthRoute path="/medicines" type="private" privilege="pharmacy">
+                            <MedicinesPage/>
+                        </AuthRoute>
 
-                            <Route path="/unauthorized" component={Unauthorized}/>
-                        </Switch>
-                    </AuthProvider>
-                </Router>
+                        <Route path="/unauthorized" component={Unauthorized}/>
+                    </Switch>
+                </AuthProvider>
+            </Router>
         </>
     );
 }

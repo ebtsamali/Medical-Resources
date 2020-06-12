@@ -11,7 +11,9 @@ const LoginPage = (props) => {
     const { setTitle } = useContext(AppContext);
     const [emailInput,setEmailInput] = useState('')
     const [passwordInput,setPasswordInput] = useState('')
-
+    useEffect(()=>{
+        setTitle('Medical Resources::Login')
+    },[])
     const handleEmailChange = (e) => {
         const {target:{value}} = e;
         setEmailInput(value);
