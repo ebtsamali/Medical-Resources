@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import ReservationModal from './bedReservationModal';
 import { useLocation } from "react-router-dom";
 import Header from './header';
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import '../../../styles/hospitalProfile.scss';
 import { Card, ListGroup } from 'react-bootstrap';
 import { FaPhone, FaPoundSign } from 'react-icons/fa';
@@ -29,7 +30,6 @@ export default () => {
 
     useEffect(()=>{
         BedServices.getAllHospitalBeds(hospital._id).then((response)=>{
-            console.log(response.data);
             if(response.data.length === 0){
                 setBedsNumber(0);
             }else {

@@ -29,9 +29,15 @@ const Header = (props) => {
                 <li className="nav-list">
                     <Link to="/pharmacys">Pharmacys</Link>
                 </li>
+                <li className="nav-list">
+                    <Link to="/hospitals">Hospitals</Link>
+                </li>
             </ul> : (user.role === "hospital") ? <ul>
                 <li className="nav-list">
                     <Link to="/hospital/beds/edit">Beds</Link>
+                </li>
+                <li className="nav-list">
+                    <Link to="/hospital/reservations">Reservations</Link>
                 </li>
             </ul> : <ul>
                         <li className="nav-list">

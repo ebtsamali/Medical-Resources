@@ -16,6 +16,7 @@ import RegistrationPage from './components/Registration/RegistrationPage';
 
 import HospitalRegistration from "./components/Hospital/hospitalRegistration";
 import BedPage from './components/Hospital/Beds/BedPage';
+import HospitalReservations from './components/Hospital/viewReservation';
 
 import MedicinesPage from "./components/pharmacy/MedicinesPage/MedicinesPage";
 import PharmacysPage from "./components/User/PharmacysPage/PharmacysPage";
@@ -57,6 +58,20 @@ function App() {
                             <AuthRoute path="/hospital" type="private" privilege="hospital">
                                 <HospitalRegistration/>
                             </AuthRoute>
+                        <AuthRoute path="/user" type="private" privilege="user">
+                            <HomePage/>
+                        </AuthRoute>
+                        <AuthRoute path="/hospital/beds/edit" privilege="hospital">
+                            <BedPage/>
+                        </AuthRoute>
+
+                        <AuthRoute path="/hospital/reservations" type="private" privilege="hospital">
+                            <HospitalReservations/>
+                        </AuthRoute>
+
+                        <AuthRoute path="/hospital" type="private" privilege="hospital">
+                            <HospitalRegistration/>
+                        </AuthRoute>
 
                             <AuthRoute exact path="/hospitals/:name" type="private" privilege="user">
                                 <HospitalProfile />
@@ -80,6 +95,9 @@ function App() {
                             <AuthRoute path="/hospital" type="private" privilege="hospital">
                                 <HospitalRegistration/>
                             </AuthRoute>
+                        <AuthRoute path="/user_cart" type="private" privilege="user">
+                            <CartPage/>
+                        </AuthRoute>
 
                             <AuthRoute path="/hospitals" type="private" privilege="user">
                                 <HospitalsPage/>
