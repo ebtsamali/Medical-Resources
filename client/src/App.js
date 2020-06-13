@@ -57,12 +57,7 @@ function App() {
                             <UserHomePage />
                         </AuthRoute>
                         
-                        <AuthRoute path="/hospital/beds/edit" privilege="hospital">
-                            <BedPage/>
-                        </AuthRoute>
-                        <AuthRoute path="/hospital" type="private" privilege="hospital">
-                            <HospitalRegistration/>
-                        </AuthRoute>
+                        
                         {/** <AuthRoute path="/user" type="private" privilege="user">
                             <HomePage/>
     </AuthRoute>**/}
@@ -82,6 +77,10 @@ function App() {
                             <HospitalReservation/>
                         </AuthRoute>
 
+                        <AuthRoute exact path="/hospitals" type="private" privilege="user">
+                            <HospitalsPage/>
+                        </AuthRoute>
+
                         <AuthRoute exact path="/hospitals/:name" type="private" privilege="user">
                             <HospitalProfile/>
                         </AuthRoute>
@@ -99,17 +98,6 @@ function App() {
 
                         <AuthRoute path="/user_cart" type="private" privilege="user">
                             <CartPage/>
-                        </AuthRoute>
-
-                        <AuthRoute path="/hospital" type="private" privilege="hospital">
-                            <HospitalRegistration/>
-                        </AuthRoute>
-                        <AuthRoute path="/user_cart" type="private" privilege="user">
-                            <CartPage/>
-                        </AuthRoute>
-
-                        <AuthRoute path="/hospitals" type="private" privilege="user">
-                            <HospitalsPage/>
                         </AuthRoute>
 
                         <AuthRoute path="/pharmacys" type="private" privilege="user">
