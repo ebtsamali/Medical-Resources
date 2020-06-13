@@ -5,6 +5,7 @@ import Pagination from "../../Pagination";
 import HourglassFullIcon from '@material-ui/icons/HourglassFull';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 const UserOrders = () => {
 
@@ -20,10 +21,18 @@ const UserOrders = () => {
         })
     }, [page])
 
+    const handleRefresh = () => {
+        UserService.getAllOrders(`page=${page}`, user.id).then((response) => {
+            setOrders(response.data.orders)
+            setPages(response.data.pageProps)
+            setPage(page);
+        })
+    }
 
     return (
         <div className="medicines-container">
-            <table id="medicines">
+            <span onClick={handleRefresh} className="btn btn-success" style={{marginLeft: "75rem"}}>Refresh <RefreshIcon/></span>
+            <table id="medicines" style={{marginTop: "-30rem"}}>
                 <thead>
                     <tr>
                         <th>Order Status</th>

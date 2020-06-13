@@ -11,11 +11,16 @@ const checkReservationStatus = async (req, res, next) => {
             return res.status(404).send({ errors: { message: "Please Complete Your Profile" } })
         }
 
-        const reservations = await MedicineReservation.find({ pharmacy: pharmacy });
+        const reservations = await MedicineReservation.find({ pharmacy: pharmacy })
+            .populate('order.medicine');
         reservations.forEach(async reservation => {
             let hoursDiff = (Date.now() - reservation.createdAt) / 36e5;
-            if (hoursDiff > pharmacy.maxTimeLimit) {
+            if ((hoursDiff > pharmacy.maxTimeLimit) && (reservation.status !== "fulfilled") && (reservation.status !== "cancelled")) {
                 reservation.status = 'cancelled';
+                reservation.order.forEach(async item => {
+                    item.medicine.quantity += item.quantity;
+                    await item.medicine.save();
+                });
                 await reservation.save();
             }
         });

@@ -19,27 +19,27 @@ exports.getUser = (req, res) => {
 }
 
 exports.updateUser = (req, res) => {
-    let updatedInfo = { }; 
+    let updatedInfo = {};
     const { body } = req;
 
-    if(body.firstName) updatedInfo['firstName'] = body.firstName;
-    if(body.lastName) updatedInfo['lastName'] = body.lastName;
-    if(body.email) updatedInfo['email'] = body.email;
-    if(body.password) updatedInfo['password'] = body.password;
-    if(body.phoneNumber) updatedInfo['phoneNumber'] = body.phoneNumber;
-    if(body.address) updatedInfo['address'] = body.address;
-    if(body.birthdate) updatedInfo['birthdate'] = body.birthdate;
+    if (body.firstName) updatedInfo['firstName'] = body.firstName;
+    if (body.lastName) updatedInfo['lastName'] = body.lastName;
+    if (body.email) updatedInfo['email'] = body.email;
+    if (body.password) updatedInfo['password'] = body.password;
+    if (body.phoneNumber) updatedInfo['phoneNumber'] = body.phoneNumber;
+    if (body.address) updatedInfo['address'] = body.address;
+    if (body.birthdate) updatedInfo['birthdate'] = body.birthdate;
 
-    User.findById(req.userId, (err, instance) => { 
-        if(err) return res.send(err);
+    User.findById(req.userId, (err, instance) => {
+        if (err) return res.send(err);
 
-        if(updatedInfo.firstName) instance.firstName = updatedInfo.firstName;
-        if(updatedInfo.lastName) instance.lastName = updatedInfo.lastName;
-        if(updatedInfo.email) instance.email = updatedInfo.email;
-        if(updatedInfo.password) instance.password = updatedInfo.password;
-        if(updatedInfo.phoneNumber) instance.phoneNumber = updatedInfo.phoneNumber;
-        if(updatedInfo.address) instance.address = updatedInfo.address;
-        if(updatedInfo.birthdate) instance.birthdate = updatedInfo.birthdate;
+        if (updatedInfo.firstName) instance.firstName = updatedInfo.firstName;
+        if (updatedInfo.lastName) instance.lastName = updatedInfo.lastName;
+        if (updatedInfo.email) instance.email = updatedInfo.email;
+        if (updatedInfo.password) instance.password = updatedInfo.password;
+        if (updatedInfo.phoneNumber) instance.phoneNumber = updatedInfo.phoneNumber;
+        if (updatedInfo.address) instance.address = updatedInfo.address;
+        if (updatedInfo.birthdate) instance.birthdate = updatedInfo.birthdate;
 
         instance.profileIsCompleted = true;
 
@@ -169,10 +169,10 @@ exports.getAllUserOrders = async (req, res) => {
         hasNext: true,
     }
     try {
-        
+
         const ordersCount = await MedicineOrder.find({ user: userId }).countDocuments();
         pageProps.hasNext = (ordersCount > (pageNum + 1) * recordsPerPage)
-        const orders = await MedicineOrder.find({ user: userId }).limit(recordsPerPage).skip(recordsPerPage * pageNum).sort({createdAt: 'desc'});
+        const orders = await MedicineOrder.find({ user: userId }).limit(recordsPerPage).skip(recordsPerPage * pageNum).sort({ createdAt: 'desc' });
         res.status(200).send({ orders, pageProps });
     } catch (err) {
         res.status(500).send(err);
@@ -188,10 +188,10 @@ exports.getAllUserMedicineReservations = async (req, res) => {
         hasNext: true,
     }
     try {
-        
+
         const reservationsCount = await MedicineReservation.find({ user: userId }).countDocuments();
         pageProps.hasNext = (reservationsCount > (pageNum + 1) * recordsPerPage)
-        const reservations = await MedicineReservation.find({ user: userId }).limit(recordsPerPage).skip(recordsPerPage * pageNum).sort({createdAt: 'desc'});
+        const reservations = await MedicineReservation.find({ user: userId }).limit(recordsPerPage).skip(recordsPerPage * pageNum).sort({ createdAt: 'desc' });
         res.status(200).send({ reservations, pageProps });
     } catch (err) {
         res.status(500).send(err);
@@ -207,11 +207,13 @@ exports.getAllUserHospitalReservations = async (req, res) => {
         hasNext: true,
     }
     try {
-        
+
         const reservationsCount = await HospitalReservations.find({ user: userId }).countDocuments();
         pageProps.hasNext = (reservationsCount > (pageNum + 1) * recordsPerPage)
-        const reservations = await HospitalReservations.find().limit(recordsPerPage).skip(recordsPerPage * pageNum).sort({createdAt: 'desc'});
-        // console.log(reservations[0].user === userId)
+        const reservations = await HospitalReservations.find({ user: userId })
+            .populate('bed', 'roomNumber dayCost')
+            .populate('hospital', 'name')
+            .limit(recordsPerPage).skip(recordsPerPage * pageNum).sort({ createdAt: 'desc' });
         res.status(200).send({ reservations, pageProps });
     } catch (err) {
         res.status(500).send(err);

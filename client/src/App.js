@@ -28,7 +28,7 @@ import ReservationStatusPage from "./components/User/PreviewStatusPage/Reservati
 import OrderStatusPage from "./components/User/PreviewStatusPage/OrderStatusPage";
 import UserHomePage from "./components/User/HomePage/UserHomePage";
 import UserProfile from "./components/UserProfile";
-import HomePage from "./components/HomePage";
+// import HomePage from "./components/HomePage";
 
 function App() {
     return (
@@ -60,7 +60,7 @@ function App() {
                         
                         {/** <AuthRoute path="/user" type="private" privilege="user">
                             <HomePage/>
-    </AuthRoute>**/}
+                        </AuthRoute>**/}
                         <AuthRoute path="/hospital/beds/edit" privilege="hospital">
                             <BedPage/>
                         </AuthRoute>

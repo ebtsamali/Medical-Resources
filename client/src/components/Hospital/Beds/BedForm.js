@@ -40,6 +40,16 @@ const BedForm = (props) => {
 
     const onSubmit = () => {
 
+        if(!roomNumber) {
+            setErrors({...errors, roomNumber: "Room Number is Required"});
+            return;
+        }
+
+        if(!dayCost || dayCost === 0) {
+            setErrors({...errors, dayCost: "Day Cost is Required"});
+            return;
+        }
+
         const bed = {
             roomNumber,
             dayCost,

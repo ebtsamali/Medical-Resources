@@ -117,7 +117,7 @@ function Row(props) {
                 </TableCell>
                 <TableCell style={{ fontSize: "16px" }} component="th" scope="row">
                     {row.status === "placed" ? <HourglassFullIcon style={{ color: "#5bc0de", marginRight: "0.3rem" }} /> :
-                        (row.status === "shipped") ? <LocalShippingIcon style={{ color: "#f0ad4e ", marginRight: "0.3rem" }} /> :
+                        (row.status === "shipped") ? <LocalShippingIcon style={{ color: "#f0ad4e", marginRight: "0.3rem" }} /> :
                             <DoneAllIcon style={{ color: "#5cb85c", marginRight: "0.3rem" }} />
                     }
                     {row.status}

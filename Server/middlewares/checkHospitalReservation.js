@@ -6,7 +6,7 @@ const checkHospitalReservation= async (req, res, next) => {
         const reservations = await HospitalReservationModel.find({ status: "pending" });
         reservations.forEach(async reservation => {
             let hoursDiff = (Date.now() - reservation.createdAt) / 36e5;
-            if (hoursDiff > reservation.timeLimit) {
+            if ((hoursDiff > reservation.timeLimit) && (reservation.status !== "fulfilled") && (reservation.status !== "cancelled")) {
                 reservation.status = 'cancelled';
                 const bed = await BedModel.findById(reservation.bed._id);
                 bed.reserved = false;
