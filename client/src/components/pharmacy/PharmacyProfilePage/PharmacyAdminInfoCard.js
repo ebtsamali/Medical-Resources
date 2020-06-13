@@ -30,6 +30,28 @@ const PharmacyAdminInfoCard = () => {
     }
 
     const saveUpdatedData = () => {
+        setErrors({})
+        let errors = {}
+        let errorISExisted = false
+
+        if(adminFirstName.trim().length === 0){
+            errorISExisted = true
+            errors.firstName = "First Name is required"
+        }
+
+        if(adminLastName.trim().length === 0){
+            errors.lastName =  "Last Name is required"
+            errorISExisted = true
+        }
+        if(adminEmail.trim().length === 0){
+            errorISExisted = true
+            errors.email =  "Email is required"
+        }
+
+        if(errorISExisted) {
+            setErrors(errors)
+            return;
+        }
         setAdminDataEditingMode(true)
         UserService.update(adminEmail, adminFirstName, adminLastName, null, null, null, adminPassword === "" ? null : adminPassword, user.id).then((response) => {
             setErrors({})
@@ -41,13 +63,12 @@ const PharmacyAdminInfoCard = () => {
             localStorage.setItem('user',JSON.stringify(user))
         }).catch((error) => {
             setAdminDataEditingMode(false)
-            console.log(error.response.data)
+            // console.log(error.response.data)
             if(error.response.data.message && error.response.data.message.errors){
                 setErrors(error.response.data.message.errors)
             }else {
                 setErrors({})
             }
-            // console.log(error.response.data.message.errors)
         });
     }
 

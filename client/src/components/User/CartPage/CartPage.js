@@ -15,10 +15,12 @@ import {Link} from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import ErrorMessage from "../../other/ErrorMessage";
 import {getCurrentDay, getCurrentHourInSeconds} from "../../../utils/utils";
+import {AppContext} from "../../../providers/AppProvider";
 
 const CartPage = () => {
 
     const {user} = useContext(AuthContext);
+    const {setTitle} = useContext(AppContext);
     const [userProfile, setUserProfile] = useState({})
     const [cartDetails, setCartDetails] = useState([])
     const [currentMedicines, setCurrentMedicines] = useState([])
@@ -38,14 +40,13 @@ const CartPage = () => {
 
 
     useEffect(() => {
+        setTitle('Cart')
         UserService.getUserInfo(user.id).then((response) => {
-            // console.log(response.data)
             setUserProfile(response.data)
         })
 
         UserService.getCartDetails(getCart()).then((response) => {
             const cart = response.data
-            console.log(cart)
             cart.forEach((pharmacy) => {
                 pharmacy.medicines = pharmacy.medicines.filter((medicine)=> medicine.quantity > 0)
                 if(pharmacy.medicines.length === 0 ){
