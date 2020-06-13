@@ -1,15 +1,19 @@
-import React,{useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import '../styles/login.scss'
 import {AuthContext} from "../providers/auth_provider";
 import ErrorMessage from "./other/ErrorMessage";
 import { Link } from 'react-router-dom';
+import {AppContext} from "../providers/AppProvider";
 
 const LoginPage = (props) => {
 
     const { login, error } = useContext(AuthContext);
+    const { setTitle } = useContext(AppContext);
     const [emailInput,setEmailInput] = useState('')
     const [passwordInput,setPasswordInput] = useState('')
-
+    useEffect(()=>{
+        setTitle('Medical Resources::Login')
+    },[])
     const handleEmailChange = (e) => {
         const {target:{value}} = e;
         setEmailInput(value);

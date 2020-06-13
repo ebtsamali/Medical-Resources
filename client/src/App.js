@@ -10,7 +10,6 @@ import {
 import PharmacyProfilePage from "./components/pharmacy/PharmacyProfilePage/PharmacyProfilePage";
 import AuthProvider from "./providers/auth_provider";
 import AuthRoute from "./components/AuthRoute";
-import HomePage from "./components/HomePage";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
 import RegistrationPage from './components/Registration/RegistrationPage';
 
@@ -23,19 +22,17 @@ import MedicinesPage from "./components/pharmacy/MedicinesPage/MedicinesPage";
 import PharmacysPage from "./components/User/PharmacysPage/PharmacysPage";
 
 import HospitalsPage from './components/User/HospitalsPage/hospitalsPage';
-import AppProvider from "./providers/AppProvider";
-import AppHead from "./components/other/AppHead";
 import HospitalProfile from './components/User/HospitalsPage/hospitalProfile';
 import CartPage from "./components/User/CartPage/CartPage";
 import ReservationStatusPage from "./components/User/PreviewStatusPage/ReservationStatusPage";
 import OrderStatusPage from "./components/User/PreviewStatusPage/OrderStatusPage";
+import UserHomePage from "./components/User/HomePage/UserHomePage";
+import UserProfile from "./components/UserProfile";
 
 function App() {
     return (
         <>
-            <AppProvider>
             <Router>
-            <AppHead/>
                 <AuthProvider>
                     <Switch>
                         <AuthRoute exact={true} path="/" type="guest">
@@ -51,6 +48,20 @@ function App() {
                             <RegistrationPage/>
                         </AuthRoute>
 
+                        <AuthRoute path="/user/profile" type="private" privilege="user">
+                            <UserProfile />
+                        </AuthRoute>
+                        
+                        <AuthRoute path="/user" type="private" privilege="user">
+                            <UserHomePage />
+                        </AuthRoute>
+                        
+                        <AuthRoute path="/hospital/beds/edit" privilege="hospital">
+                            <BedPage/>
+                        </AuthRoute>
+                        <AuthRoute path="/hospital" type="private" privilege="hospital">
+                            <HospitalRegistration/>
+                        </AuthRoute>
                         <AuthRoute path="/user" type="private" privilege="user">
                             <HomePage/>
                         </AuthRoute>
@@ -71,7 +82,7 @@ function App() {
                         </AuthRoute>
 
                         <AuthRoute exact path="/hospitals/:name" type="private" privilege="user">
-                            <HospitalProfile />
+                            <HospitalProfile/>
                         </AuthRoute>
                         <AuthRoute path="/reservation/:id" type="private" privilege="user">
                             <ReservationStatusPage/>
@@ -80,11 +91,18 @@ function App() {
                         <AuthRoute path="/order/:id" type="private" privilege="user">
                             <OrderStatusPage/>
                         </AuthRoute>
-                        <AuthRoute path="/user" type="private" privilege="user">
-                            <HomePage/>
+                        {/* <AuthRoute path="/user/profile" type="private" privilege="user">
+                            <UserHomePage/>
+                        </AuthRoute> */}
+
+
+                        <AuthRoute path="/user_cart" type="private" privilege="user">
+                            <CartPage/>
                         </AuthRoute>
 
-
+                        <AuthRoute path="/hospital" type="private" privilege="hospital">
+                            <HospitalRegistration/>
+                        </AuthRoute>
                         <AuthRoute path="/user_cart" type="private" privilege="user">
                             <CartPage/>
                         </AuthRoute>
@@ -92,7 +110,6 @@ function App() {
                         <AuthRoute path="/hospitals" type="private" privilege="user">
                             <HospitalsPage/>
                         </AuthRoute>
-
 
                         <AuthRoute path="/pharmacys" type="private" privilege="user">
                             <PharmacysPage/>
@@ -109,7 +126,6 @@ function App() {
                     </Switch>
                 </AuthProvider>
             </Router>
-            </AppProvider>
         </>
     );
 }
