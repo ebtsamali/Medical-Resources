@@ -62,9 +62,9 @@ function App() {
                         <AuthRoute path="/hospital" type="private" privilege="hospital">
                             <HospitalRegistration/>
                         </AuthRoute>
-                        <AuthRoute path="/user" type="private" privilege="user">
+                        {/** <AuthRoute path="/user" type="private" privilege="user">
                             <HomePage/>
-                        </AuthRoute>
+    </AuthRoute>**/}
                         <AuthRoute path="/hospital/beds/edit" privilege="hospital">
                             <BedPage/>
                         </AuthRoute>

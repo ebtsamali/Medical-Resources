@@ -6,11 +6,11 @@ import ErrorMessage from "../../other/ErrorMessage";
 
 
 export default (props) => {
-    console.log(props);
     const [patientName, setPatientName] = useState("");
     const [patientID, setPatientID] = useState("");
     const [patientPhone, setPatientPhone] = useState("");
     const [errors, setErrors] = useState("");
+    const userId = JSON.parse(localStorage.getItem("user")).id;
 
     const handleNameChange = (e) => {
         e.preventDefault();
@@ -47,7 +47,7 @@ export default (props) => {
         }
         const data = {
             hospital: props.hospital._id,
-            user: props.hospital.adminId,
+            user: userId,
             patientName,
             patientID,
             patientPhone,
