@@ -73,6 +73,33 @@ const pharmacySchema = new mongoose.Schema({
                 throw new Error('Time Limit must be a positive number')
             }
         }
+    },
+    workingHours:{
+        type:[{
+            day:{
+                type:String
+            },
+            isOpened:{
+                type:Boolean
+            },
+            startTime:{
+                type:Number
+            },
+            endTime:{
+                type:Number
+            }
+        }],
+        required:[true,'Working Hours is required'],
+        validate: function (value) {
+            console.log(value)
+            value.forEach((day)=>{
+                if(day.isOpened) {
+                    if(day.endTime <= day.startTime) {
+                        throw new Error(`The end time must be greater than start time (${day.day}).`)
+                    }
+                }
+            })
+        }
     }
 }, {
     timestamps: true,

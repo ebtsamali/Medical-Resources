@@ -6,13 +6,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 
 const WorkingHours = ({weekDetails, setWeekDetails}) => {
-
     const renderDays = (startIndex, endIndex) => {
         return weekDetails.map((day, index) => {
             if (index>=startIndex && index<=endIndex) {
                 return (<div key={index} className="day-container">
                     <BootstrapSwitchButton
-                        checked={day.isOpen}
+                        checked={day.isOpened}
                         onlabel={day.day}
                         offlabel={day.day}
                         onstyle="success"
@@ -21,11 +20,11 @@ const WorkingHours = ({weekDetails, setWeekDetails}) => {
                         size="sm"
                         onChange={handleDayStatusChange(index)}
                         width={65}/>
-                    <TimePicker disabled={!day.isOpen} className="time-picker" start="00:00" end="24:00" step={60}
-                                onChange={handleStartTimeChange(index)} value={day.start}/>
+                    <TimePicker disabled={!day.isOpened} className="time-picker" start="00:00" end="24:00" step={60}
+                                onChange={handleStartTimeChange(index)} value={day.startTime}/>
                     <FontAwesomeIcon icon={faArrowRight}/>
-                    <TimePicker disabled={!day.isOpen} className="time-picker" start="00:00" end="24:00" step={60}
-                                onChange={handleEndTimeChange(index)} value={day.end}/>
+                    <TimePicker disabled={!day.isOpened} className="time-picker" start="00:00" end="24:00" step={60}
+                                onChange={handleEndTimeChange(index)} value={day.endTime}/>
                 </div>)
             }
         })
@@ -35,7 +34,7 @@ const WorkingHours = ({weekDetails, setWeekDetails}) => {
         return (time) => {
             setWeekDetails(weekDetails.map((day, index) => {
                 if (index === i) {
-                    day.start = time
+                    day.startTime = time
                 }
                 return day
             }))
@@ -46,7 +45,7 @@ const WorkingHours = ({weekDetails, setWeekDetails}) => {
         return (time) => {
             setWeekDetails(weekDetails.map((day, index) => {
                 if (index === i) {
-                    day.end = time
+                    day.endTime = time
                 }
                 return day
             }))
@@ -56,8 +55,8 @@ const WorkingHours = ({weekDetails, setWeekDetails}) => {
     const handleDayStatusChange = (i) => {
         return (checked) => {
             setWeekDetails(weekDetails.map((day, index) => {
-                if (index === i) {
-                    day.isOpen = checked
+                if (index === i ) {
+                    day.isOpened = checked
                 }
                 return day
             }))
