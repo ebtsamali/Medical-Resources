@@ -42,18 +42,18 @@ const PharmacyInfoCard = () => {
     const [errors, setErrors] = useState({})
     const [governorates, setGovernorates] = useState([])
     const [districts, setDistricts] = useState([])
-    const {user,setUser} = useContext(AuthContext);
-    const [weekDetails, setWeekDetails] = useState([{day: 'Mon', start: 0, end: 0, isOpen: false}, {
+    const {user, setUser} = useContext(AuthContext);
+    const [weekDetails, setWeekDetails] = useState([{day: 'Mon', startTime: 0, endTime: 0, isOpened: false}, {
         day: 'Tue',
-        start: 0,
-        end: 0,
-        isOpen: false
-    }, {day: 'Wed', start: 0, end: 0, isOpen: false}, {day: 'Thu', start: 0, end: 0, isOpen: false}, {
+        startTime: 0,
+        endTime: 0,
+        isOpened: false
+    }, {day: 'Wed', startTime: 0, endTime: 0, isOpened: false}, {day: 'Thu', startTime: 0, endTime: 0, isOpened: false}, {
         day: 'Fri',
-        start: 0,
-        end: 0,
-        isOpen: false
-    }, {day: 'Sat', start: 0, end: 0, isOpen: false}, {day: 'Sun', start: 0, end: 0, isOpen: false}])
+        startTime: 0,
+        endTime: 0,
+        isOpened: false
+    }, {day: 'Sat', startTime: 0, endTime: 0, isOpened: false}, {day: 'Sun', startTime: 0, endTime: 0, isOpened: false}])
 
     const classes = useStyles();
 
@@ -66,6 +66,7 @@ const PharmacyInfoCard = () => {
         setPharmacyHasDeliveryService(data.delivery)
         setMaxTimeLimit(data.maxTimeLimit);
         setPharmacyId(data._id)
+        setWeekDetails(data.workingHours)
     }
 
     useEffect(() => {
@@ -76,7 +77,7 @@ const PharmacyInfoCard = () => {
 
         })
         GovernorateService.getAllGovernorates().then((response) => {
-            console.log(response.data)
+            // console.log(response.data)
             setGovernorates(response.data.governorates)
         })
     }, [])
@@ -112,6 +113,7 @@ const PharmacyInfoCard = () => {
             }],
             name: pharmacyName,
             maxTimeLimit,
+            workingHours:weekDetails
         }
         if (pharmacyId) {
             PharmacyService.updatePharmacyData(pharmacyId, pharmacy).then((response) => {
@@ -128,8 +130,9 @@ const PharmacyInfoCard = () => {
                 const user = JSON.parse(localStorage.getItem('user'))
                 user.profileIsCompleted = true
                 setUser(user)
-                localStorage.setItem('user',JSON.stringify(user))
+                localStorage.setItem('user', JSON.stringify(user))
             }).catch((error) => {
+                // console.log(error.response.data.errors)
                 setPharmacyDataEditingMode(false)
                 setErrors(error.response.data.errors)
             });
@@ -215,10 +218,10 @@ const PharmacyInfoCard = () => {
                         )
                     })}
                 </Select>
-                { errors.district && (pharmacyDistrict === "District") && <ErrorMessage message={errors.district}/>}
+                {errors.district && (pharmacyDistrict === "District") && <ErrorMessage message={errors.district}/>}
             </div>}
             <div>
-                <input className="form-input" placeholder="Street" value={pharmacyStreet}
+                <input className="form-input w-100" placeholder="Street" value={pharmacyStreet}
                        disabled={pharmacyDataEditingMode}
                        onChange={(e) => {
                            const {target: {value}} = e;
@@ -253,10 +256,11 @@ const PharmacyInfoCard = () => {
             </div>
             {errors.maxTimeLimit && <ErrorMessage message={errors.maxTimeLimit}/>}
         </div>
-        <div>
+        {!pharmacyDataEditingMode && <div>
             <label>Working Hours</label>
-        <WorkingHours weekDetails={weekDetails} setWeekDetails={setWeekDetails}/>
-        </div>
+            <WorkingHours weekDetails={weekDetails} setWeekDetails={setWeekDetails}/>
+            {errors.workingHours && <ErrorMessage message={errors.workingHours}/>}
+        </div>}
         <div className="phones-card">
             {phoneNumbers.map((phone, index) => {
                 return (<div key={index}><input className="form-input" placeholder="Phone" value={phone}

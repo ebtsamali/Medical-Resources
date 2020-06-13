@@ -28,6 +28,7 @@ import ReservationStatusPage from "./components/User/PreviewStatusPage/Reservati
 import OrderStatusPage from "./components/User/PreviewStatusPage/OrderStatusPage";
 import UserHomePage from "./components/User/HomePage/UserHomePage";
 import UserProfile from "./components/UserProfile";
+import HomePage from "./components/HomePage";
 
 function App() {
     return (
