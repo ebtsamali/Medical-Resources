@@ -10,17 +10,12 @@ const AllPharmacysHasSpecificMedicine = (props) => {
     const [cart, setCart] = useState(getCart())
     const handleAddToCart = (pharmacyId,medicineId) => {
         return () => {
-            // console.log(pharmacyId, medicineId)
             setCart(addToCart(pharmacyId, medicineId));
-            // addToCart(pharmacyId, medicineId)
         }
     }
 
-    // console.log(medicineIsExist("5edb81b6fc83641956b788c2"))
-
     const handleRemoveFromCart = (pharmacyId,medicineId) => {
         return () => {
-            // removeMedicineFromCart(pharmacyId,medicineId)
             setCart(removeMedicineFromCart(pharmacyId,medicineId))
         }
     }
@@ -29,7 +24,6 @@ const AllPharmacysHasSpecificMedicine = (props) => {
             <thead>
             <tr>
                 <th>Pharmacy Name</th>
-                {/*<th>Pharmacy Phones</th>*/}
                 <th>Pharmacy Address</th>
                 <th>Delivery?</th>
                 <th>Medicine Name</th>
@@ -41,13 +35,8 @@ const AllPharmacysHasSpecificMedicine = (props) => {
             <tbody>
             {pharmacys &&
                 pharmacys.map((pharmacy) => {
-                    // console.log(pharmacy)
                     return (<tr key={pharmacy._id}>
                         <td>{pharmacy.pharmacy && pharmacy.pharmacy.name}</td>
-                        {/*<td>{pharmacy.pharmacy && pharmacy.pharmacy.phoneNumbers.map((phone) => {*/}
-                        {/*        return (<div key={phone}>{phone}<br/></div>)*/}
-                        {/*    })*/}
-                        {/*}</td>*/}
                         <td>
                             {pharmacy.pharmacy && `${ pharmacy.pharmacy.location[0].street}, ${pharmacy.pharmacy.location[0].district}, ${pharmacy.pharmacy.location[0].governorate}`}
                         </td>
@@ -64,7 +53,7 @@ const AllPharmacysHasSpecificMedicine = (props) => {
                             {pharmacy.quantity}
                         </td>
                         <td>
-                            {pharmacy.pharmacy && ((medicineIsExist(pharmacy._id)) ? <RemoveShoppingCartIcon onClick={handleRemoveFromCart( pharmacy.pharmacy._id,pharmacy._id)}/> : <AddShoppingCartIcon onClick={handleAddToCart( pharmacy.pharmacy._id,pharmacy._id)}/>)}
+                            {pharmacy.pharmacy && (pharmacy.quantity === 0 ? `Sold Out` :((medicineIsExist(pharmacy._id)) ? <RemoveShoppingCartIcon onClick={handleRemoveFromCart( pharmacy.pharmacy._id,pharmacy._id)}/> : <AddShoppingCartIcon onClick={handleAddToCart( pharmacy.pharmacy._id,pharmacy._id)}/>))}
                         </td>
                     </tr>)
                 })
