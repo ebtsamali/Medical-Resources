@@ -17,6 +17,7 @@ import RegistrationPage from './components/Registration/RegistrationPage';
 import HospitalRegistration from "./components/Hospital/hospitalRegistration";
 import BedPage from './components/Hospital/Beds/BedPage';
 import HospitalReservations from './components/Hospital/viewReservation';
+import HospitalReservation from './components/Hospital/editReservationModal';
 
 import MedicinesPage from "./components/pharmacy/MedicinesPage/MedicinesPage";
 import PharmacysPage from "./components/User/PharmacysPage/PharmacysPage";
@@ -57,12 +58,16 @@ function App() {
                             <BedPage/>
                         </AuthRoute>
 
-                        <AuthRoute path="/hospital/reservations" type="private" privilege="hospital">
+                        <AuthRoute exact path="/hospital/reservations" type="private" privilege="hospital">
                             <HospitalReservations/>
                         </AuthRoute>
 
-                        <AuthRoute path="/hospital" type="private" privilege="hospital">
+                        <AuthRoute exact path="/hospital" type="private" privilege="hospital">
                             <HospitalRegistration/>
+                        </AuthRoute>
+
+                        <AuthRoute exact path="/hospital/reservation" type="private" privilege="hospital">
+                            <HospitalReservation/>
                         </AuthRoute>
 
                         <AuthRoute exact path="/hospitals/:name" type="private" privilege="user">

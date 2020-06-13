@@ -18,3 +18,12 @@ export const getHospitalReservations = () => {
         method: 'get'
     })
 }
+
+export const updateReservation = (data, reservationId) => {
+    return axios({
+        headers: authHeader(),
+        url: `${process.env.REACT_APP_BACKEND_URL}/hospital-reservation/${reservationId}`, 
+        method: 'post',
+        data
+    })
+}

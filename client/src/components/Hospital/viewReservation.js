@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import '../../styles/pharmacys.scss';
 import Pagination from '../User/HospitalsPage/Pagination';
-import { Link } from 'react-router-dom';
 import Header from '../Header';
 import {getHospitalReservations} from '../../services/hospitalReservationService';
- import { BsCircleFill } from 'react-icons/bs';
- import { FaEdit } from 'react-icons/fa';
+import { BsCircleFill } from 'react-icons/bs';
+import { FaEdit } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 
 export default () => {
@@ -21,7 +21,6 @@ export default () => {
 
     useEffect(() => {
         getHospitalReservations().then(response => {
-            console.log(response.data); 
             setReservations(response.data);
         }).catch(error => {
             console.log(error);
@@ -64,7 +63,13 @@ export default () => {
                                             { reservation.status }
                                         </div>
                                     </td>
-                                    <td> <FaEdit/> </td>
+                                    <td> <Link to={{ 
+                                            pathname: '/hospital/reservation', 
+                                            state: { reservation }
+                                        }}>
+                                            <FaEdit /> 
+                                        </Link> 
+                                    </td>
                                 </tr>
                             )
                         })

@@ -51,8 +51,37 @@ const getHospitalReservations = async (req, res) => {
     }
 }
 
+const updateReservation = async (req, res) => {
+    console.log(req.body);
+    
+    const { body } = req;
+    const reservationId = req.params.reservationId;
+    // try{
+    //     await HospitalReservationModel.findByIdAndUpdate(reservationId, {...body})
+    //     res.status(201).json({"message":"Reservation submitted successfully"});
+    // } catch(err) {
+    //     res.status(500).send(err);
+    // }
+    const updatedInfo = Object.keys(body);
+    try {
+        const reservation = await HospitalReservationModel.findOne({_id: reservationId});
+
+        updatedInfo.forEach(key => {
+            if(key === "hospital" || key === "_id") {
+                return;
+            }
+            reservation[key] = body[key];
+        });
+        await reservation.save();
+        res.status(200).json({"message": "Reservation Updated Successfully"});
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}
+
 
 module.exports = {
     savePatientReservation,
-    getHospitalReservations
+    getHospitalReservations,
+    updateReservation
 }

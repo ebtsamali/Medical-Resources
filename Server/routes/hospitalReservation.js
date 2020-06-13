@@ -10,8 +10,12 @@ exports.tokenMiddleware = function (req, res, next) {
     next();
 }
 
+
+router.post('/:reservationId', [authJwt.verifyToken, authJwt.isHospital], hospitalReservationController.updateReservation);
+
 router.post('/',  [authJwt.verifyToken, authJwt.isUser], hospitalReservationController.savePatientReservation);
 
 router.get('/allReservations', [authJwt.verifyToken, authJwt.isHospital, checkHospitalReservation.checkHospitalReservation], hospitalReservationController.getHospitalReservations);
+
 
 module.exports = router;
