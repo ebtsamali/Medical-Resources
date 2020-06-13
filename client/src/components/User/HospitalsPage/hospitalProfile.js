@@ -96,7 +96,7 @@ export default () => {
 
                         <div className="headerChild headerSmallerChild">
                             <div>
-                                <Card.Header>
+                                <Card.Header style={{textAlign: "center"}}>
                                     <IoIosPaper className="timeIcon" />
                                     Regulations
                                 </Card.Header>
