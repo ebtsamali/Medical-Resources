@@ -57,7 +57,6 @@ function App() {
                             <UserHomePage />
                         </AuthRoute>
                         
-                        
                         {/** <AuthRoute path="/user" type="private" privilege="user">
                             <HomePage/>
                         </AuthRoute>**/}

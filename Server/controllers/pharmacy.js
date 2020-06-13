@@ -5,7 +5,7 @@ const Pharmacy = db.pharmacy;
 const addPharmacy = async (req, res) => {
     const {userId} = req;
     const {body: {name, location, phoneNumbers, delivery, maxTimeLimit, workingHours}} = req
-    console.log(workingHours)
+    // console.log(workingHours)
     try {
         const pharmacy = await Pharmacy.create({
             admin_id: userId,
