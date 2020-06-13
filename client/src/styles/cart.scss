@@ -14,7 +14,7 @@
   height: 100%;
   overflow: auto;
   align-items: center;
-  margin-bottom: 8em;
+  //margin-bottom: 8em;
   justify-content: space-around;
   background-color: $color_accent_lighter;
 }
@@ -25,6 +25,7 @@
   height: fit-content;
   padding: 1em;
   width: 50%;
+  margin-bottom: 8em;
   background-color: white;
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2), 0 4px 15px 0 rgba(0, 0, 0, 0.19);
 }
