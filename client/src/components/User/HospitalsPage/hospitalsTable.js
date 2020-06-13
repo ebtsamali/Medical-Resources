@@ -56,12 +56,6 @@ export default (props) => {
                                     </Link>
                                 </td>
                                 
-                                {/** 
-                                    hospital.phoneNumbers.map( (phone, index) => {
-                                        return(<p key={index}> {phone} </p>)
-                                    })
-                                **/}
-                                
                                 <td>{hospital.avaalableBeds? hospital.avaalableBeds : "-"}</td>
                                 <td>{hospital.location? hospital.location[0].governorate : ""}</td>
                                 <td>{hospital.location? hospital.location[0].district : ""}</td>

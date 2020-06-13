@@ -10,6 +10,7 @@ import {AppContext} from "../../../providers/AppProvider";
 
 const PharmacysPage = () => {
 
+
     const [pharmacys, setPharmacys] = useState([])
     const [query, setQuery] = useState({page: 1})
     const [pages, setPages] = useState({})
@@ -19,7 +20,10 @@ const PharmacysPage = () => {
     }
 
     const {setTitle} = useContext(AppContext)
-    setTitle('Pharmacys')
+
+    useEffect(()=>{
+        setTitle('Pharmacies')
+    },[])
 
     useEffect(() => {
         UserService.searchMedicines(buildQuery(query)).then((response) => {

@@ -1,13 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Header from '../../Header';
 import {getAllHospitals} from '../../../services/hospitalService';
 import GovernorateService from '../../../services/governorateService';
 import Dropdown from "react-bootstrap/Dropdown";
 import HospitalsTable from './hospitalsTable';
 import '../../../styles/pharmacys.scss';
+import {AppContext} from "../../../providers/AppProvider";
 
 
 export default () => {
+    const {setTitle} = useContext(AppContext);
     const [allHospitals, setAllHospitals] = useState([]);
     const [hospitalsByGov, setHospitalsByGov] = useState([]);
     const [hospitalsByDistrict, setHospitalsByDistrict] = useState([]);
@@ -23,6 +25,7 @@ export default () => {
     const [allDistricts, setAllDistricts] = useState([]);
 
     useEffect( ()=>{
+        setTitle('Hospitals')
         getAllHospitals().then((response)=>{
             console.log(response.data)
             setHospitals(response.data);
@@ -84,7 +87,7 @@ export default () => {
     const hospitalsByNameOnly = (value) => {
         let filteredByName = allHospitals.filter(hospital => {
             let hospitalName = hospital.name;
-            return hospitalName.includes(value)
+            return hospitalName.toLowerCase().includes(value.toLowerCase())
         })
         setHospitals(filteredByName);
     }
@@ -92,7 +95,7 @@ export default () => {
     const hospitalsByNameAndGov = (value) => {
         let filteredByNameAndGov = hospitalsByGov.filter(hospital => {
             let hospitalName = hospital.name;
-            return hospitalName.includes(value)
+            return hospitalName.toLowerCase().includes(value.toLowerCase())
         })
         setHospitals(filteredByNameAndGov);
     }
@@ -100,7 +103,7 @@ export default () => {
     const hospitalsByNameAndDistrict = (value) => {
         let filteredByNameAndDistrict = hospitalsByDistrict.filter(hospital => {
             let hospitalName = hospital.name;
-            return hospitalName.includes(value)
+            return hospitalName.toLowerCase().includes(value.toLowerCase())
         })
         setHospitals(filteredByNameAndDistrict);
     }

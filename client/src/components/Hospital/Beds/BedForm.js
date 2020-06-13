@@ -61,7 +61,7 @@ const BedForm = (props) => {
                 setFormState({ roomNumber: '', dayCost: 0, reserved: false });
                 setSelectedTab('all_beds')
             }).catch((error) => {
-                setErrors(error.response.data.errors)
+                 setErrors(error.response.data.errors)
             })
         } else {
             const { selectedBed } = props;
