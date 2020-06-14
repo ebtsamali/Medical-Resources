@@ -42,6 +42,9 @@ const hospitalSchema = new mongoose.Schema({
                     if(!phone.trim().match(/^(012|011|010|015)[0-9]{8}$/)) {
                         throw new Error('Invalid Phone Number')
                     }
+                    if(val.filter((phoneItem)=> phoneItem === phone ).length !== 1) {
+                        throw new Error('Phone Number must be unique.')
+                    }
                 })
             }
         }
