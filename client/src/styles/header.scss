@@ -29,12 +29,6 @@ ul {
   background-color: $color_primary;
 }
 
-
-
-
-.nav-container{
-}
-
 .logout-container{
   display: flex;
   justify-content: flex-end;
@@ -76,6 +70,6 @@ input:focus {
   align-items: center;
   justify-content: space-between;
   position: sticky;
-
+  height: 10%;
 }
 

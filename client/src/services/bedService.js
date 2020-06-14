@@ -34,6 +34,11 @@ function BedServices() {
             return (
                 axios.patch(`${API_URL}/beds/edit/${bedObj._id}`, bedObj, {headers: authHeader()})
             )
+        },
+        getAllAvailableBeds: () => {
+            return (
+                axios.get(`${API_URL}/beds/allBeds`, {headers: authHeader()})
+            )
         }
 
     })

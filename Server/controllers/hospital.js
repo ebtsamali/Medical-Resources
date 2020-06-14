@@ -120,6 +120,18 @@ const editHospitalData = (req, res)=>{
         .catch(err => res.status(500).send(err))
 }
 
+const getHospitalInfo = (req, res) => {
+    const hospitalId = req.params.hospitalId;
+    HospitalModel.findById(hospitalId).populate({
+        path: 'adminId'
+    })
+    .then((hospital)=>{
+        res.status(200).send(hospital); 
+    }).catch((error)=>{
+        console.log(error);
+        res.status(500).send(error)
+    })
+}
 
 
 module.exports = {
@@ -127,5 +139,6 @@ module.exports = {
     getHospitalData,
     editHospitalData,
     hospitalSearch,
-    allHospitals
+    allHospitals,
+    getHospitalInfo
 }

@@ -99,7 +99,9 @@
 .headerSmallerChild {
     flex-basis: 30%;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .headerBiggerChild {
@@ -126,7 +128,6 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    list-style-type: square;
 }
 
 
