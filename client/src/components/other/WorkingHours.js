@@ -8,7 +8,7 @@ import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 const WorkingHours = ({weekDetails, setWeekDetails}) => {
     const renderDays = (startIndex, endIndex) => {
         return weekDetails.map((day, index) => {
-            if (index>=startIndex && index<=endIndex) {
+            if (index >= startIndex && index <= endIndex) {
                 return (<div key={index} className="day-container">
                     <BootstrapSwitchButton
                         checked={day.isOpened}
@@ -55,7 +55,7 @@ const WorkingHours = ({weekDetails, setWeekDetails}) => {
     const handleDayStatusChange = (i) => {
         return (checked) => {
             setWeekDetails(weekDetails.map((day, index) => {
-                if (index === i ) {
+                if (index === i) {
                     day.isOpened = checked
                 }
                 return day
@@ -64,20 +64,8 @@ const WorkingHours = ({weekDetails, setWeekDetails}) => {
     }
 
 
-
     return (<div className="working-hours-container">
-        <div className="row-container mt-2">
-            {renderDays(0,2)}
-        </div>
-
-        <div className="row-container">
-            {renderDays(3,5)}
-        </div>
-
-        <div className="row-container">
-            {renderDays(6,6)}
-        </div>
-
+            {renderDays(0, 6)}
     </div>)
 }
 
