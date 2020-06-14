@@ -22,10 +22,10 @@ const WorkingHours = ({weekDetails, setWeekDetails}) => {
                         disabled={userRole === "user" ? true : false}
                         onChange={handleDayStatusChange(index)}
                         width={65}/>
-                    <TimePicker disabled={!day.isOpened} className="time-picker" start="00:00" end="24:00" step={60}
+                    <TimePicker disabled={!day.isOpened || userRole === "user" ? true : false} className="time-picker" start="00:00" end="24:00" step={60}
                                 onChange={handleStartTimeChange(index)} value={day.startTime}/>
                     <FontAwesomeIcon icon={faArrowRight}/>
-                    <TimePicker disabled={!day.isOpened} className="time-picker" start="00:00" end="24:00" step={60}
+                    <TimePicker disabled={!day.isOpened || userRole === "user" ? true : false} className="time-picker" start="00:00" end="24:00" step={60}
                                 onChange={handleEndTimeChange(index)} value={day.endTime}/>
                 </div>)
             }

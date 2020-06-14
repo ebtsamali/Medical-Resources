@@ -1,5 +1,6 @@
 import React from "react";
 import Pagination from "../../Pagination";
+import { Link } from "react-router-dom";
 
 const AllPharmacysTable = (props) => {
 
@@ -18,7 +19,14 @@ const AllPharmacysTable = (props) => {
             <tbody>
             {pharmacys && pharmacys.map((pharmacy) => {
                     return (<tr key={pharmacy._id}>
-                        <td>{pharmacy.name}</td>
+                        <td>
+                        <Link to={{ 
+                            pathname: `/pharmacys/${pharmacy.name}`, 
+                            state: { pharmacyId: pharmacy._id}
+                        }}> {pharmacy.name} </Link>
+                        </td>
+
+
                         {/*<td>{pharmacy && pharmacy.phoneNumbers &&*/}
                         {/*    pharmacy.phoneNumbers.map((phone) => {*/}
                         {/*        return (<div key={phone}>{phone}<br/></div>)*/}
