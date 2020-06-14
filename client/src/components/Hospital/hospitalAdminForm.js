@@ -48,12 +48,29 @@ export default () => {
     }
 
     const handleSubmit = (e) => {
+        setErrors({})
+        let errors = {}
+        let errorISExisted = false
+
+        if(firstName.trim().length === 0){
+            errorISExisted = true
+            errors.firstName = "First Name is required"
+        }
+
+        if(lastName.trim().length === 0){
+            errors.lastName =  "Last Name is required"
+            errorISExisted = true
+        }
+        if(email.trim().length === 0){
+            errorISExisted = true
+            errors.email =  "Email is required"
+        }
+
+        if(errorISExisted) {
+            setErrors(errors)
+            return;
+        }
         e.preventDefault();
-        // const data = {
-        //     firstName,
-        //     lastName,
-        //     email
-        // }
         UserServices.update(email, firstName, lastName, null, null, null, password, adminId)
         .then(response => {
             if (response) {

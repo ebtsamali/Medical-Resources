@@ -36,12 +36,12 @@ const Header = (props) => {
                     <Link to="/hospitals">Hospitals</Link>
                 </li>
             </ul> : (user.role === "hospital") ? <ul>
-                <li className="nav-list">
+                {(user.profileIsCompleted) && <li className="nav-list">
                     <Link to="/hospital/beds/edit">Beds</Link>
-                </li>
-                <li className="nav-list">
+                </li>}
+                {(user.profileIsCompleted) &&<li className="nav-list">
                     <Link to="/hospital/reservations">Reservations</Link>
-                </li>
+                </li>}
             </ul> : <ul>
                         <li className="nav-list">
                             <Link to="/">Home</Link>

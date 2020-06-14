@@ -1,4 +1,5 @@
 const HospitalModel = require('../models/hospital');
+const UserModel = require('../models/user');
 
 // get all hospital
 const allHospitals = async (req, res) => {
@@ -76,12 +77,20 @@ const saveHospitalData = async (req, res )=>{
         regulations
     })
 
-    hospital.save(function (err) {
-        if (!err) res.json({"message":"hospital added successfully"});
-        else {
-            res.status(500).send(err)
-        };
-    });
+    try {
+        await hospital.save();
+        await UserModel.findByIdAndUpdate(adminId, {profileIsCompleted: true}); 
+        res.json({"message":"hospital added successfully"});
+    } catch (error) {
+        res.status(500).send(error);
+    }
+
+    // hospital.save(function (err) {
+    //     if (!err) res.json({"message":"hospital added successfully"});
+    //     else {
+    //         res.status(500).send(err)
+    //     };
+    // });
 
 }
 
