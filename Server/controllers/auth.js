@@ -32,7 +32,7 @@ exports.signin = (req, res) => {
         }
         // assign the three parts ot the token
         let token = jwt.sign({ id: user.id }, config.secret, {
-            expiresIn: 28800 //8 hours in seconds
+            expiresIn: 604800 //7 days in seconds [168 hours]
         });
 
         //send the  token and user data to the client
@@ -45,7 +45,7 @@ exports.signin = (req, res) => {
             profileIsCompleted:user.profileIsCompleted,
             accessToken: token,
             accessTokenCreationDate: Date.now(),
-            accessTokenTTL: 28800 // 8 hours in seconds
+            accessTokenTTL: 604800 //7 days in seconds [168 hours]
         })
     })
 }
