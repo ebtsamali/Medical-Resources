@@ -23,7 +23,6 @@ export const medicineIsExist = (medicineId) => {
     for (let i = 0; i < myCart.length;++i){
         medicineIsExist = myCart[i].medicines.includes(medicineId)
         if(medicineIsExist){
-            console.log(medicineIsExist,medicineId,  myCart[i].id,  myCart[i])
             return true;
         }
     }

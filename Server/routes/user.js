@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user');
-const { authJwt } = require("../middlewares");
+const { authJwt, userHomepage } = require("../middlewares");
 
 exports.tokenMiddleware = function (req, res, next) {
     res.header(
@@ -20,7 +20,7 @@ router.post("/:id/pharmacys/:pharmacy_id/order", [authJwt.verifyToken, authJwt.i
 router.get("/:id/medicines_reservation/:reservation_id", [authJwt.verifyToken, authJwt.isUser], userController.getReservationDetails);
 router.get("/:id/medicines_order/:order_id", [authJwt.verifyToken, authJwt.isUser], userController.getOrderDetails);
 router.get("/:id/orders", [authJwt.verifyToken, authJwt.isUser], userController.getAllUserOrders);
-router.get("/:id/medicines", [authJwt.verifyToken, authJwt.isUser], userController.getAllUserMedicineReservations);
-router.get("/:id/beds", [authJwt.verifyToken, authJwt.isUser], userController.getAllUserHospitalReservations);
+router.get("/:id/medicines", [authJwt.verifyToken, authJwt.isUser, userHomepage.checkMedicineReservationsStatus], userController.getAllUserMedicineReservations);
+router.get("/:id/beds", [authJwt.verifyToken, authJwt.isUser, userHomepage.checkHospitalReservationsStatus], userController.getAllUserHospitalReservations);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Header from "../../Header";
 import '../../../styles/medicines.scss'
 import Sidebar from "./Sidebar";
@@ -13,7 +13,9 @@ const MedicinesPage = () => {
     const [selectedTab, setSelectedTab] = useState('all_medicine')
     const [selectedMedicine, setSelectedMedicine] = useState({})
     const { setTitle } = useContext(AppContext)
-    setTitle('Medicines')
+    useEffect(()=>{
+        setTitle('Medicines')
+    },[])
     return (
         <div className="x-container-medicines">
             <Header />

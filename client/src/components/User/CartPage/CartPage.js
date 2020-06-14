@@ -14,10 +14,13 @@ import {removePharmacyFromCart, removeMedicineFromCart} from "../../../utils/car
 import {Link} from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import ErrorMessage from "../../other/ErrorMessage";
+import {getCurrentDay, getCurrentHourInSeconds} from "../../../utils/utils";
+import {AppContext} from "../../../providers/AppProvider";
 
 const CartPage = () => {
 
     const {user} = useContext(AuthContext);
+    const {setTitle} = useContext(AppContext);
     const [userProfile, setUserProfile] = useState({})
     const [cartDetails, setCartDetails] = useState([])
     const [currentMedicines, setCurrentMedicines] = useState([])
@@ -32,10 +35,13 @@ const CartPage = () => {
     const handleShow = () => setShow(true);
     const [errors, setErrors] = useState({})
     const [medicinesList, setMedicinesList] = useState('')
+    const [showWarning, setShowWarning] = useState(false)
+    const handleShowWarning = () => setShowWarning(true);
+
 
     useEffect(() => {
+        setTitle('Cart')
         UserService.getUserInfo(user.id).then((response) => {
-            console.log(response.data)
             setUserProfile(response.data)
         })
 
@@ -95,6 +101,13 @@ const CartPage = () => {
             setCurrentMedicineIndex(0)
         }
     }, [currentMedicines.length])
+
+    const isOpened = () => {
+        console.log("isOpened")
+       return (cartDetails[currentPharmacyIndex].pharmacy.workingHours.filter((day) => {
+            return day.day === getCurrentDay() && day.startTime <= getCurrentHourInSeconds() && day.endTime > getCurrentHourInSeconds() && day.isOpened
+        }).length > 0)
+    }
 
     const handleChangeQuantity = (index) => {
         return (e) => {
@@ -249,8 +262,9 @@ const CartPage = () => {
                     <h5>Total Price : {totalPrice}LE</h5>
                     <div className="btn-container">
                         {cartDetails[currentPharmacyIndex].pharmacy.delivery &&
-                        <button onClick={handleShow}>Order</button>}
-                        <button onClick={handleClickReserve}>Reserve</button>
+                        <button onClick={(isOpened()) ? handleShow : handleShowWarning}>Order</button>
+                        }
+                        <button onClick={(isOpened()) ? handleClickReserve : handleShowWarning}>Reserve</button>
                     </div>
                 </div>
             </div>}
@@ -261,6 +275,25 @@ const CartPage = () => {
                 }} color="#28303A" size="3x" icon={faArrowRight}/>}
             </div>
         </div>}
+
+        <>
+            <Modal
+                size="lg"
+                show={showWarning}
+                onHide={() => setShowWarning(false)}
+                aria-labelledby="example-modal-sizes-title-sm">
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-sm">
+                        Warning
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {cartDetails[currentPharmacyIndex] && <p><Link
+                        to="/">{cartDetails[currentPharmacyIndex].pharmacy.name}</Link>{` is closed Now, please check pharmacy profile`}
+                    </p>}
+                </Modal.Body>
+            </Modal>
+        </>
 
         <>
             <Modal
@@ -312,6 +345,7 @@ const CartPage = () => {
                 </Modal.Footer>
             </Modal>
         </>
+
     </div>)
 }
 

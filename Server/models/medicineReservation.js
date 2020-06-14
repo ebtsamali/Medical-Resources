@@ -40,7 +40,7 @@ const medicineReservationSchema = new mongoose.Schema({
 
     status: {
         type: String,
-        enum: ['pending', 'cancelled'],
+        enum: ['pending', 'fulfilled', 'cancelled'],
         default: 'pending'
     }
     // timeLimit: {

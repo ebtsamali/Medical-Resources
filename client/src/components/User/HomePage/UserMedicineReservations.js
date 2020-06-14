@@ -3,6 +3,7 @@ import { AuthContext } from "../../../providers/auth_provider";
 import UserService from '../../../services/userServices'
 import Pagination from "../../Pagination";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 const UserMedicineReservations = () => {
 
@@ -18,10 +19,18 @@ const UserMedicineReservations = () => {
         })
     }, [page])
 
+    const handleRefresh = () => {
+        UserService.getAllMedicineReservations(`page=${page}`, user.id).then((response) => {
+            setReservations(response.data.reservations)
+            setPages(response.data.pageProps)
+            setPage(page);
+        })
+    }
 
     return (
         <div className="medicines-container">
-            <table id="medicines">
+            <span onClick={handleRefresh} className="btn btn-success" style={{marginLeft: "75rem"}}>Refresh <RefreshIcon/></span>
+            <table id="medicines" style={{marginTop: "-30rem"}}>
                 <thead>
                     <tr>
                         <th>Reservation Status</th>
@@ -35,7 +44,10 @@ const UserMedicineReservations = () => {
                     {reservations.map((reservation) => {
                         return (<tr key={reservation._id}>
                             <td>
-                                {reservation.status === "cancelled" ? <FiberManualRecordIcon style={{ color: "red", marginRight: "0.3rem" }} /> : <FiberManualRecordIcon style={{ color: "green", marginRight: "0.3rem" }} />}
+                                {reservation.status === "cancelled" ? <FiberManualRecordIcon style={{ color: "red", marginRight: "0.3rem" }} /> :
+                                    reservations.status === "fulfilled" ? <FiberManualRecordIcon style={{ color: "green", marginRight: "0.3rem" }} /> :
+                                        <FiberManualRecordIcon style={{ color: "#f0ad4e", marginRight: "0.3rem" }} />
+                                }
                                 {reservation.status}
                             </td>
                             <td>EGP {reservation.totalPrice}</td>

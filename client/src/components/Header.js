@@ -27,6 +27,9 @@ const Header = (props) => {
                 </li>}
             </ul> : (user.role === "user") ? <ul>
                 <li className="nav-list">
+                    <Link to="/user">Home</Link>
+                </li>
+                <li className="nav-list">
                     <Link to="/pharmacys">Pharmacies</Link>
                 </li>
                 <li className="nav-list">
