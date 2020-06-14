@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import GovernorateService from '../../services/governorateService';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 import {saveHospitalData, getHospitalData, editHospitalData} from '../../services/hospitalService';
 import ErrorMessage from "../other/ErrorMessage";
 import Dropdown from "react-bootstrap/Dropdown";
+import {AuthContext} from "../../providers/auth_provider";
 
 export default () => {
     const [name, setName] = useState("");
@@ -20,6 +21,7 @@ export default () => {
     const [status, setStatus] = useState("add");
     const [disableStatus, setDisableStatus] = useState(true);
     const [errors, setErrors] = useState({});
+    const {user, setUser} = useContext(AuthContext);
     const adminId = JSON.parse(localStorage.getItem("user")).id;
 
     useEffect(() => { 
@@ -143,22 +145,32 @@ export default () => {
             adminId
         }       
         if(status === "add"){
+            console.log("Add")
             saveHospitalData(data).then(response => {
                 if (response) {
+                    setErrors({});
                     setDisableStatus(true);
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    user.profileIsCompleted = true;
+                    setUser(user);
+                    localStorage.setItem('user', JSON.stringify(user));
+                    getHospital()
                 }
             }).catch(error => {
                 handleErrors(error);        
             });
         }  
-        if(status === "edit") {           
+        if(status === "edit") {
+            console.log("edit")
             editHospitalData(data, hospitalId).then(response => {
                 if (response) {
                     setErrors({});
                     setDisableStatus(true);
                 }
             }).catch(error => {
-                handleErrors(error);
+                console.log(error)
+                if(error.response.data.errors)
+                    handleErrors(error);
             });  
         }
   

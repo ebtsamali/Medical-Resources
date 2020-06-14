@@ -1,0 +1,142 @@
+#pharmacyProfile {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(243, 242, 242);
+}
+
+.profileContent {
+    height: 90%;
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.leftContent {
+    flex-basis: 27%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.rightContent {
+    flex-basis: 73%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.leftLocationCard {
+    width: 70%;
+    flex-basis: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: white;
+}
+
+.pharmacyImg {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    align-self: center;
+}
+
+.pharmacyName {
+    align-self: center;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.leftLocationCardBody {
+    display: flex;
+    flex-direction: row;
+}
+
+.leftContactCard {
+    width: 70%;
+    flex-basis: 35%;
+    background-color: white;
+}
+
+.leftContactCardHeader {
+    background-color: #4ABBA9;
+    color: white;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.leftContentCardsIcon {
+    color: gray;
+    font-size: 25px;
+    margin-right: 7px;
+    margin-bottom: 3px;
+}
+
+
+
+.leftContentCardsBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.leftContentCardsBodyItem {
+    padding: 7px;
+    font-size: large;
+}
+
+.rightContentBody {
+    flex-basis: 98%;
+    height: 95%;
+    background-color: white;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.rightContentBodyTop {
+    width: 100%;
+    flex-basis: 85%;
+}
+
+.rightContentBodyTopHeader {
+    width: 30%;
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    background-color: #4ABBA9;
+    color: white;
+    align-self: center;
+}
+
+.rightContentBodyTopBody {
+    width: 85%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    margin-left: 6%;
+}
+
+.rightContentBodyBottom {
+    width: 100%;
+    flex-basis: 15%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.rightContentBodyBottomCard {
+    flex-basis: 40%;
+    height: 70%;
+    background-color: rgb(243, 242, 242);
+    border-radius: 30px;
+    border: solid 2px  #d4faf3;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

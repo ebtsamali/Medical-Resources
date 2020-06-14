@@ -1,4 +1,5 @@
 const HospitalModel = require('../models/hospital');
+const UserModel = require('../models/user');
 
 // get all hospital
 const allHospitals = async (req, res) => {
@@ -76,12 +77,20 @@ const saveHospitalData = async (req, res )=>{
         regulations
     })
 
-    hospital.save(function (err) {
-        if (!err) res.json({"message":"hospital added successfully"});
-        else {
-            res.status(500).send(err)
-        };
-    });
+    try {
+        await hospital.save();
+        await UserModel.findByIdAndUpdate(adminId, {profileIsCompleted: true}); 
+        res.json({"message":"hospital added successfully"});
+    } catch (error) {
+        res.status(500).send(error);
+    }
+
+    // hospital.save(function (err) {
+    //     if (!err) res.json({"message":"hospital added successfully"});
+    //     else {
+    //         res.status(500).send(err)
+    //     };
+    // });
 
 }
 
@@ -120,6 +129,17 @@ const editHospitalData = (req, res)=>{
         .catch(err => res.status(500).send(err))
 }
 
+const getHospitalInfo = (req, res) => {
+    const hospitalId = req.params.hospitalId;
+    HospitalModel.findById(hospitalId).populate({
+        path: 'adminId'
+    })
+    .then((hospital)=>{
+        res.status(200).send(hospital); 
+    }).catch((error)=>{
+        res.status(500).send(error)
+    })
+}
 
 
 module.exports = {
@@ -127,5 +147,6 @@ module.exports = {
     getHospitalData,
     editHospitalData,
     hospitalSearch,
-    allHospitals
+    allHospitals,
+    getHospitalInfo
 }

@@ -85,12 +85,25 @@ exports.deleteBed = async (req, res) => {
 
 
 // get All Beds available by hospital id
-
 exports.getAllHospitalBeds = async (req, res) => {
     const hospitalId = req.params.hospitalId;
 
     try {
         const beds = await Bed.find({hospital: hospitalId, reserved: false})
+        if(!beds){
+            return res.status(404).send({errors: {message: "Beds Not Found"}});
+        }
+        res.status(200).send(beds);
+    } catch (error) {
+        console.log(error);
+        
+        res.status(500).send(error);
+    }
+}
+
+exports.getAllAvailableBeds = async (req, res) => {
+    try {
+        const beds = await Bed.find({reserved: false})
         if(!beds){
             return res.status(404).send({errors: {message: "Beds Not Found"}});
         }

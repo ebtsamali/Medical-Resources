@@ -10,10 +10,16 @@ exports.tokenMiddleware = function (req, res, next) {
     next();
 }
 
+router.get('/profile/:hospitalId', [authJwt.verifyToken, authJwt.isUser], hospitalController.getHospitalInfo);
+
 router.get('/search',  [authJwt.verifyToken, authJwt.isUser], hospitalController.hospitalSearch);
+
 router.get('/',  [authJwt.verifyToken, authJwt.isUser], hospitalController.allHospitals);
+
 router.post('/',  [authJwt.verifyToken, authJwt.isHospital], hospitalController.saveHospitalData);
+
 router.get('/:id', [authJwt.verifyToken, authJwt.isHospital], hospitalController.getHospitalData );
+
 router.patch('/:hospitalId',  [authJwt.verifyToken, authJwt.isHospital], hospitalController.editHospitalData);
 
 

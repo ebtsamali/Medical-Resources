@@ -7,13 +7,10 @@ import Form from 'react-validation/build/form';
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import ErrorMessage from "./other/ErrorMessage";
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownToggle from 'react-bootstrap/DropdownToggle';
-import DropdownMenu from 'react-bootstrap/DropdownMenu';
-import DropdownItem from 'react-bootstrap/DropdownItem';
 import Header from "./Header";
 import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import {AppContext} from "../providers/AppProvider";
 
 const useStyles = makeStyles((theme) => ({
     select: {
@@ -46,6 +43,7 @@ const validateConfirmPassword = (value) => {
 
 const UserProfile = () => {
 
+    const {setTitle} = useContext(AppContext);
     const { user } = useContext(AuthContext);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -73,6 +71,7 @@ const UserProfile = () => {
     const classes = useStyles();
 
     useEffect(() => {
+        setTitle('Profile')
         UserServices.getUserInfo(user.id)
             .then(response => {
                 setFirstName(response.data.firstName);

@@ -3,6 +3,9 @@ const router = express.Router();
 const bedController = require('../controllers/bed');
 const { authJwt, checkHospitalReservation } = require("../middlewares");
 
+
+router.get('/allBeds', [authJwt.verifyToken, authJwt.isUser, checkHospitalReservation.checkHospitalReservation], bedController.getAllAvailableBeds);
+
 // get all beds for user
 router.get('/:hospitalId', [authJwt.verifyToken, authJwt.isUser, checkHospitalReservation.checkHospitalReservation], bedController.getAllHospitalBeds);
 

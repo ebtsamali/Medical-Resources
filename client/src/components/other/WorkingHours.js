@@ -6,9 +6,10 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 
 const WorkingHours = ({weekDetails, setWeekDetails}) => {
+    const userRole = JSON.parse(localStorage.getItem("user")).role;
     const renderDays = (startIndex, endIndex) => {
         return weekDetails.map((day, index) => {
-            if (index>=startIndex && index<=endIndex) {
+            if (index >= startIndex && index <= endIndex) {
                 return (<div key={index} className="day-container">
                     <BootstrapSwitchButton
                         checked={day.isOpened}
@@ -18,12 +19,13 @@ const WorkingHours = ({weekDetails, setWeekDetails}) => {
                         offstyle="dark"
                         style="border"
                         size="sm"
+                        disabled={userRole === "user" ? true : false}
                         onChange={handleDayStatusChange(index)}
                         width={65}/>
-                    <TimePicker disabled={!day.isOpened} className="time-picker" start="00:00" end="24:00" step={60}
+                    <TimePicker disabled={!day.isOpened || userRole === "user" ? true : false} className="time-picker" start="00:00" end="24:00" step={60}
                                 onChange={handleStartTimeChange(index)} value={day.startTime}/>
                     <FontAwesomeIcon icon={faArrowRight}/>
-                    <TimePicker disabled={!day.isOpened} className="time-picker" start="00:00" end="24:00" step={60}
+                    <TimePicker disabled={!day.isOpened || userRole === "user" ? true : false} className="time-picker" start="00:00" end="24:00" step={60}
                                 onChange={handleEndTimeChange(index)} value={day.endTime}/>
                 </div>)
             }
@@ -55,7 +57,7 @@ const WorkingHours = ({weekDetails, setWeekDetails}) => {
     const handleDayStatusChange = (i) => {
         return (checked) => {
             setWeekDetails(weekDetails.map((day, index) => {
-                if (index === i ) {
+                if (index === i) {
                     day.isOpened = checked
                 }
                 return day
@@ -64,20 +66,8 @@ const WorkingHours = ({weekDetails, setWeekDetails}) => {
     }
 
 
-
     return (<div className="working-hours-container">
-        <div className="row-container mt-2">
-            {renderDays(0,2)}
-        </div>
-
-        <div className="row-container">
-            {renderDays(3,5)}
-        </div>
-
-        <div className="row-container">
-            {renderDays(6,6)}
-        </div>
-
+            {renderDays(0, 6)}
     </div>)
 }
 

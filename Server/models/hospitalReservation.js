@@ -37,8 +37,8 @@ const hospitalReservationSchema = new mongoose.Schema({
             if(val.trim().length === 0) {
                 throw new Error('Patient Phone Number can not be empty')
             }
-            if(!val.trim().match(/^[0-9]+$/)) {
-                throw new Error('Phone Number not valid')
+            if(!val.trim().match(/^(012|011|010|015)[0-9]{8}$/)) {
+                throw new Error('Invalid Phone Number')
             }
         }
     },
