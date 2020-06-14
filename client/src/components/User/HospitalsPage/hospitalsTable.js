@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../../../styles/pharmacys.scss';
 import Pagination from './Pagination';
 import { Link } from 'react-router-dom';
@@ -10,7 +10,7 @@ export default (props) => {
     const hospitals = props.hospitals;
     const [currentPage, setCurrentPage] = useState(1);
     const [hospitalsPerPage] = useState(5);
-    const [bedsNumber, setBedsNumber] = useState(0);
+    const [allbeds, setAllBeds] = useState([]);
 
     const indexOfLastHospital = currentPage * hospitalsPerPage;
     const indexOfFirstHospital = indexOfLastHospital - hospitalsPerPage;
@@ -18,17 +18,18 @@ export default (props) => {
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
-    const availableBedsNumber = (id) => {
-        BedsServices.getAllHospitalBeds(id).then(response => {
+    useEffect(() => {
+        BedsServices.getAllAvailableBeds().then(response => {
             if(response.data.length === 0){
-                setBedsNumber(0);
+                setAllBeds([]);
             }else {
-                setBedsNumber(response.data.length);
+                console.log(response.data);
+                setAllBeds(response.data)
             }
         }).catch(error => {
             console.log(error.response);   
         })
-    }
+    }, [])
     
     return (
         <div className="pharmacys-container">
@@ -45,6 +46,10 @@ export default (props) => {
                 <tbody>
                 {
                     currentHospitals.map(hospital => {
+                        const hospitalbeds = allbeds.filter(bed => {
+                            return bed.hospital === hospital._id
+                        })
+
                         return(
                             <tr key={hospital._id}>
                                 <td> <Link to={{ 
@@ -56,7 +61,7 @@ export default (props) => {
                                     </Link>
                                 </td>
                                 
-                                <td>{hospital.avaalableBeds? hospital.avaalableBeds : "-"}</td>
+                                <td>{hospitalbeds.length}</td>
                                 <td>{hospital.location? hospital.location[0].governorate : ""}</td>
                                 <td>{hospital.location? hospital.location[0].district : ""}</td>
                                 <td>{hospital.location? hospital.location[0].street : ""}</td>
