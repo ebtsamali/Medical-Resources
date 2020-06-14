@@ -137,7 +137,6 @@ const getHospitalInfo = (req, res) => {
     .then((hospital)=>{
         res.status(200).send(hospital); 
     }).catch((error)=>{
-        console.log(error);
         res.status(500).send(error)
     })
 }
