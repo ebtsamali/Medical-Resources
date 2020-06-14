@@ -10,11 +10,11 @@ const AllOrders = (props) => {
     useEffect(() => {
         MedicineService.getMedicineOrders()
             .then((response) => {
-                console.log(response.data.orders);
+                // console.log(response.data.orders);
                 setOrders(response.data.orders);
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
             })
     }, [statusChanged]);
 

@@ -23,7 +23,7 @@ const Header = (props) => {
         <div className="nav-container">
             {(user.role === "pharmacy") ? <ul>
                 {(user.profileIsCompleted) && <li className="nav-list">
-                    <Link to="/medicines">Medicines</Link>
+                    <Link to="/medicines">Home</Link>
                 </li>}
             </ul> : (user.role === "user") ? <ul>
                 <li className="nav-list">

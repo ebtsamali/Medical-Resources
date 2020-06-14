@@ -16,8 +16,6 @@ const PharmacyAdminInfoCard = () => {
     useEffect(() => {
         UserService.getUserInfo(user.id).then((response) => {
             setErrors({})
-            console.log(response.data)
-
             setNewAdminInfoState(response.data)
         })
     }, [])
@@ -34,21 +32,21 @@ const PharmacyAdminInfoCard = () => {
         let errors = {}
         let errorISExisted = false
 
-        if(adminFirstName.trim().length === 0){
+        if (adminFirstName.trim().length === 0) {
             errorISExisted = true
             errors.firstName = "First Name is required"
         }
 
-        if(adminLastName.trim().length === 0){
-            errors.lastName =  "Last Name is required"
+        if (adminLastName.trim().length === 0) {
+            errors.lastName = "Last Name is required"
             errorISExisted = true
         }
-        if(adminEmail.trim().length === 0){
+        if (adminEmail.trim().length === 0) {
             errorISExisted = true
-            errors.email =  "Email is required"
+            errors.email = "Email is required"
         }
 
-        if(errorISExisted) {
+        if (errorISExisted) {
             setErrors(errors)
             return;
         }
@@ -60,13 +58,12 @@ const PharmacyAdminInfoCard = () => {
             user.firstName = response.data.user.firstName
             user.lastName = response.data.user.lastName
             setUser(user)
-            localStorage.setItem('user',JSON.stringify(user))
+            localStorage.setItem('user', JSON.stringify(user))
         }).catch((error) => {
             setAdminDataEditingMode(false)
-            // console.log(error.response.data)
-            if(error.response.data.message && error.response.data.message.errors){
+            if (error.response.data.message && error.response.data.message.errors) {
                 setErrors(error.response.data.message.errors)
-            }else {
+            } else {
                 setErrors({})
             }
         });

@@ -3,6 +3,7 @@ import Pagination from "../../Pagination";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 import {addToCart, medicineIsExist, removeMedicineFromCart, getCart} from "../../../utils/cart_utils";
+import {Link} from "react-router-dom";
 
 const AllPharmacysHasSpecificMedicine = (props) => {
 
@@ -36,7 +37,10 @@ const AllPharmacysHasSpecificMedicine = (props) => {
             {pharmacys &&
                 pharmacys.map((pharmacy) => {
                     return (<tr key={pharmacy._id}>
-                        <td>{pharmacy.pharmacy && pharmacy.pharmacy.name}</td>
+                        <td>{pharmacy.pharmacy && <Link to={{
+                            pathname: `/pharmacys/${pharmacy.pharmacy.name}`,
+                            state: {pharmacyId: pharmacy.pharmacy._id}
+                        }}>{pharmacy.pharmacy.name} </Link>}</td>
                         <td>
                             {pharmacy.pharmacy && `${ pharmacy.pharmacy.location[0].street}, ${pharmacy.pharmacy.location[0].district}, ${pharmacy.pharmacy.location[0].governorate}`}
                         </td>
