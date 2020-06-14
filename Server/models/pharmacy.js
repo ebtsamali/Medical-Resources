@@ -51,8 +51,11 @@ const pharmacySchema = new mongoose.Schema({
                     if(phone.trim().length === 0) {
                         throw new Error('phone number can not be empty')
                     }
-                    if(!phone.trim().match(/^(012|011|010)[0-9]{8,8}$/)) {
+                    if(!phone.trim().match(/^(012|011|010|015)[0-9]{8,8}$/)) {
                         throw new Error('Invalid Phone Number Format.')
+                    }
+                    if(val.filter((phoneItem)=> phoneItem === phone ).length !== 1) {
+                        throw new Error('Phone Number must be unique.')
                     }
                 })
             }
