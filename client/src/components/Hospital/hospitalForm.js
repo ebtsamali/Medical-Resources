@@ -168,6 +168,7 @@ export default () => {
             adminId
         }       
         if(status === "add"){
+            console.log("Add")
             saveHospitalData(data).then(response => {
                 if (response) {
                     setErrors({});
@@ -176,19 +177,23 @@ export default () => {
                     user.profileIsCompleted = true;
                     setUser(user);
                     localStorage.setItem('user', JSON.stringify(user));
+                    getHospital()
                 }
             }).catch(error => {
                 handleErrors(error);        
             });
         }  
-        if(status === "edit") {           
+        if(status === "edit") {
+            console.log("edit")
             editHospitalData(data, hospitalId).then(response => {
                 if (response) {
                     setErrors({});
                     setDisableStatus(true);
                 }
             }).catch(error => {
-                handleErrors(error);
+                console.log(error)
+                if(error.response.data.errors)
+                    handleErrors(error);
             });  
         }
   
