@@ -145,6 +145,7 @@ export default () => {
         if(status === "add"){
             saveHospitalData(data).then(response => {
                 if (response) {
+                    setErrors({});
                     setDisableStatus(true);
                 }
             }).catch(error => {

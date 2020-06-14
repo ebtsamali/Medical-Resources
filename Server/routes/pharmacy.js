@@ -20,6 +20,9 @@ router.get('/:id',[authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.
 // update pharmacy data
 router.patch('/:id',[authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.updatePharmacy)
 
+// get pharmacy by pharmacy id
+router.get('/profile/:id',[authJwt.verifyToken, authJwt.isUser], pharmacyController.getPharmacyData)
+
 
 
 module.exports = router;

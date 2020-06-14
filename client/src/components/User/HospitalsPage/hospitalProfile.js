@@ -49,17 +49,17 @@ export default () => {
                     <div className="sidebarChild sidebarBiggerChild">
                         <img src="../../../../img/hospital.png" className="hospitalImg" />
                         
-                            <Card.Title className="hospitalName">{hospital.name}</Card.Title>
-                            <div className="locationDiv">
-                                <div>
-                                    <MdLocationOn style={{ color:"#4ABBA9", fontSize: "30px"}} />
-                                </div>
-                                <div className="locationInfo">
-                                    <p>{hospital.location[0].governorate}</p>
-                                    <p>{hospital.location[0].district}</p>
-                                    <p>{hospital.location[0].street}</p>
-                                </div>
+                        <Card.Title className="hospitalName">{hospital.name}</Card.Title>
+                        <div className="locationDiv">
+                            <div>
+                                <MdLocationOn style={{ color:"#4ABBA9", fontSize: "30px"}} />
                             </div>
+                            <div className="locationInfo">
+                                <p>{hospital.location[0].governorate}</p>
+                                <p>{hospital.location[0].district}</p>
+                                <p>{hospital.location[0].street}</p>
+                            </div>
+                        </div>
                         
                     </div>
 
@@ -95,22 +95,20 @@ export default () => {
                         </div>
 
                         <div className="headerChild headerSmallerChild">
-                            <div>
-                                <Card.Header style={{textAlign: "center"}}>
-                                    <IoIosPaper className="timeIcon" />
-                                    Regulations
-                                </Card.Header>
-                                <ul className="regulationUl">
-                                   {hospital.regulations.length !== 0 ?
-                                        hospital.regulations.map((regulation, index) => {
-                                            return(
-                                                <li key={index} style={{marginTop: "5px"}}> {regulation} </li>
-                                            )
-                                        }): 
-                                        <h5 style={{marginTop: "15%"}}> No Regulations required </h5>
-                                    }
-                                </ul>
-                            </div>
+                            <Card.Header style={{textAlign: "center", width: "70%"}}>
+                                <IoIosPaper className="timeIcon" />
+                                Regulations
+                            </Card.Header>
+                            <ul className="regulationUl">
+                                {hospital.regulations.length !== 0 ?
+                                    hospital.regulations.map((regulation, index) => {
+                                        return(
+                                            <li key={index} style={{marginTop: "5px", padding: "7px"}}> - {regulation} </li>
+                                        )
+                                    }): 
+                                    <h5 style={{marginTop: "15%"}}> No Regulations required </h5>
+                                }
+                            </ul> 
                         </div>
                     </div>
                     

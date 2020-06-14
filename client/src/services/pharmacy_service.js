@@ -23,7 +23,13 @@ function PharmacyService() {
                 data,
             })
         },
-
+        getPharmacy: (id) =>{
+            return axios({
+                headers: authHeader(),
+                url: `${process.env.REACT_APP_BACKEND_URL}/pharmacys/profile/${id}`,
+                method: 'get'
+            })
+        }
     })
 }
 

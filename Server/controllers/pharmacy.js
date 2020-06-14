@@ -63,8 +63,23 @@ const updatePharmacy = async (req, res) => {
 
 }
 
+const getPharmacyData = async (req, res) => {
+    const {params: {id}} = req;
+    try {
+        const pharmacy = await Pharmacy.findById(id)
+        if (!pharmacy) {
+            return res.status(404).end()
+        }
+        res.status(200).send(pharmacy)
+    } catch (e) {
+        console.log(e)
+        res.status(500).end()
+    }
+}
+
 module.exports = {
     addPharmacy,
     getPharmacyProfile,
-    updatePharmacy
+    updatePharmacy,
+    getPharmacyData
 }

@@ -6,6 +6,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 
 const WorkingHours = ({weekDetails, setWeekDetails}) => {
+    const userRole = JSON.parse(localStorage.getItem("user")).role;
     const renderDays = (startIndex, endIndex) => {
         return weekDetails.map((day, index) => {
             if (index>=startIndex && index<=endIndex) {
@@ -18,6 +19,7 @@ const WorkingHours = ({weekDetails, setWeekDetails}) => {
                         offstyle="dark"
                         style="border"
                         size="sm"
+                        disabled={userRole === "user" ? true : false}
                         onChange={handleDayStatusChange(index)}
                         width={65}/>
                     <TimePicker disabled={!day.isOpened} className="time-picker" start="00:00" end="24:00" step={60}
