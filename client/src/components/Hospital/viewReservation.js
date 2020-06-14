@@ -6,6 +6,7 @@ import {getHospitalReservations} from '../../services/hospitalReservationService
 import { BsCircleFill } from 'react-icons/bs';
 import { FaEdit } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import Sidebar from './Beds/Sidebar';
 
 
 export default () => {

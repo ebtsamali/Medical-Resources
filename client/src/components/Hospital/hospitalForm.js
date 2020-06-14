@@ -6,6 +6,8 @@ import {saveHospitalData, getHospitalData, editHospitalData} from '../../service
 import ErrorMessage from "../other/ErrorMessage";
 import Dropdown from "react-bootstrap/Dropdown";
 import {AuthContext} from "../../providers/auth_provider";
+import {makeStyles} from "@material-ui/core/styles";
+import {MenuItem, Select} from "@material-ui/core";
 
 export default () => {
     const [name, setName] = useState("");
@@ -23,6 +25,27 @@ export default () => {
     const [errors, setErrors] = useState({});
     const {user, setUser} = useContext(AuthContext);
     const adminId = JSON.parse(localStorage.getItem("user")).id;
+
+    const useStyles = makeStyles((theme) => ({
+        select: {
+            '&:before': {
+                borderColor: "#4ABBA9",
+            },
+            '&:after': {
+                borderColor: "#4ABBA9",
+            }
+        },
+        icon: {
+            fill: "#4ABBA9",
+        },
+        label: {
+            '.MuiInputLabel-root': {
+                color: "#4ABBA9",
+            }
+        },
+    }));
+
+    const classes = useStyles();
 
     useEffect(() => { 
         getHospital(); 
@@ -70,10 +93,10 @@ export default () => {
         setName(e.target.value)
     }
     const handleGovernorateChange = (e) => {
-        setGovernorate(e)
+        setGovernorate(e.target.value)
     }
     const handleDistrictChange = (e) => {
-        setDistrict(e)
+        setDistrict(e.target.value)
     }
     const handleStreetChange = (e) => {
         e.preventDefault();
@@ -197,16 +220,8 @@ export default () => {
 
             <div className="location-container">
                 <div className="d-flex flex-column align-content-center">
-                    {/** <input 
-                        type="text"
-                        className="form-input"
-                        name="governorate"
-                        value={governorate}
-                        placeholder="governorate"
-                        onChange={handleGovernorateChange}
-                        disabled={disableStatus}
-                    />**/}
-                    <Dropdown className="mt-4" onSelect={ handleGovernorateChange }>
+                    
+                    {/** <Dropdown className="mt-4" onSelect={ handleGovernorateChange }>
                         <Dropdown.Toggle disabled={disableStatus} style={{maxHeight: "50px"}} size="sm" id="dropdown-basic">
                             {governorate}
                         </Dropdown.Toggle>
@@ -220,12 +235,31 @@ export default () => {
                                 )
                             })}
                         </Dropdown.Menu>
-                    </Dropdown>
+                        </Dropdown>**/}
+                        <Select
+                            disabled={disableStatus}
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            value={governorate}
+                            onChange={handleGovernorateChange}
+                            className={classes.select}
+                            inputProps={{
+                                classes: {
+                                    icon: classes.icon,
+                                }
+                            }}
+                        >
+                            {allGovernorates.map((gov) => {
+                                return (
+                                    <MenuItem key={gov._id} value={gov.name}>{gov.name}</MenuItem>
+                                )
+                            })}
+                        </Select>
                     {errors.governorate && <ErrorMessage message={errors.governorate}/>}
                 </div>
 
                 {(governorate !== 'Governorate') && <div className="d-flex flex-column align-content-center">
-                    <Dropdown className="mt-4" onSelect={ handleDistrictChange }>
+                    {/** <Dropdown className="mt-4" onSelect={ handleDistrictChange }>
                         <Dropdown.Toggle disabled={disableStatus} style={{maxHeight: "50px"}} size="sm" id="dropdown-basic">
                             {district}
                         </Dropdown.Toggle>
@@ -235,7 +269,27 @@ export default () => {
                                 return ( <Dropdown.Item key={index} eventKey={district}> {district} </Dropdown.Item> )
                             })}
                         </Dropdown.Menu>
-                    </Dropdown>
+                        </Dropdown>**/}
+
+                    <Select
+                        disabled={disableStatus}
+                        labelId="demo-simple-select-outlined-label"
+                        id="demo-simple-select-outlined"
+                        value={district}
+                        onChange={handleDistrictChange}
+                        className={classes.select}
+                        inputProps={{
+                            classes: {
+                                icon: classes.icon,
+                            }
+                        }}
+                    >
+                        {allDistricts.map((district) => {
+                            return (
+                                <MenuItem key={district} value={district}>{district}</MenuItem>
+                            )
+                        })}
+                    </Select>
                     {errors.district && <ErrorMessage message={errors.district}/>}
                 </div>}
                 {/** <div>

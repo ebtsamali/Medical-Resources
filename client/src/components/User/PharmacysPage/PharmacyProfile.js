@@ -9,6 +9,7 @@ import { GrDeliver } from 'react-icons/gr';
 import { FcOvertime } from 'react-icons/fc';
 import WorkingHours from '../../other/WorkingHours';
 import PharmacyService from '../../../services/pharmacy_service';
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
 
 export default () => {
     const [pharmacyName, setPharmacyName] = useState("")
@@ -30,7 +31,7 @@ export default () => {
         isOpened: false
     }, {day: 'Sat', startTime: 0, endTime: 0, isOpened: false}, {day: 'Sun', startTime: 0, endTime: 0, isOpened: false}])
 
-    const id = "5ee5b4375007e210fbbf54a6";
+    const id = useLocation().state.pharmacyId;
 
     const setNewPharmacyState = (data) => {
         setPharmacyName(data.name);
