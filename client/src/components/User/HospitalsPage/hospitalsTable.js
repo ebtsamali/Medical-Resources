@@ -54,8 +54,7 @@ export default (props) => {
                             <tr key={hospital._id}>
                                 <td> <Link to={{ 
                                         pathname: `/hospitals/${hospital.name}`, 
-                                        hash: "#411@%19#", 
-                                        state: { hospital }
+                                        state: { hospitalId: hospital._id}
                                     }}>
                                         {hospital.name} 
                                     </Link>

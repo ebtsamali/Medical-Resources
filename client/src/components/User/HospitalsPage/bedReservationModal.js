@@ -27,6 +27,13 @@ export default (props) => {
         setPatientPhone(e.target.value);
     }
 
+    const resetPatientData = ()=> {
+        setPatientName("");
+        setPatientID("");
+        setPatientPhone("");
+        setErrors({});
+    }
+
     const handleErrors = (error) => {
         setErrors({})
         const allErrors =  error.response.data.errors; 
@@ -40,7 +47,16 @@ export default (props) => {
         }
     }
 
+    const handleClose = () => {
+        console.log("close");
+        
+        resetPatientData();
+        props.onHide();
+    }
+
     const submitReservation = () => {
+        console.log("submit");
+        
         const bed = {
             ...props.clickedBed,
             reserved: true
@@ -54,15 +70,13 @@ export default (props) => {
             bed: props.clickedBed._id,
             timeLimit: props.hospital.maxTimeLimit
         }
-        BedServices.updateReservedBed(bed).then(response => {
-            console.log(response);
-        })
         saveReservationData(data).then(response => {
             if (response) {
+                BedServices.updateReservedBed(bed).then(response => {
+                    console.log(response);
+                })
                 console.log(response);
-                setPatientName("");
-                setPatientID("");
-                setPatientPhone("");
+                resetPatientData();
                 props.onHide();
             }
         }).catch(error => {
@@ -122,7 +136,7 @@ export default (props) => {
                 <small style={{marginLeft: "15%"}}>Reservation will be canceled automatically after {props.hospital.maxTimeLimit} hours</small>
             </div>
             <Modal.Footer>
-                <button onClick={props.onHide} className="modalBtn">Close</button>
+                <button onClick={handleClose} className="modalBtn">Close</button>
                 <button onClick={submitReservation} className="modalBtn">Confirm</button>
             </Modal.Footer>
         </Modal>

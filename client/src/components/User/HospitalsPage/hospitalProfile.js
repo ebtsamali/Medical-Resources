@@ -9,11 +9,21 @@ import { IoIosPaper } from 'react-icons/io';
 import {GiBed} from 'react-icons/gi';
 import { FcOvertime } from 'react-icons/fc';
 import BedServices from '../../../services/bedService';
+import { getHospitalInfo } from '../../../services/hospitalService'
 import Pagination from './Pagination';
 import Header from "../../Header";
 
 export default () => {
-    const hospital = useLocation().state.hospital;
+    const hospitalId = useLocation().state.hospitalId;
+    const [hospital, setHospital] = useState({});
+    const [hospitalName, setHospitalName] = useState("");
+    const [hospitalGovernorate, setHospitalGovernorate] = useState("Governorate");
+    const [hospitalDistrict, setHospitalDistrict] = useState("District");
+    const [hospitalStreet, setHospitalStreet] = useState("");
+    const [phoneNumbers, setPhoneNumbers] = useState([]);
+    const [regulations, setRegulations] = useState([]);
+    const [maxTimeLimit, setMaxTimeLimit] = useState('');
+
     const [modalShow, setModalShow] = useState(false);
     const [beds, setBeds] = useState([]);
     const [bedsNumber, setBedsNumber] = useState(0);
@@ -27,11 +37,31 @@ export default () => {
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
+    const setHospitalData = (data) => {
+        setHospitalName(data.name);
+        setHospitalGovernorate(data.location[0].governorate);
+        setHospitalDistrict(data.location[0].district);
+        setHospitalStreet(data.location[0].street);
+        setPhoneNumbers(data.phoneNumbers);
+        setRegulations(data.regulations);
+        setMaxTimeLimit(data.maxTimeLimit);
+    }
+
     useEffect(()=>{
-        BedServices.getAllHospitalBeds(hospital._id).then((response)=>{
+        getHospitalInfo(hospitalId).then(response => {
+            console.log(response.data); 
+            setHospital(response.data);
+            setHospitalData(response.data)
+        }).catch(error => {
+            console.log(error.response);   
+        })
+
+        BedServices.getAllHospitalBeds(hospitalId).then((response)=>{
             if(response.data.length === 0){
                 setBedsNumber(0);
             }else {
+                console.log(response.data);
+                
                 setBeds(response.data);
                 setBedsNumber(response.data.length);
             }
@@ -49,15 +79,15 @@ export default () => {
                     <div className="sidebarChild sidebarBiggerChild">
                         <img src="../../../../img/hospital.png" className="hospitalImg" />
                         
-                        <Card.Title className="hospitalName">{hospital.name}</Card.Title>
+                        <Card.Title className="hospitalName">{hospitalName}</Card.Title>
                         <div className="locationDiv">
                             <div>
                                 <MdLocationOn style={{ color:"#4ABBA9", fontSize: "30px"}} />
                             </div>
                             <div className="locationInfo">
-                                <p>{hospital.location[0].governorate}</p>
-                                <p>{hospital.location[0].district}</p>
-                                <p>{hospital.location[0].street}</p>
+                                <p>{hospitalGovernorate}</p>
+                                <p>{hospitalDistrict}</p>
+                                <p>{hospitalStreet}</p>
                             </div>
                         </div>
                         
@@ -68,7 +98,7 @@ export default () => {
                             <FaPhone className="phoneIcon" />
                             CONTACT INFO
                         </Card.Header>
-                       { hospital.phoneNumbers.map((phone, index) => {
+                       {phoneNumbers.map((phone, index) => {
                            return (<p key={index}> {phone} </p>)
                        })} 
                     
@@ -90,7 +120,7 @@ export default () => {
                                     <FcOvertime className="timeIcon" />
                                     MAX RESERVATION TIME
                                 </Card.Header>
-                                <h5 style={{marginBottom: "10%"}}> {hospital.maxTimeLimit} HOURS</h5>
+                                <h5 style={{marginBottom: "10%"}}> {maxTimeLimit} HOURS</h5>
                             </div>
                         </div>
 
@@ -100,7 +130,7 @@ export default () => {
                                 Regulations
                             </Card.Header>
                             <ul className="regulationUl">
-                                {hospital.regulations.length !== 0 ?
+                                {regulations.length !== 0 ?
                                     hospital.regulations.map((regulation, index) => {
                                         return(
                                             <li key={index} style={{marginTop: "5px", padding: "7px"}}> - {regulation} </li>
@@ -133,7 +163,7 @@ export default () => {
                                     )
                                 })} 
                             </div>
-                                <ReservationModal show={modalShow} onHide={() => {setModalShow(false); setClickedBed({});}} hospital={hospital} clickedBed={clickedBed}/>
+                                <ReservationModal show={modalShow} onHide={() => { setModalShow(false); }} hospital={hospital} clickedBed={clickedBed}/>
                             <div className="paginationDiv">
                                 <Pagination
                                     booksPerPage={bedsPerPage}

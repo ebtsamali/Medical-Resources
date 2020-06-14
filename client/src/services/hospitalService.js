@@ -51,3 +51,11 @@ export const getAllHospitals = () => {
         method: 'get'
     })
 }
+
+export const getHospitalInfo = (hospitalId) => {
+    return axios({
+        headers: authHeader(),
+        url: `${process.env.REACT_APP_BACKEND_URL}/hospitals/profile/${hospitalId}`, 
+        method: 'get'
+    })
+}
