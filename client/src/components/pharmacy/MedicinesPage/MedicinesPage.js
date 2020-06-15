@@ -14,7 +14,7 @@ const MedicinesPage = () => {
     const [selectedMedicine, setSelectedMedicine] = useState({})
     const { setTitle } = useContext(AppContext)
     useEffect(()=>{
-        setTitle('Medicines')
+        setTitle('Home')
     },[])
     return (
         <div className="x-container-medicines">

@@ -9,11 +9,10 @@ const AllReservations = (props) => {
     useEffect(() => {
         MedicineService.getMedicineReservations()
             .then((response) => {
-                console.log(response.data.reservations);
                 setReservations(response.data.reservations);
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
             });
     }, []);
 

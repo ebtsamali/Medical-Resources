@@ -289,7 +289,10 @@ const CartPage = () => {
                 </Modal.Header>
                 <Modal.Body>
                     {cartDetails[currentPharmacyIndex] && <p><Link
-                        to="/">{cartDetails[currentPharmacyIndex].pharmacy.name}</Link>{` is closed Now, please check pharmacy profile`}
+                        to={{
+                            pathname: `/pharmacys/${cartDetails[currentPharmacyIndex].pharmacy.name}`,
+                            state: {pharmacyId: cartDetails[currentPharmacyIndex].pharmacy._id}
+                        }}>{cartDetails[currentPharmacyIndex].pharmacy.name}</Link>{` is closed Now, please check pharmacy profile`}
                     </p>}
                 </Modal.Body>
             </Modal>
