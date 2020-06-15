@@ -6,6 +6,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 import HospitalsTable from './hospitalsTable';
 import '../../../styles/pharmacys.scss';
 import {AppContext} from "../../../providers/AppProvider";
+import { InputLabel, MenuItem, Select} from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
 
 
 export default () => {
@@ -18,16 +20,36 @@ export default () => {
 
     const [searchValue, setSearchValue] = useState('');
 
-    const [governorate, setGovernorate] = useState("Governorate");
-    const [district, setDistrict] = useState("District");
+    const [governorate, setGovernorate] = useState("all governorates");
+    const [district, setDistrict] = useState("all districts");
 
     const [allGovernorates, setAllGovernorates] = useState([]);
     const [allDistricts, setAllDistricts] = useState([]);
 
+    const useStyles = makeStyles((theme) => ({
+        select: {
+            '&:before': {
+                borderColor: "#4ABBA9",
+            },
+            '&:after': {
+                borderColor: "#4ABBA9",
+            }
+        },
+        icon: {
+            fill: "#4ABBA9",
+        },
+        label: {
+            '.MuiInputLabel-root': {
+                color: "#4ABBA9",
+            }
+        },
+    }));
+
+    const classes = useStyles();
+
     useEffect( ()=>{
         setTitle('Hospitals')
         getAllHospitals().then((response)=>{
-            console.log(response.data)
             setHospitals(response.data);
             setAllHospitals(response.data)
         }).catch( error => {
@@ -40,11 +62,11 @@ export default () => {
     }, [] )
 
     useEffect(() => {
-        if (governorate !== 'Governorate') {
+        if (governorate !== 'all governorates') {
             allGovernorates.forEach((gov) => {
                 if (gov.name === governorate) {
                     setAllDistricts(gov.districts);
-                    setDistrict('District');
+                    setDistrict('all districts');
                 }
             })
         }
@@ -52,34 +74,47 @@ export default () => {
 
 
     const handleGovernorateSelect = (e) => {
-        setGovernorate(e);
+        setGovernorate(e.target.value);
         setSearchValue('');
-        let filteredByGov = allHospitals.filter(hospital => {
-            return hospital.location[0].governorate === e;
-        })
-        setHospitals(filteredByGov);
-        setHospitalsByGov(filteredByGov);
+        if(e.target.value !== "all governorates"){
+            let filteredByGov = allHospitals.filter(hospital => {
+                return hospital.location[0].governorate === e.target.value;
+            })
+            setHospitals(filteredByGov);
+            setHospitalsByGov(filteredByGov);
+        } else {
+            setHospitals(allHospitals);
+            setHospitalsByGov(allHospitals);
+        }
     }
 
     const handleDistrictSelect = (e) => {
-        setDistrict(e);
+        setDistrict(e.target.value);
         setSearchValue('');
-        let filteredByDistrict = allHospitals.filter(hospital => {
-            return hospital.location[0].governorate === governorate && hospital.location[0].district === e;
-        })
-        setHospitals(filteredByDistrict);
-        setHospitalsByDistrict(filteredByDistrict);
+        if(e.target.value !== "all districts"){
+            let filteredByDistrict = allHospitals.filter(hospital => {
+                return hospital.location[0].governorate === governorate && hospital.location[0].district === e.target.value;
+            })
+            setHospitals(filteredByDistrict);
+            setHospitalsByDistrict(filteredByDistrict);
+        } else {
+            let filteredByAllDistrict = allHospitals.filter(hospital => {
+                return hospital.location[0].governorate === governorate;
+            })
+            setHospitals(filteredByAllDistrict);
+            setHospitalsByDistrict(filteredByAllDistrict);
+        }
     }
 
 
     const handleSearchValueChange = (e) => {
         e.preventDefault();
         setSearchValue(e.target.value);
-        if(governorate === "Governorate" && district === "District"){
+        if(governorate === "all governorates" && district === "all districts"){
             hospitalsByNameOnly(e.target.value);
-        } else if(governorate !== "Governorate" && district === "District") {
+        } else if(governorate !== "all governorates" && district === "all districts") {
             hospitalsByNameAndGov(e.target.value);
-        } else if(governorate !== "Governorate" && district !== "District") {
+        } else if(governorate !== "all governorates" && district !== "all districts") {
             hospitalsByNameAndDistrict(e.target.value);
         } 
     }
@@ -125,7 +160,7 @@ export default () => {
                         /> 
                     </div>  
                     <div className="filters-container">
-                        <Dropdown className="mt-4" onSelect={ handleGovernorateSelect }>
+                        {/** <Dropdown className="mt-4" onSelect={ handleGovernorateSelect }>
                             <Dropdown.Toggle style={{maxHeight: "50px"}} size="sm" id="dropdown-basic">
                                 {governorate}
                             </Dropdown.Toggle>
@@ -139,9 +174,50 @@ export default () => {
                                     )
                                 })}
                             </Dropdown.Menu>
-                        </Dropdown>
+                            </Dropdown>**/}
+                        <Select
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            value={governorate}
+                            onChange={handleGovernorateSelect}
+                            className={classes.select}
+                            inputProps={{
+                                classes: {
+                                    icon: classes.icon,
+                                }
+                            }}
+                        >
+                            <MenuItem key="all governorates" value="all governorates">all governorates</MenuItem>
+                            {allGovernorates.map((gov) => {
+                                return (
+                                    <MenuItem key={gov._id} value={gov.name}>{gov.name}</MenuItem>
+                                )
+                            })}
+                        </Select>
 
-                        {(governorate !== 'Governorate') && <div className="d-flex flex-column align-content-center">
+                        {(governorate !== 'all governorates') && 
+                            
+                            <Select
+                                labelId="demo-simple-select-outlined-label"
+                                id="demo-simple-select-outlined"
+                                value={district}
+                                onChange={handleDistrictSelect}
+                                className={classes.select}
+                                inputProps={{
+                                    classes: {
+                                        icon: classes.icon,
+                                    }
+                                }}
+                            >
+                                <MenuItem key="all districts" value="all districts">all districts</MenuItem>
+                                    {allDistricts.map((district) => {
+                                    return (
+                                        <MenuItem key={district} value={district}>{district}</MenuItem>
+                                    )
+                                })}
+                            </Select>    
+                        }
+                        {/** <div className="d-flex flex-column align-content-center">
                             <Dropdown className="mt-4" onSelect={ handleDistrictSelect }>
                                 <Dropdown.Toggle style={{maxHeight: "50px"}} size="sm" id="dropdown-basic">
                                     {district}
@@ -153,7 +229,7 @@ export default () => {
                                     })}
                                 </Dropdown.Menu>
                             </Dropdown>
-                        </div>}
+                                </div>**/}
                     </div>
                 </div>
                 
