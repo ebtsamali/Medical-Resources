@@ -47,16 +47,12 @@ export default (props) => {
         }
     }
 
-    const handleClose = () => {
-        console.log("close");
-        
+    const handleClose = () => {  
         resetPatientData();
         props.onHide();
     }
 
     const submitReservation = () => {
-        console.log("submit");
-        
         const bed = {
             ...props.clickedBed,
             reserved: true
@@ -75,7 +71,6 @@ export default (props) => {
                 BedServices.updateReservedBed(bed).then(response => {
                     console.log(response);
                 })
-                console.log(response);
                 resetPatientData();
                 props.onHide();
             }

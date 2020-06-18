@@ -49,7 +49,6 @@ export default () => {
 
     useEffect(()=>{
         getHospitalInfo(hospitalId).then(response => {
-            console.log(response.data); 
             setHospital(response.data);
             setHospitalData(response.data)
         }).catch(error => {
@@ -59,9 +58,8 @@ export default () => {
         BedServices.getAllHospitalBeds(hospitalId).then((response)=>{
             if(response.data.length === 0){
                 setBedsNumber(0);
+                setBeds([]);
             }else {
-                console.log(response.data);
-                
                 setBeds(response.data);
                 setBedsNumber(response.data.length);
             }
@@ -163,7 +161,7 @@ export default () => {
                                     )
                                 })} 
                             </div>
-                                <ReservationModal show={modalShow} onHide={() => { setModalShow(false); }} hospital={hospital} clickedBed={clickedBed}/>
+                                <ReservationModal show={modalShow} onHide={() => { setModalShow(false); setClickedBed({}); }} hospital={hospital} clickedBed={clickedBed}/>
                             <div className="paginationDiv">
                                 <Pagination
                                     booksPerPage={bedsPerPage}
