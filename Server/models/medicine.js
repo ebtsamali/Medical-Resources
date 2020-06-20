@@ -14,8 +14,8 @@ const medicineSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Price is required"],
         validate: function (val) {
-            if(!val.toString().trim().match(/^[0-9]+$/) && val<0) {
-                throw new Error('Price must be a positive number')
+            if(!val.toString().trim().match(/^[0-9]+$/) || val<=0) {
+                throw new Error('Invalid Price')
             }
         }
     },

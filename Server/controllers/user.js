@@ -69,7 +69,7 @@ exports.getCart = async (req, res) => {
         }
         res.status(200).send(cart)
     } catch (e) {
-        res.status(500).end()
+        res.status(500).send({ message: 'internal server error' })
     }
 }
 
