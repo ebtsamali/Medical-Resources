@@ -63,13 +63,10 @@ export default () => {
                         <img src="../../../../img/pharmacy.png" className="pharmacyImg"/>
                         <Card.Title className="pharmacyName">{pharmacyName}</Card.Title>
                         <div className="leftLocationCardBody">
-                            <div>
-                                <MdLocationOn style={{ color:"#4ABBA9", fontSize: "30px"}} />
-                            </div>
                             <div className="leftContentCardsBody">
-                                <h6 className="leftContentCardsBodyItem">{pharmacyGovernorate}</h6>
-                                <h6 className="leftContentCardsBodyItem">{pharmacyDistrict}</h6>
-                                <h6 className="leftContentCardsBodyItem">{pharmacyStreet}</h6>
+                                <h6 className="leftContentCardsBodyItem"><MdLocationOn style={{ color:"#4ABBA9", fontSize: "30px"}} />{pharmacyGovernorate}</h6>
+                                <h6 className="leftContentCardsBodyItem" style={{marginLeft: "15px"}}>{pharmacyDistrict}</h6>
+                                <h6 className="leftContentCardsBodyItem" style={{marginLeft: "15px"}}>{pharmacyStreet}</h6>
                             </div>
                         </div>
                     </div>
