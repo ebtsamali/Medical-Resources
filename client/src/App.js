@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import '../src/styles/main.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from "./components/LoginPage";
@@ -47,7 +47,7 @@ function App() {
                         </AuthRoute>
 
                         <AuthRoute path="/register" type="guest">
-                            <RegistrationPage/>
+                            <RegistrationPage />
                         </AuthRoute>
 
                         <AuthRoute path="/user/profile" type="private" privilege="user">

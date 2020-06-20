@@ -31,8 +31,8 @@ const UserOrders = () => {
 
     return (
         <div className="d-flex flex-column">
-            <span onClick={handleRefresh} className="btn btn-success" style={{marginLeft: "75rem", marginBottom: "20px"}}>Refresh <RefreshIcon/></span>
-            <table id="medicines">
+            {/* <span onClick={handleRefresh} className="btn btn-success" style={{marginLeft: "75rem", marginBottom: "20px"}}>Refresh <RefreshIcon/></span> */}
+            <table id="medicines" style={{width: "75rem"}}>
                 <thead>
                     <tr>
                         <th>Order Status</th>

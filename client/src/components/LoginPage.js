@@ -1,26 +1,28 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, { useState, useContext, useEffect } from "react";
 import '../styles/login.scss'
-import {AuthContext} from "../providers/auth_provider";
+import { AuthContext } from "../providers/auth_provider";
 import ErrorMessage from "./other/ErrorMessage";
 import { Link } from 'react-router-dom';
-import {AppContext} from "../providers/AppProvider";
+import { AppContext } from "../providers/AppProvider";
 
 const LoginPage = (props) => {
 
-    const { login, error } = useContext(AuthContext);
+    const { login, error, successfulRegister, registerMessage } = useContext(AuthContext);
     const { setTitle } = useContext(AppContext);
-    const [emailInput,setEmailInput] = useState('')
-    const [passwordInput,setPasswordInput] = useState('')
-    useEffect(()=>{
+    const [emailInput, setEmailInput] = useState('')
+    const [passwordInput, setPasswordInput] = useState('')
+    // const { message, successful } = props;
+
+    useEffect(() => {
         setTitle('Medical Resources::Login')
-    },[])
+    }, [])
     const handleEmailChange = (e) => {
-        const {target:{value}} = e;
+        const { target: { value } } = e;
         setEmailInput(value);
     }
 
     const handlePasswordChange = (e) => {
-        const {target:{value}} = e;
+        const { target: { value } } = e;
         setPasswordInput(value);
     }
 
@@ -31,14 +33,28 @@ const LoginPage = (props) => {
         setEmailInput("")
     }
 
-    return(<div className="x-container">
+    return (<div className="x-container">
         <div className="login-card">
             <h3>Login</h3>
-            <input className="email-input" placeholder="Email" type="text" value={emailInput} onChange={handleEmailChange}/>
-            <input className="password-input" placeholder="Password" type="password" value={passwordInput} onChange={handlePasswordChange}/>
-            {error && <ErrorMessage message={error}/>}
+            <input className="email-input" placeholder="Email" type="text" value={emailInput} onChange={handleEmailChange} />
+            <input className="password-input" placeholder="Password" type="password" value={passwordInput} onChange={handlePasswordChange} />
+            {error && <ErrorMessage message={error} />}
             <button className="login-btn" onClick={handleLoginClick}>LOGIN</button>
             <p>Or - <Link to="/register">Create New Account</Link></p>
+            {/* {registerMessage && (
+                <div className="form-group">
+                    <div
+                        className={
+                            successfulRegister
+                                ? "alert alert-success"
+                                : "alert alert-danger"
+                        }
+                        role="alert"
+                    >
+                        {registerMessage}
+                    </div>
+                </div>
+            )} */}
         </div>
     </div>)
 }

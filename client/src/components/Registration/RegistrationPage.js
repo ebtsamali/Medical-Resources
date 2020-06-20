@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import {AppContext} from "../../providers/AppProvider";
 import { makeStyles } from '@material-ui/core/styles';
 import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     select: {
@@ -43,7 +44,7 @@ const validateConfirmPassword = (value) => {
 
 const RegistrationPage = (props) => {
 
-    const { setTitle } = useContext(AppContext);
+    const { setTitle, setSuccessfulRegister, setRegisterMessage } = useContext(AppContext);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -59,6 +60,7 @@ const RegistrationPage = (props) => {
     const form = useRef(null);
     const [roles] = useState(["user", "hospital", "pharmacy"]);
     const classes = useStyles();
+    let history = useHistory();
 
     useEffect(()=>{
         setTitle('Medical Resources::Sign Up')
@@ -133,8 +135,9 @@ const RegistrationPage = (props) => {
                         setMessage(response.data.message);
                         setSuccessful(true);
                         setLoading(false);
-
-                        // resetAll();
+                        // setSuccessfulRegister(true);
+                        // setRegisterMessage(response.data.message);
+                        // history.push('/');
                     },
                     error => {
                         const resMessage =
@@ -147,6 +150,8 @@ const RegistrationPage = (props) => {
                         setLoading(false);
                         setMessage(resMessage);
                         setSuccessful(false);
+                        // setSuccessfulRegister(false);
+                        // setRegisterMessage(resMessage);
                     }
                 )
         } else {
