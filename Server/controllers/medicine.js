@@ -91,7 +91,7 @@ const search = async (req, res) => {
         pages.hasPrevious = true
     }
     const page = (req.query.page && req.query.page - 1) || 0
-    const limit = 2;
+    const limit = 5;
     try {
         if (!q) {
             const pharmacys = await Pharmacy.find({
@@ -137,7 +137,7 @@ const search = async (req, res) => {
             return res.status(200).send({ pharmacys: medicines, pages })
         }
     } catch (e) {
-
+        return res.status(500).send({ message: 'internal server error' })
     }
 }
 

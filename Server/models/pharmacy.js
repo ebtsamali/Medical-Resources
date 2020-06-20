@@ -28,7 +28,6 @@ const pharmacySchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "Name is required"],
-        // unique: true
     },
     location: {
         type: [location],
