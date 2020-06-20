@@ -43,7 +43,7 @@ app.use((req, res, next) => {
 
 // Database Connection
 mongoose.set('useCreateIndex', true);
-mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`, {
+mongoose.connect(process.env.MONGOLAB_URI || `mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false

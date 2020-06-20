@@ -28,9 +28,9 @@ const UserMedicineReservations = () => {
     }
 
     return (
-        <div className="medicines-container">
-            <span onClick={handleRefresh} className="btn btn-success" style={{marginLeft: "75rem"}}>Refresh <RefreshIcon/></span>
-            <table id="medicines" style={{marginTop: "-30rem"}}>
+        <div className="d-flex flex-column">
+            <span onClick={handleRefresh} className="btn btn-success" style={{marginLeft: "75rem", marginBottom: "20px"}}>Refresh <RefreshIcon/></span>
+            <table id="medicines">
                 <thead>
                     <tr>
                         <th>Reservation Status</th>
