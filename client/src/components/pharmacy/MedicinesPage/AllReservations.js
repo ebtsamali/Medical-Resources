@@ -5,6 +5,7 @@ import CollapsibleTable from './AllReservationsTable';
 const AllReservations = (props) => {
 
     const [reservations, setReservations] = useState([])
+    const [statusChanged, setStatusChanged] = useState(false);
 
     useEffect(() => {
         MedicineService.getMedicineReservations()
@@ -14,11 +15,11 @@ const AllReservations = (props) => {
             .catch((error) => {
                 // console.log(error);
             });
-    }, []);
+    }, [statusChanged]);
 
     return (
         <div style={{height: "600px", paddingTop: "auto"}}>
-            <CollapsibleTable rows={reservations}/>
+            <CollapsibleTable rows={reservations} setStatusChanged={setStatusChanged} statusChanged={statusChanged} />
         </div>
     )
 }

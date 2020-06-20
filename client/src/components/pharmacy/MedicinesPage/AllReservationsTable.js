@@ -20,6 +20,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import MedicineService from '../../../services/medicine_service';
 
 const useRowStyles = makeStyles({
     root: {
@@ -87,21 +88,19 @@ function TablePaginationActions(props) {
 }
 
 function Row(props) {
-    const { row } = props;
+    const { row, setStatusChanged, statusChanged } = props;
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
 
     const handleChangeReservationStatus = (reservationID, status) => {
-
-        console.log(reservationID, status);
-        // Reser.updateOrderStatus(reservationID, status)
-        //     .then(response => {
-        //         console.log(response.data.order);
-        //         setStatusChanged(!statusChanged);
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
+        
+        MedicineService.updateReservationStatus(reservationID, status)
+            .then(response => {
+                setStatusChanged(!statusChanged);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     return (
@@ -125,7 +124,7 @@ function Row(props) {
                 <TableCell style={{fontSize: "16px"}} align="center">{row.user.phoneNumber}</TableCell>
                 <TableCell align="center">
                     <button className="btn btn-dark mr-2" disabled={row.status === "cancelled" || row.status === "fulfilled"} onClick={() => handleChangeReservationStatus(row._id, "fulfilled")}>Fulfill</button>
-                    <button className="btn btn-dark" disabled={row.status === "fulfilled"} onClick={() => handleChangeReservationStatus(row._id, "cancelled")}>Cancel</button>
+                    <button className="btn btn-dark" disabled={row.status === "cancelled" || row.status === "fulfilled"} onClick={() => handleChangeReservationStatus(row._id, "cancelled")}>Cancel</button>
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -165,7 +164,7 @@ function Row(props) {
 
 export default function CollapsibleTable(props) {
 
-    const { rows } = props;
+    const { rows, setStatusChanged, statusChanged } = props;
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -196,7 +195,7 @@ export default function CollapsibleTable(props) {
                     {(rowsPerPage > 0
                         ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         : rows).map((row) => (
-                            <Row key={row._id} row={row} />
+                            <Row key={row._id} row={row} setStatusChanged={setStatusChanged} statusChanged={statusChanged} />
                         ))}
                 </TableBody>
                 <TableFooter>

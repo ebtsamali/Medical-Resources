@@ -99,7 +99,6 @@ function Row(props) {
 
         MedicineService.updateOrderStatus(orderId, status)
             .then(response => {
-                console.log(response.data.order);
                 setStatusChanged(!statusChanged);
             })
             .catch(err => {

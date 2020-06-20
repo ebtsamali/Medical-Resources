@@ -48,6 +48,11 @@ function MedicineService() {
                 axios.patch(`${process.env.REACT_APP_BACKEND_URL}/medicines/orders/${orderId}`, { status }, { headers: authHeader() })
             )
         },
+        updateReservationStatus: (reservationId, status) => {
+            return (
+                axios.patch(`${process.env.REACT_APP_BACKEND_URL}/medicines/reservations/${reservationId}`, { status }, { headers: authHeader() })
+            )
+        }
     })
 }
 

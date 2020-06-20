@@ -196,6 +196,26 @@ const changeOrderStatus = async (req, res) => {
     }
 }
 
+const changeReservationStatus = async (req, res) => {
+    const { userId } = req;
+    const reservationId = req.params.id;
+    const status = req.body.status;
+
+    try {
+        const pharmacy = await Pharmacy.findOne({ admin_id: userId });
+        if (!pharmacy) {
+            return res.status(404).send({ errors: { message: "Please Complete Your Profile" } })
+        }
+
+        const reservation = await MedicineReservations.findOne({ _id: reservationId, pharmacy: pharmacy });
+        reservation.status = status;
+        await reservation.save();
+        res.status(200).send({ reservation, message: "Reservation Updated Successfully" });
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}
+
 module.exports = {
     addMedicine,
     getAllMedicine,
@@ -204,5 +224,6 @@ module.exports = {
     search,
     getAllMedicineReservations,
     getAllMedicineOrders,
-    changeOrderStatus
+    changeOrderStatus,
+    changeReservationStatus
 }
