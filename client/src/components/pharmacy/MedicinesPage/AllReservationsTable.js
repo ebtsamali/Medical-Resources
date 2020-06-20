@@ -91,6 +91,19 @@ function Row(props) {
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
 
+    const handleChangeReservationStatus = (reservationID, status) => {
+
+        console.log(reservationID, status);
+        // Reser.updateOrderStatus(reservationID, status)
+        //     .then(response => {
+        //         console.log(response.data.order);
+        //         setStatusChanged(!statusChanged);
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
+    }
+
     return (
         <React.Fragment>
             <TableRow className={classes.root}>
@@ -100,16 +113,23 @@ function Row(props) {
                     </IconButton>
                 </TableCell>
                 <TableCell style={{fontSize: "16px"}} component="th" scope="row">
-                    {row.status === "cancelled" ? <FiberManualRecordIcon style={{color: "red", marginRight: "0.3rem"}}/> : <FiberManualRecordIcon style={{color: "green", marginRight: "0.3rem"}}/>}
+                    {row.status === "cancelled" ? <FiberManualRecordIcon style={{color: "red", marginRight: "0.3rem"}}/> :
+                     row.status === "fulfilled" ? <FiberManualRecordIcon style={{color: "green", marginRight: "0.3rem"}}/> :
+                     <FiberManualRecordIcon style={{ color: "#f0ad4e", marginRight: "0.3rem" }}/>
+                    }
                     {row.status}
                 </TableCell>
                 <TableCell style={{fontSize: "16px"}} align="center">{row.createdAt.split('T')[0]} {row.createdAt.split('T')[1].substring(0, row.createdAt.split('T')[1].length - 2)}</TableCell>
                 <TableCell style={{fontSize: "16px"}} align="center">{row.totalPrice}</TableCell>
                 <TableCell style={{fontSize: "16px"}} align="center">{row.user.firstName} {row.user.lastName}</TableCell>
                 <TableCell style={{fontSize: "16px"}} align="center">{row.user.phoneNumber}</TableCell>
+                <TableCell align="center">
+                    <button className="btn btn-dark mr-2" disabled={row.status === "cancelled" || row.status === "fulfilled"} onClick={() => handleChangeReservationStatus(row._id, "fulfilled")}>Fulfill</button>
+                    <button className="btn btn-dark" disabled={row.status === "fulfilled"} onClick={() => handleChangeReservationStatus(row._id, "cancelled")}>Cancel</button>
+                </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
                             <Typography variant="h6" gutterBottom component="div">
@@ -169,6 +189,7 @@ export default function CollapsibleTable(props) {
                         <TableCell style={{color: "white", fontSize: "16px"}} align="center"><b>Total Price</b></TableCell>
                         <TableCell style={{color: "white", fontSize: "16px"}} align="center"><b>Customer Name</b></TableCell>
                         <TableCell style={{color: "white", fontSize: "16px"}} align="center"><b>Customer Phone</b></TableCell>
+                        <TableCell style={{color: "white", fontSize: "16px"}} align="center"><b>Actions</b></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

@@ -19,7 +19,7 @@ const AllOrders = (props) => {
     }, [statusChanged]);
 
     return (
-        <div style={{ marginTop: "-350px", height: "300px" }}>
+        <div style={{height: "600px", paddingTop: "auto"}}>
             <CollapsibleTable rows={orders} setStatusChanged={setStatusChanged} statusChanged={statusChanged} />
         </div>
     )

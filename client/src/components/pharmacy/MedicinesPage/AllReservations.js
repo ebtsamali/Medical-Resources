@@ -17,7 +17,7 @@ const AllReservations = (props) => {
     }, []);
 
     return (
-        <div style={{marginTop: "-350px", height: "300px"}}>
+        <div style={{height: "600px", paddingTop: "auto"}}>
             <CollapsibleTable rows={reservations}/>
         </div>
     )
