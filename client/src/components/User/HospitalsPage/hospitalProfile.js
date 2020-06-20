@@ -78,14 +78,11 @@ export default () => {
                         <img src="../../../../img/hospital.png" className="hospitalImg" />
                         
                         <Card.Title className="hospitalName">{hospitalName}</Card.Title>
-                        <div className="locationDiv">
-                            <div>
-                                <MdLocationOn style={{ color:"#4ABBA9", fontSize: "30px"}} />
-                            </div>
+                        <div className="locationDiv">     
                             <div className="locationInfo">
-                                <p>{hospitalGovernorate}</p>
-                                <p>{hospitalDistrict}</p>
-                                <p>{hospitalStreet}</p>
+                                <p><MdLocationOn style={{ color:"#4ABBA9", fontSize: "30px", marginLeft: "5px"}} />{hospitalGovernorate}</p>
+                                <p style={{marginLeft: "15px"}}>{hospitalDistrict}</p>
+                                <p style={{marginLeft: "15px"}}>{hospitalStreet}</p>
                             </div>
                         </div>
                         

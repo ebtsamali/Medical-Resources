@@ -56,7 +56,7 @@ export default () => {
                                     <td>{ reservation.bed.dayCost }</td>
                                     <td className="statusTd">
                                         <div>
-                                            { reservation.status === "pending"? <BsCircleFill style={{color: "gray"}} className="statusIcon"/> 
+                                            { reservation.status === "pending"? <BsCircleFill style={{color: "#f0ad4e"}} className="statusIcon"/> 
                                             : reservation.status === "cancelled" ? <BsCircleFill style={{color: "red"}} className="statusIcon"/> 
                                             : <BsCircleFill style={{color: "green", marginLeft: "-5px"}}  className="statusIcon"/>}
                                         </div>
