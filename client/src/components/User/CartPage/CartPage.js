@@ -16,7 +16,24 @@ import Modal from "react-bootstrap/Modal";
 import ErrorMessage from "../../other/ErrorMessage";
 import {getCurrentDay, getCurrentHourInSeconds} from "../../../utils/utils";
 import {AppContext} from "../../../providers/AppProvider";
+import {
+    createMuiTheme,
+    MuiThemeProvider,
+    withStyles
+} from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
 
+const theme = createMuiTheme({
+    overrides: {
+        MuiTooltip: {
+            tooltip: {
+                fontSize: "0.95rem",
+                // color: "yellow",
+                // backgroundColor: "red"
+            }
+        }
+    }
+});
 const CartPage = () => {
 
     const {user} = useContext(AuthContext);
@@ -37,7 +54,7 @@ const CartPage = () => {
     const [medicinesList, setMedicinesList] = useState('')
     const [showWarning, setShowWarning] = useState(false)
     const handleShowWarning = () => setShowWarning(true);
-
+    const [showReservationConfirmationPopUp,setShowReservationConfirmationPopUp] = useState(false);
 
     useEffect(() => {
         setTitle('Cart')
@@ -48,8 +65,8 @@ const CartPage = () => {
         UserService.getCartDetails(getCart()).then((response) => {
             const cart = response.data
             cart.forEach((pharmacy) => {
-                pharmacy.medicines = pharmacy.medicines.filter((medicine)=> medicine.quantity > 0)
-                if(pharmacy.medicines.length === 0 ){
+                pharmacy.medicines = pharmacy.medicines.filter((medicine) => medicine.quantity > 0)
+                if (pharmacy.medicines.length === 0) {
                     removePharmacyFromCart(pharmacy.pharmacy._id)
                 }
                 pharmacy.medicines = pharmacy.medicines.map((medicine) => {
@@ -68,11 +85,11 @@ const CartPage = () => {
         if (currentPharmacyIndex >= 0) {
             setCurrentMedicineIndex(0)
             setMedicinesList(cartDetails[currentPharmacyIndex].medicines.reduce((acc, medicine) => {
-                if(acc.length > 1) {
+                if (acc.length > 1) {
                     acc = `${acc}, `
                 }
                 return `${acc} ${medicine.name}`
-            },''))
+            }, ''))
             setCurrentMedicines(cartDetails[currentPharmacyIndex].medicines)
             setTotalPrice(cartDetails[currentPharmacyIndex].medicines.reduce((acc, medicine) => {
                 return acc + (medicine.price * medicine.userQuantity)
@@ -104,7 +121,7 @@ const CartPage = () => {
 
     const isOpened = () => {
         console.log("isOpened")
-       return (cartDetails[currentPharmacyIndex].pharmacy.workingHours.filter((day) => {
+        return (cartDetails[currentPharmacyIndex].pharmacy.workingHours.filter((day) => {
             return day.day === getCurrentDay() && day.startTime <= getCurrentHourInSeconds() && day.endTime > getCurrentHourInSeconds() && day.isOpened
         }).length > 0)
     }
@@ -134,6 +151,7 @@ const CartPage = () => {
         UserService.reserveMedicine(user.id, params.pharmacyId, params.data).then((response) => {
             setCartDetails(cartDetails.filter((pharmacy) => params.pharmacyId !== pharmacy.pharmacy._id))
             removePharmacyFromCart(params.pharmacyId)
+            setShowReservationConfirmationPopUp(false);
         })
     }
 
@@ -141,16 +159,16 @@ const CartPage = () => {
         const params = buildData()
         const address = (!useCurrentInfo) ? userAddress : `${userProfile.address.street}, ${userProfile.address.district}, ${userProfile.address.governorate}, Flat Number: ${userProfile.address.flatNum}`
         const phone = (!useCurrentInfo) ? userPhone : `${userProfile.phoneNumber}`
-        const data = {...params.data, userAddress:address, userPhone: phone}
+        const data = {...params.data, userAddress: address, userPhone: phone}
         UserService.orderMedicine(user.id, params.pharmacyId, data).then((response) => {
             setCartDetails(cartDetails.filter((pharmacy) => params.pharmacyId !== pharmacy.pharmacy._id))
             removePharmacyFromCart(params.pharmacyId)
             setShow(false)
-        }).catch((error)=>{
-                console.log(error.response.data)
-            if(error.response.data.errors){
+        }).catch((error) => {
+            console.log(error.response.data)
+            if (error.response.data.errors) {
                 setErrors(error.response.data.errors)
-            }else {
+            } else {
                 setErrors({})
             }
         })
@@ -262,9 +280,25 @@ const CartPage = () => {
                     <h5>Total Price : {totalPrice}LE</h5>
                     <div className="btn-container">
                         {cartDetails[currentPharmacyIndex].pharmacy.delivery &&
-                        <button onClick={(isOpened()) ? handleShow : handleShowWarning}>Order</button>
+                        <MuiThemeProvider theme={theme}>
+                            <Tooltip
+                                title={`when you order medicine, you will get it at your address`}
+                                placement="top"
+                            >
+                                <button onClick={(isOpened()) ? handleShow : handleShowWarning}>Order</button>
+                            </Tooltip>
+                        </MuiThemeProvider>
                         }
-                        <button onClick={(isOpened()) ? handleClickReserve : handleShowWarning}>Reserve</button>
+                        <MuiThemeProvider theme={theme}>
+                            <Tooltip
+                                title={`when you reserve medicine, you should go to pharmacy to take theme before specific period`}
+                                placement="top"
+                            >
+                                <button onClick={(isOpened()) ? ()=>{
+                                    setShowReservationConfirmationPopUp(true)
+                                } : handleShowWarning}>Reserve</button>
+                            </Tooltip>
+                        </MuiThemeProvider>
                     </div>
                 </div>
             </div>}
@@ -275,6 +309,33 @@ const CartPage = () => {
                 }} color="#28303A" size="3x" icon={faArrowRight}/>}
             </div>
         </div>}
+
+        <>
+            <Modal
+                size="lg"
+                show={showReservationConfirmationPopUp}
+                onHide={() => setShowReservationConfirmationPopUp(false)}
+                aria-labelledby="example-modal-sizes-title-sm">
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-sm">
+                        Reservation Confirmation
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {cartDetails[currentPharmacyIndex] && <div>
+                        <p className="mt-1">Are You Sure You Want to Reserve this medicines
+                        list <b>({`${medicinesList} `})</b> with <b>total price: {totalPrice}LE</b></p>
+                        <p><b>Note :</b>{` you should go to  ${cartDetails[currentPharmacyIndex].pharmacy.name} within ${cartDetails[currentPharmacyIndex].pharmacy.maxTimeLimit} hours to get theme.`}</p>
+                    </div>}
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className="btn-container">
+                        <button onClick={handleClickReserve}>Confirm</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+        </>
 
         <>
             <Modal
@@ -322,7 +383,8 @@ const CartPage = () => {
                                 {errors.userPhone && <ErrorMessage message={errors.userPhone}/>}
                             </div>
                             <div>
-                                <input className="form-input" type="text" disabled={useCurrentInfo}  value={userAddress} placeholder="Address..."
+                                <input className="form-input" type="text" disabled={useCurrentInfo} value={userAddress}
+                                       placeholder="Address..."
                                        onChange={(event => {
                                            setUserAddress(event.target.value)
                                        })}/>
@@ -330,15 +392,18 @@ const CartPage = () => {
                             </div>
                         </div>
                         <div className="use-defualt-current-account-data-constainer">
-                            <input type="checkbox" id="use-defualt-current-account-data" name="use-defualt-current-account-data" checked={useCurrentInfo}
+                            <input type="checkbox" id="use-defualt-current-account-data"
+                                   name="use-defualt-current-account-data" checked={useCurrentInfo}
                                    onChange={(event => {
                                        const {target: {checked}} = event;
                                        setUseCurrentInfo(checked)
                                    })}
                             />
-                            <label htmlFor="use-defualt-current-account-data">Use the address and phone number you entered before ?</label>
+                            <label htmlFor="use-defualt-current-account-data">Use the address and phone number you
+                                entered before ?</label>
                         </div>
-                        <p className="mt-1">Are You Sure You Want to Order this medicines list <b>({`${medicinesList} `})</b> with <b>total price: {totalPrice}LE</b></p>
+                        <p className="mt-1">Are You Sure You Want to Order this medicines
+                            list <b>({`${medicinesList} `})</b> with <b>total price: {totalPrice}LE</b></p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
