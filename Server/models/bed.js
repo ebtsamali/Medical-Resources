@@ -10,6 +10,12 @@ const bedSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Room Number is required"]
     },
+    category: {
+        type: String,
+        enum: ['normal', 'intensive care'],
+        required: [true, "Room Type is Required"],
+        default: 'normal'
+    },
     dayCost: {
         type: Number,
         required: [true, "Day Cost is required"]

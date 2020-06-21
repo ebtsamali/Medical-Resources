@@ -14,7 +14,7 @@
 }
 
 .leftContent {
-    flex-basis: 27%;
+    flex-basis: 20%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -22,14 +22,15 @@
 }
 
 .rightContent {
-    flex-basis: 73%;
+    flex-basis: 80%;
     height: 100%;
     display: flex;
     justify-content: space-around;
+    align-content: center;
 }
 
 .leftLocationCard {
-    width: 70%;
+    width: 90%;
     flex-basis: 55%;
     display: flex;
     flex-direction: column;
@@ -56,7 +57,7 @@
 }
 
 .leftContactCard {
-    width: 70%;
+    width: 90%;
     flex-basis: 35%;
     background-color: white;
 }
@@ -80,18 +81,19 @@
 .leftContentCardsBody {
     display: flex;
     flex-direction: column;
+    width: 100%;
     justify-content: space-around;
-    align-items: center;
     margin-top: 10px;
 }
 
 .leftContentCardsBodyItem {
     padding: 7px;
     font-size: large;
+    align-self: center;
 }
 
 .rightContentBody {
-    flex-basis: 98%;
+    flex-basis: 90%;
     height: 95%;
     background-color: white;
     align-self: center;
