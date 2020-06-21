@@ -54,7 +54,8 @@ const CartPage = () => {
     const [medicinesList, setMedicinesList] = useState('')
     const [showWarning, setShowWarning] = useState(false)
     const handleShowWarning = () => setShowWarning(true);
-    const [showReservationConfirmationPopUp,setShowReservationConfirmationPopUp] = useState(false);
+    const [showReservationConfirmationPopUp, setShowReservationConfirmationPopUp] = useState(false);
+    const [showCompleteProfilePopup, setShowCompleteProfilePopup] = useState(false);
 
     useEffect(() => {
         setTitle('Cart')
@@ -294,9 +295,10 @@ const CartPage = () => {
                                 title={`when you reserve medicine, you should go to pharmacy to take theme before specific period`}
                                 placement="top"
                             >
-                                <button onClick={(isOpened()) ? ()=>{
+                                <button onClick={(isOpened()) ? () => {
                                     setShowReservationConfirmationPopUp(true)
-                                } : handleShowWarning}>Reserve</button>
+                                } : handleShowWarning}>Reserve
+                                </button>
                             </Tooltip>
                         </MuiThemeProvider>
                     </div>
@@ -313,6 +315,39 @@ const CartPage = () => {
         <>
             <Modal
                 size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                show={showCompleteProfilePopup}
+                onHide={() => setShowCompleteProfilePopup(false)}
+                onEnter={()=>{
+                    setShow(false)
+                }}
+                onExit={()=>{
+                    setShow(true)
+                }}
+                >
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-sm">
+                        Warning
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {cartDetails[currentPharmacyIndex] && <p>
+                        {`To use this option you should complete your profile`}
+                    </p>}
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className="btn-container">
+                        <button onClick={()=>{setShowCompleteProfilePopup(false)}}>Continue</button>
+                        <Link to="/user/profile" >Go TO Profile</Link>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+        </>
+
+        <>
+            <Modal
+                size="lg"
                 show={showReservationConfirmationPopUp}
                 onHide={() => setShowReservationConfirmationPopUp(false)}
                 aria-labelledby="example-modal-sizes-title-sm">
@@ -324,8 +359,10 @@ const CartPage = () => {
                 <Modal.Body>
                     {cartDetails[currentPharmacyIndex] && <div>
                         <p className="mt-1">Are You Sure You Want to Reserve this medicines
-                        list <b>({`${medicinesList} `})</b> with <b>total price: {totalPrice}LE</b></p>
-                        <p><b>Note :</b>{` you should go to  ${cartDetails[currentPharmacyIndex].pharmacy.name} within ${cartDetails[currentPharmacyIndex].pharmacy.maxTimeLimit} hours to get theme.`}</p>
+                            list <b>({`${medicinesList} `})</b> with <b>total price: {totalPrice}LE</b></p>
+                        <p><b>Note
+                            :</b>{` you should go to  ${cartDetails[currentPharmacyIndex].pharmacy.name} within ${cartDetails[currentPharmacyIndex].pharmacy.maxTimeLimit} hours to get theme.`}
+                        </p>
                     </div>}
 
                 </Modal.Body>
@@ -396,6 +433,10 @@ const CartPage = () => {
                                    name="use-defualt-current-account-data" checked={useCurrentInfo}
                                    onChange={(event => {
                                        const {target: {checked}} = event;
+                                       if(!userProfile.profileIsCompleted) {
+                                            setShowCompleteProfilePopup(true)
+                                           return
+                                       }
                                        setUseCurrentInfo(checked)
                                    })}
                             />
