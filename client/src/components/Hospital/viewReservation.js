@@ -39,6 +39,7 @@ export default () => {
                             <th>National Identity</th>
                             <th>Phone Number</th>
                             <th>Room Number</th>
+                            <th>Room Type</th>
                             <th>Cost Per day</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -53,6 +54,7 @@ export default () => {
                                     <td>{ reservation.patientID }</td>
                                     <td>{ reservation.patientPhone }</td>
                                     <td>{ reservation.bed.roomNumber }</td>
+                                    <td>{ reservation.bed.category }</td>
                                     <td>{ reservation.bed.dayCost }</td>
                                     <td className="statusTd">
                                         <div>

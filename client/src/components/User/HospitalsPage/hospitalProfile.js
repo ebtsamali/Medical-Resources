@@ -146,7 +146,7 @@ export default () => {
                                { currentBeds.map(bed => {
                                    return (
                                     <Card className="roomCard" key={bed._id}>
-                                        <GiBed style={{fontSize: "100px", marginLeft: "20%"}} />
+                                        <GiBed style={{fontSize: "100px", marginLeft: "25%"}} />
                                         <ListGroup variant="flush">
                                             <ListGroup.Item className="cardRoomItem">ROOM NO: 
                                                 <h5 style={{marginLeft: "5%"}}> { bed.roomNumber } </h5> 
