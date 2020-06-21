@@ -39,6 +39,7 @@ const AllBeds = (props) => {
                         <th>Room Number</th>
                         <th>Day Cost</th>
                         <th>Reservation Status</th>
+                        <th>Category</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -49,6 +50,7 @@ const AllBeds = (props) => {
                             <td>{bed.roomNumber}</td>
                             <td>EGP {bed.dayCost}</td>
                             <td>{bed.reserved ? "Reserved" : "Available"}</td>
+                            <td>{bed.category}</td>
                             <td>
                                 <div className="d-flex justify-content-around">
                                     <FontAwesomeIcon icon={faEdit}

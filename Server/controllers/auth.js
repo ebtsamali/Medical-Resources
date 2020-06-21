@@ -63,7 +63,7 @@ exports.signup = (req, res) => {
     });
 
     newUser.save().then(() => {
-        res.status(201).send({newUser, message: "You Registered Successfully"});
+        res.status(201).send({newUser, message: "You Registered Successfully. You can Login Now."});
     }).catch((err) => {
         res.status(400).send({message: err});
     });

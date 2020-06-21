@@ -28,7 +28,7 @@ exports.getAllBeds = async (req, res) => {
 // add new bed
 exports.addBed = async (req, res) => {
     const {userId} = req;
-    const {body: {roomNumber, dayCost}} = req
+    const {body: {roomNumber, dayCost, category}} = req
     let reservedStatus = false;
     if(req.body.reserved && (req.body.reserved !== reservedStatus)) {
         reservedStatus = true;
@@ -38,7 +38,7 @@ exports.addBed = async (req, res) => {
         if (!hospital) {
             return res.status(404).send({errors: {message: "Please Complete Your Profile"}});
         }
-        const bed = await Bed.create({hospital: hospital._id, roomNumber, dayCost, reserved: reservedStatus});
+        const bed = await Bed.create({hospital: hospital._id, roomNumber, dayCost, reserved: reservedStatus, category});
         res.status(201).send(bed);
     } catch (err) {
         res.status(500).send(err);

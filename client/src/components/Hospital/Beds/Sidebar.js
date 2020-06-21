@@ -16,10 +16,10 @@ const Sidebar = (props) => {
         <div className="sidebar">
             <ul className={"sidebar-ul"}>
                 <li className={(selectedTab === 'all_beds') ? "sidebar-li active" : "sidebar-li"}>
-                    <a onClick={selectAllBeds}>All Beds</a>
+                    <a onClick={selectAllBeds}>All Rooms</a>
                 </li>
                 <li className={(selectedTab === 'add_bed') ? "sidebar-li active" : "sidebar-li"}>
-                    <a onClick={selectAddBed}>Add Bed</a>
+                    <a onClick={selectAddBed}>Add Room</a>
                 </li>
             </ul>
         </div>

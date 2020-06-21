@@ -1,6 +1,28 @@
 import React, { useState, useEffect } from "react";
 import BedService from '../../../services/bedService'
 import ErrorMessage from "../../other/ErrorMessage";
+import { makeStyles } from '@material-ui/core/styles';
+import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
+import RegistrationValidations from "../../Registration/RegistrationValidations";
+
+const useStyles = makeStyles((theme) => ({
+    select: {
+        '&:before': {
+            borderColor: "#4ABBA9",
+        },
+        '&:after': {
+            borderColor: "#4ABBA9",
+        }
+    },
+    icon: {
+        fill: "#4ABBA9",
+    },
+    label: {
+        '.MuiInputLabel-root': {
+            color: "#4ABBA9",
+        }
+    },
+}));
 
 const BedForm = (props) => {
 
@@ -8,9 +30,14 @@ const BedForm = (props) => {
     const [roomNumber, setRoomNumber] = useState('');
     const [dayCost, setDayCost] = useState(0);
     const [reserved, setReserved] = useState(false);
+    const [category, setCategory] = useState("normal");
+    const classes = useStyles();
+    const [validCategory, setValidCategory] = useState(true);
+    const [validCategoryMessage, setValidCategoryMessage] = useState(null);
+    const [categories] = useState(["normal", "intensive care"]);
 
-    const title = (selectedTab === 'add_bed') ? 'Add New Bed' : 'Edit Current Bed';
-    const btnText = (selectedTab === 'add_bed') ? 'Add New Bed' : 'Save Changes';
+    const title = (selectedTab === 'add_bed') ? 'Add New Room' : 'Edit Current Room';
+    const btnText = (selectedTab === 'add_bed') ? 'Add New Room' : 'Save Changes';
     const [errors, setErrors] = useState({})
 
     useEffect(() => {
@@ -20,10 +47,19 @@ const BedForm = (props) => {
         }
     }, [])
 
+    const validateCategory = (value) => {
+        if (value !== "normal" && value !== "intensive care") {
+            return (
+                <ErrorMessage message={"Invalid Room Type."} />
+            );
+        }
+    }
+
     const setFormState = (bed) => {
         setRoomNumber(bed.roomNumber);
         setDayCost(bed.dayCost);
         setReserved(bed.reserved);
+        setCategory(bed.category);
     }
 
     const onChangeRoomNumber = (e) => {
@@ -38,30 +74,48 @@ const BedForm = (props) => {
         setReserved(e.target.checked);
     }
 
+    const onChangeCategory = (e) => {
+        setCategory(e.target.value);
+        setValidCategory(true);
+        setValidCategoryMessage(null);
+        let reqReturn = RegistrationValidations.required(e.target.value);
+        if (reqReturn) {
+            setValidCategory(false);
+            setValidCategoryMessage(reqReturn);
+            return;
+        }
+        let validReturn = validateCategory(e.target.value);
+        if (validReturn) {
+            setValidCategory(false);
+            setValidCategoryMessage(validReturn);
+        }
+    }
+
     const onSubmit = () => {
 
-        if(!roomNumber) {
-            setErrors({...errors, roomNumber: "Room Number is Required"});
+        if (!roomNumber) {
+            setErrors({ ...errors, roomNumber: "Room Number is Required" });
             return;
         }
 
-        if(!dayCost || dayCost === 0) {
-            setErrors({...errors, dayCost: "Day Cost is Required"});
+        if (!dayCost || dayCost === 0) {
+            setErrors({ ...errors, dayCost: "Day Cost is Required" });
             return;
         }
 
         const bed = {
             roomNumber,
             dayCost,
-            reserved
+            reserved,
+            category
         }
 
         if (selectedTab === 'add_bed') {
             BedService.addBed(bed).then((response) => {
-                setFormState({ roomNumber: '', dayCost: 0, reserved: false });
+                setFormState({ roomNumber: '', dayCost: 0, reserved: false, category: "normal" });
                 setSelectedTab('all_beds')
             }).catch((error) => {
-                 setErrors(error.response.data.errors)
+                setErrors(error.response.data.errors)
             })
         } else {
             const { selectedBed } = props;
@@ -70,7 +124,7 @@ const BedForm = (props) => {
                 selectedBed[key] = bed[key];
             })
             BedService.updateBed(selectedBed).then((response) => {
-                setFormState({ roomNumber: '', dayCost: 0, reserved: false });
+                setFormState({ roomNumber: '', dayCost: 0, reserved: false, category: "normal" });
                 setSelectedTab('all_beds')
             }).catch((error) => {
                 setErrors(error.response.data.errors)
@@ -79,34 +133,64 @@ const BedForm = (props) => {
         }
     }
     return (
-    <div className="x-medicine-form">
-        <h3>{title}</h3>
-        <div className="d-flex flex-row">
-            <p>Room Number: </p>
-            <div >
-                <input className="form-input" value={roomNumber} onChange={ onChangeRoomNumber } type="text" placeholder="Room Number" />
+        <div className="x-medicine-form">
+            <h3>{title}</h3>
+            <div className="d-flex flex-row">
+                <p>Room Number: </p>
+                <div >
+                    <input className="form-input" value={roomNumber} onChange={onChangeRoomNumber} type="text" placeholder="Room Number" />
+                </div>
             </div>
-        </div>
-        {errors.roomNumber && <ErrorMessage message={errors.roomNumber} />}
+            {errors.roomNumber && <ErrorMessage message={errors.roomNumber} />}
 
-        <div>
-            <p>Day Cost:</p>
-            <div className="ml-5">
-                <input className="form-input" value={dayCost} onChange={ onChangeDayCost } type="number" placeholder="Day Cost" />
-            </div>
-        </div>
-
-        {errors.dayCost && <ErrorMessage message={errors.dayCost} />}
-        <div>
-            <p>Reserved? </p>
             <div>
-                <input style={{marginLeft: "-27rem"}} className="form-input" checked={reserved} onChange={ onChangeReserve } type="checkbox"/>
+                <p>Day Cost:</p>
+                <div className="ml-5">
+                    <input className="form-input" value={dayCost} onChange={onChangeDayCost} type="number" placeholder="Day Cost" />
+                </div>
             </div>
-        </div>
-        {errors.quantity && <ErrorMessage message={errors.quantity} />}
 
-        <button onClick={ onSubmit } className="submit">{btnText}</button>
-    </div>
+            {errors.dayCost && <ErrorMessage message={errors.dayCost} />}
+
+            <div style={{marginTop: "1rem"}}>
+                <p>Category: </p>
+                <div style={{marginLeft: "12rem"}}>
+                    <FormControl>
+                        <Select
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            value={category}
+                            onChange={onChangeCategory}
+                            label="Category"
+                            className={classes.select}
+                            inputProps={{
+                                classes: {
+                                    icon: classes.icon,
+                                }
+                            }}
+                            style={{width:"33rem"}}
+                        >
+                            {categories.map((r) => {
+                                return (
+                                    <MenuItem key={r} value={r}>{r}</MenuItem>
+                                )
+                            })}
+                        </Select>
+                    </FormControl><br />
+                </div>
+            </div>
+
+            {!validCategory && <div style={{ width: "30rem" }}>{validCategoryMessage}</div>}
+            <div style={{marginTop: "1rem"}}>
+                <p>Reserved? </p>
+                <div>
+                    <input style={{ marginLeft: "-27rem" }} className="form-input" checked={reserved} onChange={onChangeReserve} type="checkbox" />
+                </div>
+            </div>
+            {errors.reserved && <ErrorMessage message={errors.reserved} />}
+
+            <button onClick={onSubmit} className="submit">{btnText}</button>
+        </div>
     )
 }
 

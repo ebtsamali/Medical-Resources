@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, useContext} from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import Form from 'react-validation/build/form';
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -8,7 +8,8 @@ import UserServices from '../../services/userServices';
 import RegistrationValidations from "./RegistrationValidations";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { Link } from "react-router-dom";
-import {AppContext} from "../../providers/AppProvider";
+import { AppContext } from "../../providers/AppProvider";
+import { AuthContext } from "../../providers/auth_provider";
 import { makeStyles } from '@material-ui/core/styles';
 import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
@@ -44,7 +45,8 @@ const validateConfirmPassword = (value) => {
 
 const RegistrationPage = (props) => {
 
-    const { setTitle, setSuccessfulRegister, setRegisterMessage } = useContext(AppContext);
+    const { setTitle } = useContext(AppContext);
+    const { setSuccessfulRegister, setRegisterMessage } = useContext(AuthContext);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -62,9 +64,9 @@ const RegistrationPage = (props) => {
     const classes = useStyles();
     let history = useHistory();
 
-    useEffect(()=>{
+    useEffect(() => {
         setTitle('Medical Resources::Sign Up')
-    },[])
+    }, [])
     const onChangeFirstName = (e) => {
         setFirstName(e.target.value);
     }
@@ -135,9 +137,9 @@ const RegistrationPage = (props) => {
                         setMessage(response.data.message);
                         setSuccessful(true);
                         setLoading(false);
-                        // setSuccessfulRegister(true);
-                        // setRegisterMessage(response.data.message);
-                        // history.push('/');
+                        setSuccessfulRegister(true);
+                        setRegisterMessage(response.data.message);
+                        history.push('/');
                     },
                     error => {
                         const resMessage =
@@ -150,8 +152,8 @@ const RegistrationPage = (props) => {
                         setLoading(false);
                         setMessage(resMessage);
                         setSuccessful(false);
-                        // setSuccessfulRegister(false);
-                        // setRegisterMessage(resMessage);
+                        setSuccessfulRegister(false);
+                        setRegisterMessage(resMessage);
                     }
                 )
         } else {

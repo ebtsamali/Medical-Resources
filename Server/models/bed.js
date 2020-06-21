@@ -8,7 +8,9 @@ const bedSchema = new mongoose.Schema({
     },
     roomNumber: {
         type: Number,
-        required: [true, "Room Number is required"]
+        required: [true, "Room Number is required"],
+        unique: true,
+        
     },
     dayCost: {
         type: Number,
@@ -17,7 +19,12 @@ const bedSchema = new mongoose.Schema({
     reserved: {
         type: Boolean,
         default: false
-    }
+    },
+    category: {
+        type: String,
+        enum: ['normal', 'intensive care'],
+        default: 'normal'
+    },
 },{
     timestamps: true,
 })

@@ -41,7 +41,7 @@ const LoginPage = (props) => {
             {error && <ErrorMessage message={error} />}
             <button className="login-btn" onClick={handleLoginClick}>LOGIN</button>
             <p>Or - <Link to="/register">Create New Account</Link></p>
-            {/* {registerMessage && (
+            {registerMessage && (
                 <div className="form-group">
                     <div
                         className={
@@ -54,7 +54,7 @@ const LoginPage = (props) => {
                         {registerMessage}
                     </div>
                 </div>
-            )} */}
+            )}
         </div>
     </div>)
 }

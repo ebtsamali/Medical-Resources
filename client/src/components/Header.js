@@ -37,7 +37,7 @@ const Header = (props) => {
                 </li>
             </ul> : (user.role === "hospital") ? <ul>
                 {(user.profileIsCompleted) && <li className="nav-list">
-                    <Link to="/hospital/beds/edit">Beds</Link>
+                    <Link to="/hospital/beds/edit">Rooms</Link>
                 </li>}
                 {(user.profileIsCompleted) &&<li className="nav-list">
                     <Link to="/hospital/reservations">Reservations</Link>
