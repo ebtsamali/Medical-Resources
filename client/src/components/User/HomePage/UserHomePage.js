@@ -12,27 +12,27 @@ import {AppContext} from "../../../providers/AppProvider";
 
 const UserHomePage = () => {
 
-    const { user } = useContext(AuthContext);
+    // const { user } = useContext(AuthContext);
     const { setTitle } = useContext(AppContext);
-    const [profileComplete, setprofileComplete] = useState(true);
+    // const [profileComplete, setprofileComplete] = useState(true);
     const [selectedTab, setSelectedTab] = useState('all_orders');
 
     useEffect(()=>{
         setTitle('Home')
     },[])
-    useEffect(() => {
+    // useEffect(() => {
 
-        UserServices.getUserInfo(user.id)
-            .then(response => {
-                if (!response.data.address || !response.data.phoneNumber) {
-                    setprofileComplete(false);
-                }
-            })
-        })
+    //     UserServices.getUserInfo(user.id)
+    //         .then(response => {
+    //             if (!response.data.address || !response.data.phoneNumber) {
+    //                 setprofileComplete(false);
+    //             }
+    //         })
+    //     })
 
         return (
             
-            !profileComplete ? <UserProfile /> : 
+            
             <div className="x-container-medicines">
                 <Header />
                 <div className="body-medicines-container ">
