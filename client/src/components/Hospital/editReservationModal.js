@@ -13,6 +13,7 @@ export default () => {
     const [patientID, setPatientID] = useState(reservation.patientID);
     const [patientPhone, setPatientPhone] = useState(reservation.patientPhone);
     const [roomNumber, setRoomNumber] = useState(reservation.bed.roomNumber);
+    const [roomType, setRoomType] = useState(reservation.bed.category);
     const [dayCost, setDayCost] = useState(reservation.bed.dayCost);
     const [totalDays, setTotalDays] = useState("");
     const [totalCost, setTotalCost] = useState("");
@@ -73,10 +74,10 @@ export default () => {
     return(
         <div>
             <Header />
-            <div className="x-content">
+            <div className="x-content" style={{ marginTop: "3%"}}>
                 <div className="pharmacy-info-card">
                     <div className="x-card-header">
-                        <h4>Reservation Info</h4>
+                        <h3>Reservation Info</h3>
                         { disableStatus ? 
                             <button type="submit" onClick={()=>{setDisableStatus(false)}} className="x-btn"> Edit </button> 
                             :
@@ -86,7 +87,7 @@ export default () => {
                     
                     <div className="location-container">
                         <div>
-                            <small style={{fontSize: "15px"}}>Patient Name </small>
+                            <small style={{fontSize: "18px"}}>Patient Name </small>
                             <input 
                                 type="text"
                                 className="form-input"
@@ -100,7 +101,7 @@ export default () => {
                         </div>
 
                         <div>
-                            <small style={{fontSize: "15px"}}>Patient Identity </small>
+                            <small style={{fontSize: "18px"}}>Patient Identity </small>
                             <input 
                                 type="text"
                                 className="form-input"
@@ -116,7 +117,7 @@ export default () => {
 
                     <div className="location-container">
                         <div>
-                            <small style={{fontSize: "15px"}}>Patient Phone </small>
+                            <small style={{fontSize: "18px"}}>Patient Phone </small>
                             <input 
                                 type="text"
                                 className="form-input"
@@ -130,23 +131,36 @@ export default () => {
                         </div>
 
                         <div>
-                            <small style={{fontSize: "15px"}}>Room Number </small>
+                            <small style={{fontSize: "18px"}}>Room Number </small>
                             <input 
                                 type="text"
                                 className="form-input"
                                 name="roomNumber"
                                 value={roomNumber}
                                 placeholder="room number"
-                                onChange= { e => { e.preventDefault(); setRoomNumber(e.target.value) } }
                                 disabled
                             />
                         </div>
                     </div>
 
                        
-                    <div className="d-flex flex-column align-content-center" style={{marginLeft: "35%"}}>
-                        <Dropdown className="mt-4" onSelect={e => setStatus(e)}>
-                            <Dropdown.Toggle disabled={disableStatus} style={{maxHeight: "50px"}} size="sm" id="dropdown-basic">
+                    <div className="location-container">
+                        <div>
+                            <small style={{fontSize: "18px"}}> Room Type </small>
+                            <input 
+                                type="text"
+                                className="form-input"
+                                name="roomType"
+                                value={roomType}
+                                placeholder="room type"
+                                style={{marginLeft: "4%"}}
+                                disabled
+                            />
+                        </div>
+
+                        <Dropdown onSelect={e => setStatus(e)}>
+                            <small style={{fontSize: "18px"}}> Status </small>
+                            <Dropdown.Toggle disabled={disableStatus} style={{ borderRadius: "20px", width: "270px", marginLeft: "9%"}}>
                                 {status}
                             </Dropdown.Toggle>
 
@@ -163,19 +177,20 @@ export default () => {
                     <br/>
                     <div className="location-container">
                         <div>
-                            <small style={{fontSize: "15px"}}>Created At </small>
+                            <small style={{fontSize: "18px"}}>Created At </small>
                             <input 
                                 type="text"
                                 className="form-input"
                                 name="createdAt"
                                 value={createdAt}
                                 placeholder="created at"
+                                style={{marginLeft: "4%"}}
                                 disabled
                             />
                         </div>
                         
                         <div>
-                            <small style={{fontSize: "15px"}}>Day Cost </small>
+                            <small style={{fontSize: "18px"}}>Day Cost </small>
                             <input 
                                 type="text"
                                 className="form-input"
@@ -183,6 +198,7 @@ export default () => {
                                 value={dayCost}
                                 placeholder="day cost"
                                 onChange={ e => { e.preventDefault(); setDayCost(e.target.value) } }
+                                style={{marginLeft: "6%"}}
                                 disabled={disableStatus}
                             />
                             {errors.dayCost && <ErrorMessage message={errors.dayCost}/>}   
@@ -191,7 +207,7 @@ export default () => {
 
                     <div className="location-container">
                         <div>
-                            <small style={{fontSize: "15px"}}>Total Days </small>
+                            <small style={{fontSize: "18px"}}>Total Days </small>
                             <input 
                                 type="text"
                                 className="form-input"
@@ -199,13 +215,14 @@ export default () => {
                                 value={totalDays}
                                 placeholder="Total Days Number"
                                 onChange={ e => { e.preventDefault(); setTotalDays(e.target.value) } }
+                                style={{marginLeft: "4%"}}
                                 disabled={disableStatus}
                             />
                             {errors.totalDays && <ErrorMessage message={errors.totalDays}/>}
                         </div>
 
                         <div>
-                            <small style={{fontSize: "15px"}}>Total Cost </small>
+                            <small style={{fontSize: "18px"}}>Total Cost </small>
                             <input 
                                 type="text"
                                 className="form-input"
@@ -213,6 +230,7 @@ export default () => {
                                 value={totalCost}
                                 placeholder="total cost"
                                 onChange={ e => { e.preventDefault(); setTotalCost(e.target.value) } }
+                                style={{marginLeft: "6%"}}
                                 disabled={disableStatus}
                             />
                             {errors.totalCost && <ErrorMessage message={errors.totalCost}/>}

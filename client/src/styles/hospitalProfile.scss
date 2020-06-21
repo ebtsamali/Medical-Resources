@@ -1,85 +1,18 @@
 
-.containerDiv {
+#hospitalProfile {
     height: 90%;
+    width: 100%;
     display: flex;
     background-color: rgb(243, 242, 242);
 }
 
-.sidebarDiv {
-    height: 100%;
-    flex-basis: 20%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.sidebarChild {
-    flex-basis: 90%;
-    background-color: white;
-    border: solid 2px whitesmoke;
-}
-
-.sidebarBiggerChild {
-    height: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.hospitalImg {
-    vertical-align: middle;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    align-self: center;
-}
-
-.hospitalName {
-    align-self: center;
-    font-weight: bold;
-    font-size: x-large;
-}
-
-.locationDiv {
-    display: flex;
-    flex-direction: row;
-}
-
-.locationInfo {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
-.sidebarSmallerChild p {
-    text-align: center;
-}
-
-.cardHeader {
-    background-color: #4ABBA9;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-    font-size: large;
-}
-
-.phoneIcon {
-    padding-right: 5px;
-    color: gray;
-    font-size: 25px;
-}
-
 .body {
     height: 100%;
-    flex-basis: 82%;
+    flex-basis: 80%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
 }
 
 .headerDiv {
@@ -145,25 +78,45 @@
 }
 
 .content {
-    flex-basis: 60%;
-    width: 95%;
+    flex-basis: 70%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
     align-items: center;
 }
 
-.bedsDiv {
-    height: 90%;
-    flex-basis: 80%;
+.roomsDiv {
+    height: 95%;
+    flex-basis: 95%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
     background-color: white;
 }
 
-.bedCard {
-    // height: 80%;
-    flex-basis: 90%;
+.roomsRow {
+    flex-basis: 70%;
+    width: 100%;
     display: flex;
     justify-content: space-around;
+}
+
+.roomCard {
+    width: 25%;
+    height: 90%;
+    margin-top: 5px;
+}
+
+.cardRoomItem {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.bedPagination {
+    flex-basis: 15%;
+    width: 100%;
 }
 
 
@@ -183,4 +136,12 @@
 
 .bedModal {
     border: solid 1px rgb(107, 214, 196);
+}
+
+.hospitalImg {
+    vertical-align: middle;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    align-self: center;
 }

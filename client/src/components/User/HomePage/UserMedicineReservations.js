@@ -4,7 +4,7 @@ import UserService from '../../../services/userServices'
 import Pagination from "../../Pagination";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import RefreshIcon from '@material-ui/icons/Refresh';
-
+import {Link} from 'react-router-dom';
 const UserMedicineReservations = () => {
 
     const { user } = useContext(AuthContext);
@@ -53,7 +53,7 @@ const UserMedicineReservations = () => {
                             <td>EGP {reservation.totalPrice}</td>
                             <td>{reservation.createdAt.split('T')[0]} {reservation.createdAt.split('T')[1].substring(0, reservation.createdAt.split('T')[1].length - 2)}</td>
                             <td>
-                                <a href={`/reservation/${reservation._id}`}>More Info</a>
+                                <Link to={`/reservation/${reservation._id}`}>More Info</Link>
                             </td>
                         </tr>)
                     })}

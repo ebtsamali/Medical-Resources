@@ -76,7 +76,6 @@ exports.getCart = async (req, res) => {
 exports.reserveMidicine = async (req, res) => {
     const { params: { id, pharmacy_id } } = req
     const { body: { totalPrice, order } } = req
-    // console.log(req.body)
     try {
         const reservation = await MedicineReservation.create({ totalPrice, order, pharmacy: pharmacy_id, user: id })
         for (let i = 0; i < order.length; ++i) {
@@ -86,8 +85,7 @@ exports.reserveMidicine = async (req, res) => {
         }
         res.send(reservation)
     } catch (e) {
-        console.log(e)
-        res.status(500).end()
+        res.status(500).send({ message: 'internal server error' })
     }
 }
 
@@ -131,7 +129,7 @@ exports.getReservationDetails = async (req, res) => {
         }
         return res.status(200).send(reservation)
     } catch (e) {
-        res.status(500).end()
+        res.status(500).send({ message: 'internal server error' })
     }
 }
 
@@ -156,7 +154,7 @@ exports.getOrderDetails = async (req, res) => {
         }
         return res.status(200).send(order)
     } catch (e) {
-        res.status(500).end()
+        res.status(500).send({ message: 'internal server error' })
     }
 }
 

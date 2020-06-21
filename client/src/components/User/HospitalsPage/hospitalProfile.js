@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import ReservationModal from './bedReservationModal';
 import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import '../../../styles/hospitalProfile.scss';
+import '../../../styles/pharmacyProfile.scss';
 import { Card, ListGroup } from 'react-bootstrap';
 import { FaPhone, FaPoundSign } from 'react-icons/fa';
-import { MdLocationOn } from 'react-icons/md';
 import { IoIosPaper } from 'react-icons/io';
 import {GiBed} from 'react-icons/gi';
 import { FcOvertime } from 'react-icons/fc';
@@ -28,7 +28,7 @@ export default () => {
     const [beds, setBeds] = useState([]);
     const [bedsNumber, setBedsNumber] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const [bedsPerPage] = useState(4);
+    const [bedsPerPage] = useState(3);
     const [clickedBed, setClickedBed] = useState({});
 
     const indexOfLastBed = currentPage * bedsPerPage;
@@ -72,31 +72,34 @@ export default () => {
     return(
         <>
             <Header/>
-            <div className="containerDiv">
-                <div className="sidebarDiv">
-                    <div className="sidebarChild sidebarBiggerChild">
-                        <img src="../../../../img/hospital.png" className="hospitalImg" />
-                        
-                        <Card.Title className="hospitalName">{hospitalName}</Card.Title>
-                        <div className="locationDiv">     
-                            <div className="locationInfo">
-                                <p><MdLocationOn style={{ color:"#4ABBA9", fontSize: "30px", marginLeft: "5px"}} />{hospitalGovernorate}</p>
-                                <p style={{marginLeft: "15px"}}>{hospitalDistrict}</p>
-                                <p style={{marginLeft: "15px"}}>{hospitalStreet}</p>
+            <div id="hospitalProfile">
+                <div className="leftContent">
+                    <div className="leftLocationCard">
+                        <img src="../../../../img/hospital.png" className="hospitalImg" />  
+                        <Card.Title className="pharmacyName">{hospitalName}</Card.Title>
+                        <div className="leftLocationCardBody">     
+                            <div className="leftContentCardsBody">
+                                <h6 className="leftContentCardsBodyItem">{hospitalGovernorate}</h6>
+                                <h6 className="leftContentCardsBodyItem">{hospitalDistrict}</h6>
+                                <h6 className="leftContentCardsBodyItem">{hospitalStreet}</h6>
                             </div>
-                        </div>
-                        
+                        </div>      
                     </div>
 
-                    <div className="sidebarChild sidebarSmallerChild">
-                        <Card.Header className="cardHeader">
-                            <FaPhone className="phoneIcon" />
+                    <div className="leftContactCard">
+                        <Card.Header className="leftContactCardHeader">
+                            <FaPhone className="leftContentCardsIcon" />
                             CONTACT INFO
                         </Card.Header>
-                       {phoneNumbers.map((phone, index) => {
-                           return (<p key={index}> {phone} </p>)
-                       })} 
-                    
+                        <div className="leftContentCardsBody">
+                            {
+                                phoneNumbers.map((phone, index)=> {
+                                    return(
+                                        <h6 key={index} className="leftContentCardsBodyItem">{phone}</h6>
+                                    )
+                                })
+                            }  
+                        </div>
                     </div>
                 </div>
                 
@@ -106,9 +109,9 @@ export default () => {
                             <div className="bedDiv">
                                 <Card.Header>
                                     <GiBed className="timeIcon" />
-                                    AVAILABLE BEDS
+                                    AVAILABLE ROOMS
                                 </Card.Header>
-                                <h5 style={{marginBottom: "10%"}}> {bedsNumber} BEDS</h5>
+                                <h5 style={{marginBottom: "10%"}}> {bedsNumber} ROOMS</h5>
                             </div>
                             <div className="bedDiv">
                                 <Card.Header>
@@ -138,17 +141,22 @@ export default () => {
                     </div>
                     
                     <div className="content">
-                        <div className="bedsDiv">
-                            <div className="bedCard">
+                        <div className="roomsDiv">
+                            <div className="roomsRow">
                                { currentBeds.map(bed => {
                                    return (
-                                    <Card style={{ width: '12rem', height: "68%", marginTop: "3%" }} key={bed._id}>
-                                        <GiBed style={{fontSize: "100px", marginLeft: "20%"}} />
+                                    <Card className="roomCard" key={bed._id}>
+                                        <GiBed style={{fontSize: "100px", marginLeft: "25%"}} />
                                         <ListGroup variant="flush">
-                                            <ListGroup.Item>Room Number: {bed.roomNumber} </ListGroup.Item>
-                                            <ListGroup.Item> cost: 
-                                                <FaPoundSign style={{color: "gray"}} /> {bed.dayCost}
-                                                <small style={{color: "gray"}}>/DAY</small> 
+                                            <ListGroup.Item className="cardRoomItem">ROOM NO: 
+                                                <h5 style={{marginLeft: "5%"}}> { bed.roomNumber } </h5> 
+                                            </ListGroup.Item>
+                                            <ListGroup.Item className="cardRoomItem">TYPE:  
+                                                <h5 style={{marginLeft: "5%"}}> { bed.category } </h5>
+                                            </ListGroup.Item>
+                                            <ListGroup.Item className="cardRoomItem"> COST: 
+                                                <h5 style={{marginLeft: "5%", paddingRight: "3px"}}> { bed.dayCost } </h5>
+                                                Pounds/DAY
                                             </ListGroup.Item>
                                         </ListGroup>
                                         <button className="reservBtn" onClick={()=>{setModalShow(true); setClickedBed(bed)}} >
@@ -158,8 +166,8 @@ export default () => {
                                     )
                                 })} 
                             </div>
-                                <ReservationModal show={modalShow} onHide={() => { setModalShow(false); setClickedBed({}); }} hospital={hospital} clickedBed={clickedBed}/>
-                            <div className="paginationDiv">
+                            <ReservationModal show={modalShow} onHide={() => { setModalShow(false); setClickedBed({}); }} hospital={hospital} clickedBed={clickedBed}/>
+                            <div className="paginationDiv bedPagination">
                                 <Pagination
                                     booksPerPage={bedsPerPage}
                                     totalBooks={beds.length}

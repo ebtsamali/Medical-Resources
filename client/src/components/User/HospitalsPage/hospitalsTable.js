@@ -37,7 +37,7 @@ export default (props) => {
                 <thead>
                     <tr id="hospitals">
                         <th>Hospital Name</th>
-                        <th>Available Beds</th>
+                        <th>Available Rooms</th>
                         <th>Governorate</th>
                         <th>District</th>
                         <th>Street</th>

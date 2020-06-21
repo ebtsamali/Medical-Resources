@@ -6,6 +6,7 @@ import HourglassFullIcon from '@material-ui/icons/HourglassFull';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import {Link} from "react-router-dom";
 
 const UserOrders = () => {
 
@@ -55,7 +56,7 @@ const UserOrders = () => {
                             <td>EGP {order.totalPrice}</td>
                             <td>{order.createdAt.split('T')[0]} {order.createdAt.split('T')[1].substring(0, order.createdAt.split('T')[1].length - 2)}</td>
                             <td>
-                                <a href={`/order/${order._id}`}>More Info</a>
+                                <Link to={`/order/${order._id}`}>More Info</Link>
                             </td>
                         </tr>)
                     })}
