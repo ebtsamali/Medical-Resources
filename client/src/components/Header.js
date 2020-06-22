@@ -21,13 +21,19 @@ const Header = (props) => {
     return (
     <div className="header">
         <div className="nav-container">
-            {(user.role === "pharmacy") ? <ul>
+            {(user.role === "pharmacy") ? 
+            <ul>
                 {(user.profileIsCompleted) && <li className="nav-list">
                     <Link to="/medicines">Home</Link>
                 </li>}
-            </ul> : (user.role === "user") ? <ul>
+            </ul> 
+            : (user.role === "user") ? 
+            <ul>
                 <li className="nav-list">
-                    <Link to="/user">Home</Link>
+                    <Link to="/user/home">Home</Link>
+                </li>
+                <li className="nav-list">
+                    <Link to="/user">History</Link>
                 </li>
                 <li className="nav-list">
                     <Link to="/pharmacys">Pharmacies</Link>
@@ -35,18 +41,21 @@ const Header = (props) => {
                 <li className="nav-list">
                     <Link to="/hospitals">Hospitals</Link>
                 </li>
-            </ul> : (user.role === "hospital") ? <ul>
+            </ul> 
+            : (user.role === "hospital") ? 
+            <ul>
                 {(user.profileIsCompleted) && <li className="nav-list">
                     <Link to="/hospital/beds/edit">Rooms</Link>
                 </li>}
                 {(user.profileIsCompleted) &&<li className="nav-list">
                     <Link to="/hospital/reservations">Reservations</Link>
                 </li>}
-            </ul> : <ul>
-                        <li className="nav-list">
-                            <Link to="/">Home</Link>
-                        </li>
-                    </ul>}
+            </ul> 
+            : <ul>
+                <li className="nav-list">
+                    <Link to="/">Home</Link>
+                </li>
+            </ul>}
         </div>
         <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
             <div className="user-profile-container">

@@ -1,0 +1,76 @@
+@import "main";
+
+#userHome {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.userHomeBody {
+    flex-basis: 90%;
+    width: 100%;
+    // background: linear-gradient(to right, rgba(255,0,0,0), rgba(179,255,255,1));;
+    background: linear-gradient(rgba(255,0,0,0), rgb(89, 185, 169));;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.cardTitle {
+    font-size: x-large;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.userHomeBodyItem {
+    width: 30%;
+    height: 30%;
+    border: solid 2px #4ABBA9;
+    min-width: 30%;
+    background-color: white;
+}
+
+.cardText {
+    font-size: 18px; 
+    width: 95%;
+    text-align: center;
+}
+
+.hiWord {
+    color: #4ABBA9;
+    font-size: x-large; 
+    font-weight: bold;
+}
+
+.arrowIcon {
+    font-size: 30px;
+    color: #4ABBA9;
+    margin-top: 15px;
+}
+
+.searchLink {
+    color: #4ABBA9;
+    font-size: larger; 
+    font-weight: bolder;
+    margin-left: 35%;
+}
+
+.searchLink:hover {
+    color: #66e9d3;
+}
+
+.doctorImg {
+    width: 200px;
+    height: 250px;
+    margin-left: -100px;
+    margin-top: -100px;
+}
+
+.pharmacistImg {
+    width: 200px; 
+    height: 250px; 
+    margin-top: -100px; 
+    margin-left: 300px;
+}
