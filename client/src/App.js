@@ -32,6 +32,7 @@ import UserProfile from "./components/UserProfile";
 import MailActivationPage from './components/MailActivation';
 import UserHome from './components/User/UserHome';
 import LoginWithGoogleSuccess from "./components/User/LoginWithGoogleSuccess";
+import ForgetPassword from "./components/ForgetPassword";
 // import HomePage from "./components/HomePage";
 
 function App() {
@@ -59,6 +60,10 @@ function App() {
 
                         <AuthRoute path="/user/activation/:token" type="guest">
                             <MailActivationPage/>
+                        </AuthRoute>
+
+                        <AuthRoute path="/password/reset/:token" type="guest">
+                            <ForgetPassword/>
                         </AuthRoute>
                         
                         <AuthRoute exact path="/user/home" type="private" privilege="user">

@@ -39,6 +39,12 @@ function UserServices() {
         mailActivation: (emailToken) => {
             return axios.get(`${API_URL}/auth/users/activation/${emailToken}`)
         },
+        passwordReset: (email) => {
+            return axios.post(`${API_URL}/auth/users/reset/password`, { email });
+        },
+        updatePassword: (password, resetPasswordToken) => {
+            return axios.patch(`${API_URL}/auth/users/reset/password/${resetPasswordToken}`, { password });
+        },
         searchMedicines: (query) => {
             return axios.get(`${API_URL}/medicines/search${query}`, { headers: authHeader() })
         },
