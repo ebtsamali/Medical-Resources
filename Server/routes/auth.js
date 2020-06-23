@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/auth');
-const { verifySignUp } = require("../middlewares/index");
-const bodyParser = require("body-parser");
+const {verifySignUp} = require("../middlewares/index");
+const passport = require('passport');
 
 exports.tokenMiddleware = function (req, res, next) {
     res.header(
@@ -11,9 +11,11 @@ exports.tokenMiddleware = function (req, res, next) {
     );
     next();
 }
-
 router.post("/users/signup", verifySignUp.checkDuplicatedEmail, authController.signup);
 
 router.post("/users/signin", authController.signin);
+router.get('/google',
+    passport.authenticate('google', {scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']}));
+router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/login'}), authController.loginWithGoogle);
 
 exports.authRouter = router;

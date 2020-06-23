@@ -7,11 +7,12 @@
 
 .right-container {
     width: 50%;
-    background-color: #f2efef;
+    //background-color: #f2efef;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+  background: linear-gradient(180deg, #4cbb9e 0%, #226057 100%);
 }
 
 .left-container {
@@ -62,6 +63,7 @@
   width: 30em;
   min-width: 50%;
   background-color: white;
+  margin-bottom: 4.5em;
 }
 
 
@@ -113,6 +115,25 @@
   margin-bottom: 1em;
 }
 
+.login-with-google-btn{
+  background-color: $color_google_btn;
+  border: none;
+  border-radius: 2em;
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
+  font-weight: bold;
+  color: white;
+    text-align: center;
+  margin-bottom: 1em;
+  text-decoration: none;
+  a{
+  }
+
+}
+.login-with-google-btn:hover{
+  color: white;
+  text-decoration: none;
+}
 // hr.solid {
 //   border-top: 3px solid #bbb;
 //   position: relative;

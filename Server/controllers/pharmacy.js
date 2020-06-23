@@ -34,7 +34,7 @@ const getPharmacyProfile = async (req, res) => {
         res.status(200).send(pharmacy)
     } catch (e) {
         console.log(e)
-        res.status(500).end()
+        res.status(500).send({ message: 'internal server error' })
     }
 }
 
@@ -73,7 +73,7 @@ const getPharmacyData = async (req, res) => {
         res.status(200).send(pharmacy)
     } catch (e) {
         console.log(e)
-        res.status(500).end()
+        res.status(500).send({ message: 'internal server error' })
     }
 }
 

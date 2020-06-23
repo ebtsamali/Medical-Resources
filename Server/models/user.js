@@ -75,6 +75,26 @@ const userSchema = new mongoose.Schema({
     timestamps: true,
 });
 
+
+userSchema.statics.findOrCreate = async function (condition,user, cb) {
+    const self = this
+    console.log(user)
+    try {
+        const existedUser = await self.findOne(condition);
+        if(existedUser) {
+            cb(null,existedUser)
+        } else {
+            const newUser = await self.create({...user, password:process.env.DEFAULT_PASSWORD});
+            if(newUser)
+                cb(null,newUser)
+        }
+    } catch (e) {
+        console.log(e)
+        cb(e,null)
+    }
+
+}
+
 userSchema.pre('save', function (next) {
     let user = this;
 

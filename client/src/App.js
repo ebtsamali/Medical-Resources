@@ -30,6 +30,7 @@ import OrderStatusPage from "./components/User/PreviewStatusPage/OrderStatusPage
 import UserHomePage from "./components/User/HomePage/UserHomePage";
 import UserProfile from "./components/UserProfile";
 import UserHome from './components/User/UserHome';
+import LoginWithGoogleSuccess from "./components/User/LoginWithGoogleSuccess";
 // import HomePage from "./components/HomePage";
 
 function App() {
@@ -45,6 +46,10 @@ function App() {
                         <AuthRoute path="/login" type="guest">
                             <LoginPage/>
 
+                        </AuthRoute>
+
+                        <AuthRoute path="/auth/google/success" type="guest">
+                            <LoginWithGoogleSuccess/>
                         </AuthRoute>
 
                         <AuthRoute path="/register" type="guest">
