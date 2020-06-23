@@ -66,7 +66,8 @@ const RegistrationPage = (props) => {
 
     useEffect(() => {
         setTitle('Medical Resources::Sign Up')
-    }, [])
+    }, []);
+    
     const onChangeFirstName = (e) => {
         setFirstName(e.target.value);
     }

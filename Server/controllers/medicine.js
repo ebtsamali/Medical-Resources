@@ -39,7 +39,7 @@ const getAllMedicine = async (req, res) => {
         const medicines = await Medicine.find({ pharmacy: pharmacy._id }).limit(limit).skip(limit * page)
         res.status(201).send({ medicines, pages })
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({ message: 'internal server error' })
     }
 }
 
@@ -75,7 +75,7 @@ const deleteMedicine = async (req, res) => {
         }
         res.status(200).send(medicine)
     } catch (e) {
-        res.status(500).end()
+        res.status(500).send({ message: 'internal server error' })
     }
 
 }

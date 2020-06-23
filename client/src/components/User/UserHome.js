@@ -17,8 +17,8 @@ export default () => {
                         <CardImgOverlay>
                             <CardTitle className="cardTitle">HOSPITALS</CardTitle>
                             <CardText className="cardText"> 
-                                <span className="hiWord">HI</span>, You can search for hospital By name OR filter by location, Also you can see all
-                                available rooms and reserve. <br /> Clike here <FaArrowDown className="arrowIcon" /> for search.
+                                <span className="hiWord">HI</span>, You can search for Hospital by Name OR filter by Location. Also, you can see all
+                                available Rooms and Reserve. <br /> Clike here <FaArrowDown className="arrowIcon" /> for search.
                             </CardText>
                             <Link to={{ pathname: `/hospitals`}} className="searchLink">
                                 Hospitals 
@@ -33,7 +33,7 @@ export default () => {
                         <CardImgOverlay>
                             <CardTitle className="cardTitle">PHARMACIES</CardTitle>
                                 <CardText className="cardText"> 
-                                    <span className="hiWord">HI</span>, You can search for Medicine By name OR filter Pharmacies by location, Also
+                                    <span className="hiWord">HI</span>, You can search for Medicine by Name OR filter Pharmacies by Location. Also,
                                     you can Order and Reserve Medicines. <br /> Clike here <FaArrowDown className="arrowIcon" /> for search.
                                 </CardText>
                             <Link to={{ pathname: `/pharmacys`}} className="searchLink">

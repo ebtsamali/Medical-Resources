@@ -7,7 +7,7 @@ import MedicineOrders from "./UserOrders";
 import HospitalReservations from "./UserHospitalReservations";
 import {AppContext} from "../../../providers/AppProvider";
 
-const UserHomePage = () => {
+const UserHistory = () => {
 
     const { setTitle } = useContext(AppContext);
     const [selectedTab, setSelectedTab] = useState('all_orders');
@@ -37,4 +37,4 @@ const UserHomePage = () => {
         )
     }
 
-export default UserHomePage
+export default UserHistory

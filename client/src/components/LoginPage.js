@@ -2,13 +2,14 @@ import React, { useState, useContext, useEffect } from "react";
 import '../styles/public_home.scss'
 import { AuthContext } from "../providers/auth_provider";
 import ErrorMessage from "./other/ErrorMessage";
-import { Link } from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import { AppContext } from "../providers/AppProvider";
 import LoginWithFacebook from './login/loginWithFacebook';
 
 const LoginPage = (props) => {
-
-    const { login, error, successfulRegister, registerMessage } = useContext(AuthContext);
+    let windowObjectReference = null;
+    let previousUrl = null;
+    const { login, error, successfulRegister, registerMessage, user } = useContext(AuthContext);
     const { setTitle } = useContext(AppContext);
     const [emailInput, setEmailInput] = useState('')
     const [passwordInput, setPasswordInput] = useState('')
@@ -16,6 +17,12 @@ const LoginPage = (props) => {
     useEffect(() => {
         setTitle('Medical Resources::Login')
     }, []);
+
+    useEffect(()=>{
+        console.log("AAAAA")
+        if(user)
+            props.history.push("/")
+    },[user])
 
     const handleEmailChange = (e) => {
         const { target: { value } } = e;
@@ -32,6 +39,34 @@ const LoginPage = (props) => {
         login(emailInput, passwordInput)
         setPasswordInput("")
         setEmailInput("")
+    }
+
+    const handleLoginWithGoogleClick = (url, name) => {
+        return () => {
+            // window features
+            const strWindowFeatures =
+                'toolbar=no, menubar=no, width=600, height=700, top=100, left=100';
+
+            if (windowObjectReference === null || windowObjectReference.closed) {
+                /* if the pointer to the window object in memory does not exist
+                 or if such pointer exists but the window was closed */
+                windowObjectReference = window.open(url, name, strWindowFeatures);
+            } else if (previousUrl !== url) {
+                /* if the resource to load is different,
+                 then we load it in the already opened secondary window and then
+                 we bring such window back on top/in front of its parent window. */
+                windowObjectReference = window.open(url, name, strWindowFeatures);
+                windowObjectReference.focus();
+            } else {
+                /* else the window reference must exist and the window
+                 is not closed; therefore, we can bring it back on top of any other
+                 window with the focus() method. There would be no need to re-create
+                 the window or to reload the referenced resource. */
+                windowObjectReference.focus();
+            }
+            // assign the previous URL
+            previousUrl = url;
+        }
     }
 
     return (
@@ -56,6 +91,7 @@ const LoginPage = (props) => {
                     {error && <ErrorMessage message={error} />}
                     <button className="login-btn" onClick={handleLoginClick}>LOGIN</button>
                     <LoginWithFacebook />
+                    <button className="login-with-google-btn" onClick={handleLoginWithGoogleClick(`${process.env.REACT_APP_BACKEND_URL}/auth/google`,'Login With Google')}>Login With Google As User</button>
                     <p>Or - <Link to="/register">Create New Account</Link></p>
                     {registerMessage && (
                         <div className="form-group">
@@ -77,4 +113,4 @@ const LoginPage = (props) => {
     )
 }
 
-export default LoginPage
+export default withRouter(LoginPage)
