@@ -69,3 +69,16 @@ exports.signup = (req, res) => {
     });
 
 }
+
+exports.facebookLogin = (req, res) => {
+    try {
+        
+        console.log(req);
+        console.log("hi");
+        res.status(201).send({newUser, message: "You Registered Successfully. You can Login Now."});
+    } catch (error) {
+        console.log(error);
+        console.log("erroooooooooooooooooor");
+        
+    }
+}

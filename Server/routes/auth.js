@@ -16,4 +16,6 @@ router.post("/users/signup", verifySignUp.checkDuplicatedEmail, authController.s
 
 router.post("/users/signin", authController.signin);
 
+router.post("/users/facebookLogin", authController.facebookLogin);
+
 exports.authRouter = router;

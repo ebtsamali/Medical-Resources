@@ -19,6 +19,7 @@
     "react-bootstrap": "^1.0.1",
     "react-bootstrap-time-picker": "^2.0.1",
     "react-dom": "^16.13.1",
+    "react-facebook-login": "^4.1.1",
     "react-helmet": "^6.1.0",
     "react-icons": "^3.10.0",
     "react-router-dom": "^5.2.0",

@@ -4,6 +4,7 @@ import { AuthContext } from "../providers/auth_provider";
 import ErrorMessage from "./other/ErrorMessage";
 import { Link } from 'react-router-dom';
 import { AppContext } from "../providers/AppProvider";
+import LoginWithFacebook from './login/loginWithFacebook';
 
 const LoginPage = (props) => {
 
@@ -54,6 +55,7 @@ const LoginPage = (props) => {
                     <input className="password-input-mod" placeholder="Password" type="password" value={passwordInput} onChange={handlePasswordChange} />
                     {error && <ErrorMessage message={error} />}
                     <button className="login-btn" onClick={handleLoginClick}>LOGIN</button>
+                    <LoginWithFacebook />
                     <p>Or - <Link to="/register">Create New Account</Link></p>
                     {registerMessage && (
                         <div className="form-group">
