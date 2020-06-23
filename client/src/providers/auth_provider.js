@@ -32,6 +32,24 @@ const AuthProvider = (props) => {
             }
         })
     }
+
+    // const loginWithGoogle = () => {
+    //     axios({
+    //         method: 'get',
+    //         url: `${process.env.REACT_APP_BACKEND_URL}/auth/google`,
+    //     }).then((response) => {
+    //         setUser(response.data)
+    //         localStorage.setItem("user", JSON.stringify(response.data))
+    //         setError('')
+    //         // props.history.push("/")
+    //     }).catch(error => {
+    //         if (error.response && error.response.data.message) {
+    //             setError(error.response.data.message)
+    //         } else {
+    //             setError("Cannot connect to Server");
+    //         }
+    //     })
+    // }
     return (
         <AuthContext.Provider value={{ user, login, error, setUser, setError, successfulRegister, setSuccessfulRegister, registerMessage, setRegisterMessage }}>
             {children}

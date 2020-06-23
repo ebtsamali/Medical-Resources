@@ -27,9 +27,11 @@ import HospitalProfile from './components/User/HospitalsPage/hospitalProfile';
 import CartPage from "./components/User/CartPage/CartPage";
 import ReservationStatusPage from "./components/User/PreviewStatusPage/ReservationStatusPage";
 import OrderStatusPage from "./components/User/PreviewStatusPage/OrderStatusPage";
-import UserHomePage from "./components/User/HomePage/UserHomePage";
+import UserHistory from "./components/User/HomePage/UserHomePage";
 import UserProfile from "./components/UserProfile";
 import MailActivationPage from './components/MailActivation';
+import UserHome from './components/User/UserHome';
+import LoginWithGoogleSuccess from "./components/User/LoginWithGoogleSuccess";
 // import HomePage from "./components/HomePage";
 
 function App() {
@@ -47,6 +49,10 @@ function App() {
 
                         </AuthRoute>
 
+                        <AuthRoute path="/auth/google/success" type="guest">
+                            <LoginWithGoogleSuccess/>
+                        </AuthRoute>
+
                         <AuthRoute path="/register" type="guest">
                             <RegistrationPage />
                         </AuthRoute>
@@ -54,13 +60,17 @@ function App() {
                         <AuthRoute path="/user/activation/:token" type="guest">
                             <MailActivationPage/>
                         </AuthRoute>
+                        
+                        <AuthRoute exact path="/user/home" type="private" privilege="user">
+                            <UserHome />
+                        </AuthRoute>
 
                         <AuthRoute path="/user/profile" type="private" privilege="user">
                             <UserProfile />
                         </AuthRoute>
                         
                         <AuthRoute path="/user" type="private" privilege="user">
-                            <UserHomePage />
+                            <UserHistory />
                         </AuthRoute>
                         
                         {/** <AuthRoute path="/user" type="private" privilege="user">

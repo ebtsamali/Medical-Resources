@@ -17,7 +17,7 @@ const AuthRoute = (props) => {
     }
     if (type === "guest" && user) {
         if (user.role === 'user') {
-            return <Redirect to="/user" />;
+            return <Redirect to="/user/home" />;
         } else if (user.role === 'hospital') {
             return <Redirect to="/hospital" />
         } else if (user.role === 'pharmacy') {
