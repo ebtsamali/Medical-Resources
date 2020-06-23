@@ -29,6 +29,7 @@ import ReservationStatusPage from "./components/User/PreviewStatusPage/Reservati
 import OrderStatusPage from "./components/User/PreviewStatusPage/OrderStatusPage";
 import UserHomePage from "./components/User/HomePage/UserHomePage";
 import UserProfile from "./components/UserProfile";
+import MailActivationPage from './components/MailActivation';
 // import HomePage from "./components/HomePage";
 
 function App() {
@@ -48,6 +49,10 @@ function App() {
 
                         <AuthRoute path="/register" type="guest">
                             <RegistrationPage />
+                        </AuthRoute>
+
+                        <AuthRoute path="/user/activation/:token" type="guest">
+                            <MailActivationPage/>
                         </AuthRoute>
 
                         <AuthRoute path="/user/profile" type="private" privilege="user">
@@ -91,11 +96,7 @@ function App() {
                         <AuthRoute path="/order/:id" type="private" privilege="user">
                             <OrderStatusPage/>
                         </AuthRoute>
-                        {/* <AuthRoute path="/user/profile" type="private" privilege="user">
-                            <UserHomePage/>
-                        </AuthRoute> */}
-
-
+                        
                         <AuthRoute path="/user_cart" type="private" privilege="user">
                             <CartPage/>
                         </AuthRoute>

@@ -36,6 +36,9 @@ function UserServices() {
                 axios.patch(API_URL + `/users/${userId}`, form, { headers: authHeader() })
             )
         },
+        mailActivation: (emailToken) => {
+            return axios.get(`${API_URL}/auth/users/activation/${emailToken}`)
+        },
         searchMedicines: (query) => {
             return axios.get(`${API_URL}/medicines/search${query}`, { headers: authHeader() })
         },
