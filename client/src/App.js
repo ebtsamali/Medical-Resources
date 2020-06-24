@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import '../src/styles/main.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from "./components/LoginPage";
@@ -11,7 +11,11 @@ import PharmacyProfilePage from "./components/pharmacy/PharmacyProfilePage/Pharm
 import AuthProvider from "./providers/auth_provider";
 import AuthRoute from "./components/AuthRoute";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
-import RegistrationPage from './components/Registration/RegistrationPage';
+
+import RegistraionHome from "./components/Registration/RegistrationHomePage";
+import UserRegistrationPage from './components/Registration/UserRegistrationPage';
+import HospitalRegistrationPage from './components/Registration/HospitalRegistrationPage';
+import PharmacyRegistrationPage from './components/Registration/PharmcyRegistrationPage';
 
 import HospitalRegistration from "./components/Hospital/hospitalRegistration";
 import BedPage from './components/Hospital/Beds/BedPage';
@@ -32,7 +36,8 @@ import UserProfile from "./components/UserProfile";
 import MailActivationPage from './components/MailActivation';
 import UserHome from './components/User/UserHome';
 import LoginWithGoogleSuccess from "./components/User/LoginWithGoogleSuccess";
-// import HomePage from "./components/HomePage";
+import ForgetPassword from "./components/ForgetPassword";
+
 
 function App() {
     return (
@@ -53,12 +58,29 @@ function App() {
                             <LoginWithGoogleSuccess/>
                         </AuthRoute>
 
+                        <AuthRoute exact path="/register/user" type="guest">
+                            <UserRegistrationPage/>
+                        </AuthRoute>
+
+                        <AuthRoute exact path="/register/hospital" type="guest">
+                            <HospitalRegistrationPage/>
+                        </AuthRoute>
+
+                        <AuthRoute exact path="/register/pharmacy" type="guest">
+                            <PharmacyRegistrationPage/>
+                        </AuthRoute>
+                        
                         <AuthRoute path="/register" type="guest">
-                            <RegistrationPage />
+                            {/* <UserRegistrationPage /> */}
+                            <RegistraionHome />
                         </AuthRoute>
 
                         <AuthRoute path="/user/activation/:token" type="guest">
                             <MailActivationPage/>
+                        </AuthRoute>
+
+                        <AuthRoute path="/password/reset/:token" type="guest">
+                            <ForgetPassword/>
                         </AuthRoute>
                         
                         <AuthRoute exact path="/user/home" type="private" privilege="user">
@@ -72,10 +94,7 @@ function App() {
                         <AuthRoute path="/user" type="private" privilege="user">
                             <UserHistory />
                         </AuthRoute>
-                        
-                        {/** <AuthRoute path="/user" type="private" privilege="user">
-                            <HomePage/>
-                        </AuthRoute>**/}
+
                         <AuthRoute path="/hospital/beds/edit" privilege="hospital">
                             <BedPage/>
                         </AuthRoute>
@@ -92,7 +111,7 @@ function App() {
                             <HospitalReservation/>
                         </AuthRoute>
 
-                        <AuthRoute exact path="/hospitals" type="private" privilege="user">
+                        <AuthRoute exact path="/hospitals" type="public" >
                             <HospitalsPage/>
                         </AuthRoute>
 
@@ -107,21 +126,22 @@ function App() {
                             <OrderStatusPage/>
                         </AuthRoute>
                         
-                        <AuthRoute path="/user_cart" type="private" privilege="user">
+                        <AuthRoute path="/user_cart" type="public">
                             <CartPage/>
                         </AuthRoute>
 
-                        <AuthRoute exact path="/pharmacys" type="private" privilege="user">
+                        <AuthRoute exact path="/pharmacys" type="public" >
                             <PharmacysPage/>
                         </AuthRoute>
 
-                        <AuthRoute exact path="/pharmacys/:name" type="private" privilege="user">
+                        <AuthRoute exact path="/pharmacys/:name" type="public" >
                             <PharmacyProfile/>
                         </AuthRoute>
 
                         <AuthRoute path="/pharmacy_profile" type="private" privilege="pharmacy">
                             <PharmacyProfilePage/>
                         </AuthRoute>
+
                         <AuthRoute path="/medicines" type="private" privilege="pharmacy">
                             <MedicinesPage/>
                         </AuthRoute>

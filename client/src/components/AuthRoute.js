@@ -15,7 +15,10 @@ const AuthRoute = (props) => {
             return <Redirect to="/" />;
         }
     }
-    if (type === "guest" && user) {
+    if(type === "public"){
+        return <Route {...props} />;
+    }
+    else if (type === "guest" && user) {
         if (user.role === 'user') {
             return <Redirect to="/user/home" />;
         } else if (user.role === 'hospital') {

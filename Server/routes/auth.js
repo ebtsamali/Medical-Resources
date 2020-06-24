@@ -3,6 +3,7 @@ const router = express.Router();
 const authController = require('../controllers/auth');
 const {verifySignUp} = require("../middlewares/index");
 const passport = require('passport');
+const auth = require('../config/auth');
 
 exports.tokenMiddleware = function (req, res, next) {
     res.header(
@@ -22,5 +23,7 @@ router.get("/users/activation/:token", authController.activateEmail);
 
 router.post("/users/facebookLogin", authController.facebookLogin);
 router.get('/users/checkEmail/:email', authController.checkEmail);
+router.post("/users/reset/password", authController.forgetPassword);
+router.patch("/users/reset/password/:token", authController.updatePassword);
 
 exports.authRouter = router;

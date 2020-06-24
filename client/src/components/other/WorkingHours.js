@@ -6,7 +6,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 
 const WorkingHours = ({weekDetails, setWeekDetails}) => {
-    const userRole = JSON.parse(localStorage.getItem("user")).role;
+    const userRole = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role;
     const renderDays = (startIndex, endIndex) => {
         return weekDetails.map((day, index) => {
             if (index >= startIndex && index <= endIndex) {

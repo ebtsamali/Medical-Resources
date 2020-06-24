@@ -5,6 +5,12 @@
     height: 100%;
 }
 
+.login-page-container{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .right-container {
     width: 50%;
     //background-color: #f2efef;
@@ -12,7 +18,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  background: linear-gradient(180deg, #4cbb9e 0%, #226057 100%);
+    background: linear-gradient(180deg, #4cbb9e 0%, #226057 100%);
 }
 
 .left-container {
@@ -126,8 +132,6 @@
     text-align: center;
   margin-bottom: 1em;
   text-decoration: none;
-  a{
-  }
 
 }
 .login-with-google-btn:hover{

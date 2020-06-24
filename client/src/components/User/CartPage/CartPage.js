@@ -11,7 +11,7 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {AuthContext} from "../../../providers/auth_provider";
 import {removePharmacyFromCart, removeMedicineFromCart} from "../../../utils/cart_utils";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import ErrorMessage from "../../other/ErrorMessage";
 import {getCurrentDay, getCurrentHourInSeconds} from "../../../utils/utils";
@@ -22,6 +22,7 @@ import {
     withStyles
 } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
+import PublicHeader from "../../PublicHeader";
 
 const theme = createMuiTheme({
     overrides: {
@@ -34,7 +35,7 @@ const theme = createMuiTheme({
         }
     }
 });
-const CartPage = () => {
+const CartPage = (props) => {
 
     const {user} = useContext(AuthContext);
     const {setTitle} = useContext(AppContext);
@@ -49,11 +50,9 @@ const CartPage = () => {
     const [userAddress, setUserAddress] = useState('')
     const [userPhone, setUserPhone] = useState('')
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
     const [errors, setErrors] = useState({})
     const [medicinesList, setMedicinesList] = useState('')
     const [showWarning, setShowWarning] = useState(false)
-    const handleShowWarning = () => setShowWarning(true);
     const [showReservationConfirmationPopUp, setShowReservationConfirmationPopUp] = useState(false);
     const [showCompleteProfilePopup, setShowCompleteProfilePopup] = useState(false);
 
@@ -195,9 +194,25 @@ const CartPage = () => {
         }
     }
 
+    const handleShowWarning = () => {
+        if(!user.accessToken) {
+            props.history.push("/")
+            return;
+        }
+        setShowWarning(true);
+    }
+
+    const handleShow = () => {
+        if(!user.accessToken) {
+            props.history.push("/")
+            return;
+        }
+        setShow(true);
+    }
+
 
     return (<div className="x-container-cart">
-        <Header/>
+        {user.accessToken ? <Header/> : <PublicHeader/>}
 
         {currentPharmacyIndex < 0 ? <div className="empty-cart-container">
             <img src="../../../../img/empty-cart.png"/>
@@ -296,6 +311,10 @@ const CartPage = () => {
                                 placement="top"
                             >
                                 <button onClick={(isOpened()) ? () => {
+                                    if(!user.accessToken) {
+                                        props.history.push("/")
+                                        return;
+                                    }
                                     setShowReservationConfirmationPopUp(true)
                                 } : handleShowWarning}>Reserve
                                 </button>
@@ -458,4 +477,4 @@ const CartPage = () => {
     </div>)
 }
 
-export default CartPage
+export default withRouter(CartPage)

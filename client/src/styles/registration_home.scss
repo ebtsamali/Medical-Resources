@@ -1,0 +1,54 @@
+@import "main";
+
+.main-registration-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.registration-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    background: linear-gradient(180deg, #4cbb9e 0%, #226057 100%);
+}
+
+.user-signup-container, .hospital-signup-container, .pharmacy-signup-container {
+//   height: 70%;
+  border: $color_primary;
+  border-style: solid;
+  border-radius: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1em;
+  width: 30%;
+  min-width: 30%;
+  background-color: white;
+
+  h3 {
+      text-align: left;
+      margin-top: 1em;
+      margin-bottom: 1em;
+  }
+  p {
+      font-size: large;
+  }
+  b {
+      margin-top: 1em;
+  }
+}
+
+.signup-btn{
+    background: linear-gradient(90deg, rgba(76,187,158,1) 0%, rgba(34,96,87,1) 100%);
+    border: none;
+    border-radius: 2em;
+    text-transform: capitalize;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 1em;
+}

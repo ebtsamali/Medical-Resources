@@ -1,0 +1,15 @@
+@import "main";
+
+.x-container-mod {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background: linear-gradient(180deg, #4cbb9e 0%, #226057 100%);
+}
+
+.register-page-container{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

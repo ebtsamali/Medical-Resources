@@ -8,12 +8,13 @@ import {deleteCart} from "../utils/cart_utils";
 
 const Header = (props) => {
 
-    const { user } = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
 
     const logout = () => {
-        if(user.role === 'user'){
-            deleteCart()
-        }
+        // if(user.role === 'user'){
+        //     deleteCart()
+        // }
+        setUser({})
         localStorage.removeItem('user')
         props.history.push("/")
     }

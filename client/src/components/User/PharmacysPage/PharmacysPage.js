@@ -7,10 +7,12 @@ import {buildQuery} from '../../../utils/utils'
 import SearchCard from "./SearchCard";
 import AllPharmacysHasSpecificMedicine from "./AllPharmacysHasSpecificMedicine";
 import {AppContext} from "../../../providers/AppProvider";
+import {AuthContext} from "../../../providers/auth_provider";
+import PublicHeader from "../../PublicHeader";
 
 const PharmacysPage = () => {
 
-
+    const { user } = useContext(AuthContext);
     const [pharmacys, setPharmacys] = useState([])
     const [query, setQuery] = useState({page: 1})
     const [pages, setPages] = useState({})
@@ -34,7 +36,7 @@ const PharmacysPage = () => {
         })
     }, [query])
     return (<div className="x-container-pharmacys">
-        <Header/>
+        {user.accessToken ? <Header/> : <PublicHeader/>}
         <div className="pharmacys-content">
             <SearchCard setQuery={setQuery} query={query}/>
             {!!query.q ? <AllPharmacysHasSpecificMedicine page={query.page} pages={pages} setPage={setPage}

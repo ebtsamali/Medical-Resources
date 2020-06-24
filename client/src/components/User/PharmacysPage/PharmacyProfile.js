@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Header from "../../Header";
 import { Card } from 'react-bootstrap';
 import '../../../styles/pharmacyProfile.scss';
@@ -10,8 +10,11 @@ import { FcOvertime } from 'react-icons/fc';
 import WorkingHours from '../../other/WorkingHours';
 import PharmacyService from '../../../services/pharmacy_service';
 import { BrowserRouter as Router, useLocation } from "react-router-dom";
+import PublicHeader from "../../PublicHeader";
+import {AuthContext} from "../../../providers/auth_provider";
 
 export default () => {
+    const {user} = useContext(AuthContext);
     const [pharmacyName, setPharmacyName] = useState("")
     const [pharmacyGovernorate, setPharmacyGovernorate] = useState("Governorate")
     const [pharmacyDistrict, setPharmacyDistrict] = useState("District")
@@ -56,7 +59,7 @@ export default () => {
 
     return (
         <div id="pharmacyProfile">
-            <Header />
+            {user.accessToken ? <Header/> : <PublicHeader/>}
             <div className="profileContent">
                 <div className="leftContent">
                     <div className="leftLocationCard">
