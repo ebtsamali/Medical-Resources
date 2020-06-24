@@ -17,7 +17,7 @@ router.patch('/:id',[authJwt.verifyToken, authJwt.isPharmacy], medicineControlle
 router.delete('/:id',[authJwt.verifyToken, authJwt.isPharmacy], medicineController.deleteMedicine)
 
 // search for medicine
-router.get('/search',[authJwt.verifyToken, authJwt.isUser], medicineController.search)
+router.get('/search',[], medicineController.search)
 
 // get all medicine reservations
 router.get('/reservations', [authJwt.verifyToken, authJwt.isPharmacy, checkReservations.checkReservationStatus], medicineController.getAllMedicineReservations);

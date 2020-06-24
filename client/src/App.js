@@ -120,7 +120,7 @@ function App() {
                             <PharmacysPage/>
                         </AuthRoute>
 
-                        <AuthRoute exact path="/pharmacys/:name" type="private" privilege="user">
+                        <AuthRoute exact path="/pharmacys/:name" type="guest" >
                             <PharmacyProfile/>
                         </AuthRoute>
 
