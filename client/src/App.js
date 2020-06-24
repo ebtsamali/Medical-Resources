@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import '../src/styles/main.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from "./components/LoginPage";
@@ -11,7 +11,7 @@ import PharmacyProfilePage from "./components/pharmacy/PharmacyProfilePage/Pharm
 import AuthProvider from "./providers/auth_provider";
 import AuthRoute from "./components/AuthRoute";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
-import RegistrationPage from './components/Registration/RegistrationPage';
+import UserRegistrationPage from './components/Registration/UserRegistrationPage';
 
 import HospitalRegistration from "./components/Hospital/hospitalRegistration";
 import BedPage from './components/Hospital/Beds/BedPage';
@@ -33,7 +33,6 @@ import MailActivationPage from './components/MailActivation';
 import UserHome from './components/User/UserHome';
 import LoginWithGoogleSuccess from "./components/User/LoginWithGoogleSuccess";
 import ForgetPassword from "./components/ForgetPassword";
-// import HomePage from "./components/HomePage";
 
 function App() {
     return (
@@ -55,7 +54,7 @@ function App() {
                         </AuthRoute>
 
                         <AuthRoute path="/register" type="guest">
-                            <RegistrationPage />
+                            <UserRegistrationPage />
                         </AuthRoute>
 
                         <AuthRoute path="/user/activation/:token" type="guest">

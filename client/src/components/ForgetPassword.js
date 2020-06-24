@@ -8,7 +8,7 @@ import { useLocation, useHistory } from "react-router-dom";
 
 const ResetPasswordPage = (props) => {
 
-    const { error, setError, setSuccessfulRegister, setRegisterMessage, user } = useContext(AuthContext);
+    const { error, setError, setSuccessfulRegister, setRegisterMessage } = useContext(AuthContext);
     const { setTitle } = useContext(AppContext);
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
