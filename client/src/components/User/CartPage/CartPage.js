@@ -22,6 +22,7 @@ import {
     withStyles
 } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
+import PublicHeader from "../../PublicHeader";
 
 const theme = createMuiTheme({
     overrides: {
@@ -197,7 +198,7 @@ const CartPage = () => {
 
 
     return (<div className="x-container-cart">
-        <Header/>
+        {user.type ? <Header/> : <PublicHeader/>}
 
         {currentPharmacyIndex < 0 ? <div className="empty-cart-container">
             <img src="../../../../img/empty-cart.png"/>

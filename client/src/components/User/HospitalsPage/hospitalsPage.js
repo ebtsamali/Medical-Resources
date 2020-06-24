@@ -8,9 +8,12 @@ import '../../../styles/pharmacys.scss';
 import {AppContext} from "../../../providers/AppProvider";
 import { InputLabel, MenuItem, Select} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import PublicHeader from "../../PublicHeader";
+import {AuthContext} from "../../../providers/auth_provider";
 
 
 export default () => {
+    const { user } = useContext(AuthContext);
     const {setTitle} = useContext(AppContext);
     const [allHospitals, setAllHospitals] = useState([]);
     const [hospitalsByGov, setHospitalsByGov] = useState([]);
@@ -146,7 +149,7 @@ export default () => {
 
     return (
         <div className="x-container-pharmacys">
-            <Header />
+            {user.type ? <Header/> : <PublicHeader/>}
             <div className="pharmacys-content">
                 <div className="search-card">
                     <div className="search-input-container">

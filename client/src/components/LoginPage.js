@@ -118,7 +118,7 @@ const LoginPage = (props) => {
                     <button className="login-btn" onClick={handleLoginClick}>LOGIN</button>
                     <button className="login-with-google-btn" onClick={handleLoginWithGoogleClick(`${process.env.REACT_APP_BACKEND_URL}/auth/google`, 'Login With Google')}>Login With Google As User</button>
                     {/*<p>Or - <Link to="/register">Create New Account</Link></p>*/}
-                    <p><Link onClick={handleResetPassword}>Forgot your Password?</Link></p>
+                    <p><a onClick={handleResetPassword}>Forgot your Password?</a></p>
                     {registerMessage && (
                         <div className="form-group">
                             <div
