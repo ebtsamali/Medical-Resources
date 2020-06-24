@@ -13,6 +13,7 @@ exports.tokenMiddleware = function (req, res, next) {
     next();
 }
 router.post("/users/signup", verifySignUp.checkDuplicatedEmail, authController.signup);
+router.post("/users/signup_as_pharmacy", verifySignUp.checkDuplicatedEmail, authController.signupAsPharmacy);
 
 router.post("/users/signin", authController.signin);
 router.get('/google',

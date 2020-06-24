@@ -2,14 +2,54 @@
 
 .x-container-mod {
   display: flex;
-  justify-content: center;
+  //justify-content: center;
   align-items: center;
   height: 100%;
   background: linear-gradient(180deg, #4cbb9e 0%, #226057 100%);
+  overflow: auto;
+  width: 100%;
+  padding: 1em;
+  flex-direction: column;
 }
 
 .register-page-container{
   display: flex;
-  flex-direction: column;
   height: 100%;
+  flex-direction: column;
+}
+
+.info-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container{
+  width: 100%;
+}
+
+.btn-pharmacy-registar-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 1em;
+  button{
+    background-color: $color_primary;
+    //background: linear-gradient(90deg, rgba(76,187,158,1) 0%, rgba(34,96,87,1) 100%);
+    border: none;
+    border-radius: 2em;
+    text-transform: capitalize;
+    padding-bottom: 0.25em;
+    padding-top: 0.25em;
+    padding-right: 2em;
+    padding-left: 2em;
+    font-weight: bold;
+    margin-left: 2em;
+    color: white;
+  }
+}
+
+.info-icon{
+  border: none;
+  background-color: white;
+  margin-left: 1em;
 }

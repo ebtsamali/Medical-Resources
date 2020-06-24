@@ -29,6 +29,13 @@ function PharmacyService() {
                 url: `${process.env.REACT_APP_BACKEND_URL}/pharmacys/profile/${id}`,
                 method: 'get'
             })
+        },
+        signupAsPharmacy: (data) => {
+            return axios({
+                url:`${process.env.REACT_APP_BACKEND_URL}/auth/users/signup_as_pharmacy`,
+                method: 'post',
+                data
+            })
         }
     })
 }

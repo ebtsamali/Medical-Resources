@@ -56,10 +56,10 @@ app.use((req, res, next) => {
 
 // Database Connection
 mongoose.set('useCreateIndex', true);
-mongoose.connect(process.env.MONGOLAB_URI || `mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`, {
+mongoose.connect( `mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}?replicaSet=rs0`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
 }, (err) => {
     if (!err) {
         console.log("Started connection to mongo");

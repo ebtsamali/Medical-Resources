@@ -1,6 +1,7 @@
 const config = require('../config/auth');
 const db = require('../models/index');
 const User = db.user;
+const Pharmacy = db.pharmacy;
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 let jwt = require("jsonwebtoken");
@@ -14,12 +15,12 @@ exports.signin = (req, res) => {
         email: req.body.email
     }).exec((err, user) => {
         if (err) {
-            res.status(500).send({ message: err });
+            res.status(500).send({message: err});
             return;
         }
 
         if (!user) {
-            return res.status(404).send({ message: "User Not Found" });
+            return res.status(404).send({message: "User Not Found"});
         }
 
         //check password matching
@@ -35,11 +36,11 @@ exports.signin = (req, res) => {
         }
 
         if (!user.activated) {
-            return res.status(401).send({ message: "Unactivated Account." });
+            return res.status(401).send({message: "Unactivated Account."});
         }
 
         // assign the three parts ot the token
-        let token = jwt.sign({ id: user.id }, config.secret, {
+        let token = jwt.sign({id: user.id}, config.secret, {
             expiresIn: 604800 //7 days in seconds [168 hours]
         });
 
@@ -60,7 +61,7 @@ exports.signin = (req, res) => {
 
 
 exports.signup = (req, res) => {
-    const { body: { firstName, lastName, email, password, role } } = req;
+    const {body: {firstName, lastName, email, password, role}} = req;
 
     let newUser = new User({
         firstName,
@@ -83,7 +84,7 @@ exports.signup = (req, res) => {
     });
 
     newUser.save().then(async () => {
-        const emailToken = jwt.sign({ id: newUser._id }, process.env.EMAIL_SECRET, {
+        const emailToken = jwt.sign({id: newUser._id}, process.env.EMAIL_SECRET, {
             expiresIn: 86400 //1 day in seconds [24 hours]
         });
         // send mail with defined transport object
@@ -94,10 +95,10 @@ exports.signup = (req, res) => {
             text: `Pleased to have you in our system.\nPlease Activate your mail from this link: ${process.env.ACTIVATION_LINK}${emailToken}`, // plain text body
         });
         console.log("Message sent: %s", info.messageId);
-        res.status(201).send({ newUser, message: "You Registered Successfully. Check your Email for Activation." });
+        res.status(201).send({newUser, message: "You Registered Successfully. Check your Email for Activation."});
     }).catch((err) => {
         console.log(err);
-        res.status(400).send({ message: err });
+        res.status(400).send({message: err});
     });
 
 }
@@ -105,29 +106,29 @@ exports.signup = (req, res) => {
 
 exports.activateEmail = async (req, res) => {
     try {
-        const { id } = jwt.verify(req.params.token, process.env.EMAIL_SECRET, {
+        const {id} = jwt.verify(req.params.token, process.env.EMAIL_SECRET, {
             expiresIn: 86400 //1 day in seconds [24 hours]
         });
-        await User.updateOne({ _id: id }, { activated: true });
-        res.status(200).send({ message: "Mail Activated Successfully. You can Login Now." })
+        await User.updateOne({_id: id}, {activated: true});
+        res.status(200).send({message: "Mail Activated Successfully. You can Login Now."})
     } catch (err) {
-        res.status(400).send({ message: err });
+        res.status(400).send({message: err});
     }
 }
 
 exports.forgetPassword = async (req, res) => {
 
     try {
-        let user = await User.findOne({ email: req.body.email });
+        let user = await User.findOne({email: req.body.email});
 
         if (!user) {
-            return res.status(404).send({ message: "User Not Found" });
+            return res.status(404).send({message: "User Not Found"});
         }
 
-        const passwordResetToken = jwt.sign({ id: user._id }, process.env.PASSWORD_RESET_SECRET, {
+        const passwordResetToken = jwt.sign({id: user._id}, process.env.PASSWORD_RESET_SECRET, {
             expiresIn: 86400 //1 day in seconds [24 hours]
         });
-        
+
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
             service: 'Gmail',
@@ -147,34 +148,34 @@ exports.forgetPassword = async (req, res) => {
             text: `As per your request to Reset your Password, please Reset your password from this link: ${process.env.PASSWORD_RESET_LINK}${passwordResetToken}`, // plain text body
         });
         console.log("Message sent: %s", info.messageId);
-        res.status(200).send({ user, message: "Check your Email for Resetting your Password." });
+        res.status(200).send({user, message: "Check your Email for Resetting your Password."});
 
     } catch (error) {
         console.log(error);
-        res.status(500).send({ message: error });
+        res.status(500).send({message: error});
     }
 }
 
 exports.updatePassword = async (req, res) => {
 
     try {
-        const { id } = jwt.verify(req.params.token, process.env.PASSWORD_RESET_SECRET, {
+        const {id} = jwt.verify(req.params.token, process.env.PASSWORD_RESET_SECRET, {
             expiresIn: 86400 //1 day in seconds [24 hours]
         });
 
         let user = await User.findById(id);
         user.password = req.body.password;
         await user.save();
-        res.status(200).send({ user, message: "Password has been Resetted Successfully. You can Login Now." });
+        res.status(200).send({user, message: "Password has been Resetted Successfully. You can Login Now."});
 
     } catch (error) {
-        res.status(400).send({ message: error });
+        res.status(400).send({message: error});
     }
 }
 
 exports.loginWithGoogle = function (req, res) {
-    const { user } = req
-    let token = jwt.sign({ id: user.id }, config.secret, {
+    const {user} = req
+    let token = jwt.sign({id: user.id}, config.secret, {
         expiresIn: 604800 //7 days in seconds [168 hours]
     });
     const result = {
@@ -202,6 +203,68 @@ exports.loginWithGoogle = function (req, res) {
     //     accessTokenCreationDate: Date.now(),
     //     accessTokenTTL: 604800 //7 days in seconds [168 hours]
     // })
+}
+
+
+exports.signupAsPharmacy = async (req, res) => {
+    const {body: {adminFirstName, adminLastName, adminEmail, adminPassword, pharmacyName, pharmacyLocation, phoneNumbers, delivery, maxTimeLimit, workingHours}} = req
+    const session = await User.startSession();
+    session.startTransaction();
+    const opts = {session};
+    try {
+        let admin = await User({
+            firstName: adminFirstName,
+            lastName: adminLastName,
+            email: adminEmail,
+            password: adminPassword,
+            role: 'pharmacy',
+            profileIsCompleted: true
+        }).save(opts);
+
+        const pharmacy = await Pharmacy({
+            admin_id: admin._id,
+            name: pharmacyName,
+            location: pharmacyLocation,
+            phoneNumbers,
+            delivery,
+            maxTimeLimit,
+            workingHours
+        }).save(opts)
+
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: process.env.EMAIL_USER, // user
+                pass: process.env.EMAIL_PASS, // password
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        });
+
+        const emailToken = jwt.sign({id: admin._id}, process.env.EMAIL_SECRET, {
+            expiresIn: 86400 //1 day in seconds [24 hours]
+        });
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+            from: `Medical Resources App <${process.env.EMAIL_USER}>`, // sender address
+            to: admin.email, // list of receivers
+            subject: "Mail Activation", // Subject line
+            text: `Pleased to have you in our system.\nPlease Activate your mail from this link: ${process.env.ACTIVATION_LINK}${emailToken}`, // plain text body
+        });
+        console.log("Message sent: %s", info.messageId);
+        res.status(201).send({message: "You Registered Successfully. Check your Email for Activation."});
+
+        await session.commitTransaction();
+        session.endSession();
+        res.status(201).send(pharmacy)
+    } catch (e) {
+        console.log(e)
+        await session.abortTransaction();
+        session.endSession();
+        res.status(500).send(e)
+    }
 }
 
 exports.checkEmail = async (req, res) => {

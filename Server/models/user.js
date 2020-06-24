@@ -133,8 +133,8 @@ userSchema.post('save', function (error, doc, next) {
             next(new Error('name must be unique'));
         }*/
     } else {
+        console.log(error)
         const keys = Object.keys(error.errors);
-        console.log(keys)
         const errors = keys.reduce((acc,key)=>{
             return {
                 ...acc,
