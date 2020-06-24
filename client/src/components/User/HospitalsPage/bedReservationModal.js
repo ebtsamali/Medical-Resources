@@ -10,7 +10,7 @@ export default (props) => {
     const [patientID, setPatientID] = useState("");
     const [patientPhone, setPatientPhone] = useState("");
     const [errors, setErrors] = useState("");
-    const userId = JSON.parse(localStorage.getItem("user")).id;
+    const userId = localStorage.getItem("user")? JSON.parse(localStorage.getItem("user")).id : "";
 
     const handleNameChange = (e) => {
         e.preventDefault();

@@ -46,7 +46,6 @@ export const editAdminData = (data, adminId) => {
 
 export const getAllHospitals = () => {
     return axios({
-        headers: authHeader(),
         url: `${process.env.REACT_APP_BACKEND_URL}/hospitals`, 
         method: 'get'
     })

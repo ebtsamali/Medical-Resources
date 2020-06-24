@@ -77,6 +77,7 @@ export default () => {
 
 
     const handleGovernorateSelect = (e) => {
+        e.preventDefault();
         setGovernorate(e.target.value);
         setSearchValue('');
         if(e.target.value !== "all governorates"){
@@ -163,21 +164,6 @@ export default () => {
                         /> 
                     </div>  
                     <div className="filters-container">
-                        {/** <Dropdown className="mt-4" onSelect={ handleGovernorateSelect }>
-                            <Dropdown.Toggle style={{maxHeight: "50px"}} size="sm" id="dropdown-basic">
-                                {governorate}
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                {allGovernorates.map((governorate) => {
-                                    return (
-                                        <Dropdown.Item key={governorate._id} eventKey={governorate.name}>
-                                            {governorate.name}
-                                        </Dropdown.Item>
-                                    )
-                                })}
-                            </Dropdown.Menu>
-                            </Dropdown>**/}
                         <Select
                             labelId="demo-simple-select-outlined-label"
                             id="demo-simple-select-outlined"
@@ -220,19 +206,6 @@ export default () => {
                                 })}
                             </Select>    
                         }
-                        {/** <div className="d-flex flex-column align-content-center">
-                            <Dropdown className="mt-4" onSelect={ handleDistrictSelect }>
-                                <Dropdown.Toggle style={{maxHeight: "50px"}} size="sm" id="dropdown-basic">
-                                    {district}
-                                </Dropdown.Toggle>
-
-                                <Dropdown.Menu>
-                                    {allDistricts.map((district, index) => {
-                                        return ( <Dropdown.Item key={index} eventKey={district}> {district} </Dropdown.Item> )
-                                    })}
-                                </Dropdown.Menu>
-                            </Dropdown>
-                                </div>**/}
                     </div>
                 </div>
                 

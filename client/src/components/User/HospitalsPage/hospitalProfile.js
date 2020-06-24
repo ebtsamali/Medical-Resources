@@ -12,8 +12,12 @@ import BedServices from '../../../services/bedService';
 import { getHospitalInfo } from '../../../services/hospitalService'
 import Pagination from './Pagination';
 import Header from "../../Header";
+import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import PublicHeader from "../../PublicHeader";
 
 export default () => {
+    const history = useHistory();
     const hospitalId = useLocation().state.hospitalId;
     const [hospital, setHospital] = useState({});
     const [hospitalName, setHospitalName] = useState("");
@@ -71,7 +75,7 @@ export default () => {
 
     return(
         <>
-            <Header/>
+            {localStorage.getItem("user")? <Header/> : <PublicHeader/> }
             <div id="hospitalProfile">
                 <div className="leftContent">
                     <div className="leftLocationCard">
@@ -159,7 +163,14 @@ export default () => {
                                                 Pounds/DAY
                                             </ListGroup.Item>
                                         </ListGroup>
-                                        <button className="reservBtn" onClick={()=>{setModalShow(true); setClickedBed(bed)}} >
+                                        <button className="reservBtn" onClick={()=>{
+                                            if(localStorage.getItem("user")){
+                                                setModalShow(true); 
+                                                setClickedBed(bed);
+                                            } else {
+                                                history.push('/');
+                                            }
+                                        }} >
                                             Reserve
                                         </button>
                                     </Card>

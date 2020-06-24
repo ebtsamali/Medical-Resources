@@ -115,9 +115,10 @@ function App() {
                             <HospitalsPage/>
                         </AuthRoute>
 
-                        <AuthRoute exact path="/hospitals/:name" type="private" privilege="user">
+                        <AuthRoute exact path="/hospitals/:name" type="public">
                             <HospitalProfile/>
                         </AuthRoute>
+                        
                         <AuthRoute path="/reservation/:id" type="private" privilege="user">
                             <ReservationStatusPage/>
                         </AuthRoute>

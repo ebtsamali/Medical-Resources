@@ -3,11 +3,11 @@ const router = express.Router();
 const bedController = require('../controllers/bed');
 const { authJwt, checkHospitalReservation, verifyRoomNumber } = require("../middlewares");
 
+// get all beds available for user
+router.get('/allBeds', [checkHospitalReservation.checkHospitalReservation], bedController.getAllAvailableBeds);
 
-router.get('/allBeds', [authJwt.verifyToken, authJwt.isUser, checkHospitalReservation.checkHospitalReservation], bedController.getAllAvailableBeds);
-
-// get all beds for user
-router.get('/:hospitalId', [authJwt.verifyToken, authJwt.isUser, checkHospitalReservation.checkHospitalReservation], bedController.getAllHospitalBeds);
+// get all available beds of particular hospital for user
+router.get('/:hospitalId', [checkHospitalReservation.checkHospitalReservation], bedController.getAllHospitalBeds);
 
 //edit bed, req from user
 router.patch('/edit/:id', [authJwt.verifyToken, authJwt.isUser], bedController.updateBed)
