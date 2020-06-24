@@ -149,7 +149,7 @@ export default () => {
 
     return (
         <div className="x-container-pharmacys">
-            {user.type ? <Header/> : <PublicHeader/>}
+            {user.accessToken ? <Header/> : <PublicHeader/>}
             <div className="pharmacys-content">
                 <div className="search-card">
                     <div className="search-input-container">
