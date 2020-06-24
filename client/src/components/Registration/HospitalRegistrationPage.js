@@ -24,7 +24,7 @@ const validateConfirmPassword = (value) => {
     }
 }
 
-const UserRegistrationPage = (props) => {
+const HospitalRegistrationPage = (props) => {
 
     const { setTitle } = useContext(AppContext);
     const { setSuccessfulRegister, setRegisterMessage } = useContext(AuthContext);
@@ -74,7 +74,7 @@ const UserRegistrationPage = (props) => {
         form.current.validateAll();
 
         if (checkBtn.current.context._errors.length === 0) {
-            UserServices.register(email, password, firstName, lastName, "user")
+            UserServices.register(email, password, firstName, lastName, "hospital")
                 .then(
                     response => {
                         setMessage(response.data.message);
@@ -115,7 +115,7 @@ const UserRegistrationPage = (props) => {
                             <b>Back</b>
                         </span>
                     </Link>
-                    <h3>Register as User</h3>
+                    <h3>Register as Hospital</h3>
                     <Form
                         onSubmit={handleRegister}
                         ref={form}
@@ -206,4 +206,4 @@ const UserRegistrationPage = (props) => {
     )
 }
 
-export default UserRegistrationPage;
+export default HospitalRegistrationPage;

@@ -11,7 +11,11 @@ import PharmacyProfilePage from "./components/pharmacy/PharmacyProfilePage/Pharm
 import AuthProvider from "./providers/auth_provider";
 import AuthRoute from "./components/AuthRoute";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
+
+import RegistraionHome from "./components/Registration/RegistrationHomePage";
 import UserRegistrationPage from './components/Registration/UserRegistrationPage';
+import HospitalRegistrationPage from './components/Registration/HospitalRegistrationPage';
+import PharmacyRegistrationPage from './components/Registration/PharmcyRegistrationPage';
 
 import HospitalRegistration from "./components/Hospital/hospitalRegistration";
 import BedPage from './components/Hospital/Beds/BedPage';
@@ -34,6 +38,7 @@ import UserHome from './components/User/UserHome';
 import LoginWithGoogleSuccess from "./components/User/LoginWithGoogleSuccess";
 import ForgetPassword from "./components/ForgetPassword";
 
+
 function App() {
     return (
         <>
@@ -53,8 +58,21 @@ function App() {
                             <LoginWithGoogleSuccess/>
                         </AuthRoute>
 
+                        <AuthRoute exact path="/register/user" type="guest">
+                            <UserRegistrationPage/>
+                        </AuthRoute>
+
+                        <AuthRoute exact path="/register/hospital" type="guest">
+                            <HospitalRegistrationPage/>
+                        </AuthRoute>
+
+                        <AuthRoute exact path="/register/pharmacy" type="guest">
+                            <PharmacyRegistrationPage/>
+                        </AuthRoute>
+                        
                         <AuthRoute path="/register" type="guest">
-                            <UserRegistrationPage />
+                            {/* <UserRegistrationPage /> */}
+                            <RegistraionHome />
                         </AuthRoute>
 
                         <AuthRoute path="/user/activation/:token" type="guest">
@@ -76,10 +94,7 @@ function App() {
                         <AuthRoute path="/user" type="private" privilege="user">
                             <UserHistory />
                         </AuthRoute>
-                        
-                        {/** <AuthRoute path="/user" type="private" privilege="user">
-                            <HomePage/>
-                        </AuthRoute>**/}
+
                         <AuthRoute path="/hospital/beds/edit" privilege="hospital">
                             <BedPage/>
                         </AuthRoute>
@@ -126,6 +141,7 @@ function App() {
                         <AuthRoute path="/pharmacy_profile" type="private" privilege="pharmacy">
                             <PharmacyProfilePage/>
                         </AuthRoute>
+
                         <AuthRoute path="/medicines" type="private" privilege="pharmacy">
                             <MedicinesPage/>
                         </AuthRoute>
