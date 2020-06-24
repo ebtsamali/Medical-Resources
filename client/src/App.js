@@ -97,7 +97,7 @@ function App() {
                             <HospitalReservation/>
                         </AuthRoute>
 
-                        <AuthRoute exact path="/hospitals" type="guest" >
+                        <AuthRoute exact path="/hospitals" type="public" >
                             <HospitalsPage/>
                         </AuthRoute>
 
@@ -112,15 +112,15 @@ function App() {
                             <OrderStatusPage/>
                         </AuthRoute>
                         
-                        <AuthRoute path="/user_cart" type="guest">
+                        <AuthRoute path="/user_cart" type="public">
                             <CartPage/>
                         </AuthRoute>
 
-                        <AuthRoute exact path="/pharmacys" type="guest" >
+                        <AuthRoute exact path="/pharmacys" type="public" >
                             <PharmacysPage/>
                         </AuthRoute>
 
-                        <AuthRoute exact path="/pharmacys/:name" type="guest" >
+                        <AuthRoute exact path="/pharmacys/:name" type="public" >
                             <PharmacyProfile/>
                         </AuthRoute>
 

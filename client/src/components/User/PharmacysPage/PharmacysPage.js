@@ -36,7 +36,7 @@ const PharmacysPage = () => {
         })
     }, [query])
     return (<div className="x-container-pharmacys">
-        {user.type ? <Header/> : <PublicHeader/>}
+        {user.accessToken ? <Header/> : <PublicHeader/>}
         <div className="pharmacys-content">
             <SearchCard setQuery={setQuery} query={query}/>
             {!!query.q ? <AllPharmacysHasSpecificMedicine page={query.page} pages={pages} setPage={setPage}

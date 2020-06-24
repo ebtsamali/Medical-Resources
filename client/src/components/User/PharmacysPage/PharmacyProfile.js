@@ -59,7 +59,7 @@ export default () => {
 
     return (
         <div id="pharmacyProfile">
-            {user.type ? <Header/> : <PublicHeader/>}
+            {user.accessToken ? <Header/> : <PublicHeader/>}
             <div className="profileContent">
                 <div className="leftContent">
                     <div className="leftLocationCard">

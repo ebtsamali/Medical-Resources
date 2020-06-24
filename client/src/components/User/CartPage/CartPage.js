@@ -195,7 +195,7 @@ const CartPage = (props) => {
     }
 
     const handleShowWarning = () => {
-        if(!user.type) {
+        if(!user.accessToken) {
             props.history.push("/")
             return;
         }
@@ -203,7 +203,7 @@ const CartPage = (props) => {
     }
 
     const handleShow = () => {
-        if(!user.type) {
+        if(!user.accessToken) {
             props.history.push("/")
             return;
         }
@@ -212,7 +212,7 @@ const CartPage = (props) => {
 
 
     return (<div className="x-container-cart">
-        {user.type ? <Header/> : <PublicHeader/>}
+        {user.accessToken ? <Header/> : <PublicHeader/>}
 
         {currentPharmacyIndex < 0 ? <div className="empty-cart-container">
             <img src="../../../../img/empty-cart.png"/>
@@ -311,7 +311,7 @@ const CartPage = (props) => {
                                 placement="top"
                             >
                                 <button onClick={(isOpened()) ? () => {
-                                    if(!user.type) {
+                                    if(!user.accessToken) {
                                         props.history.push("/")
                                         return;
                                     }
