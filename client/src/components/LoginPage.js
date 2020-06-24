@@ -2,14 +2,15 @@ import React, { useState, useContext, useEffect } from "react";
 import '../styles/public_home.scss'
 import { AuthContext } from "../providers/auth_provider";
 import ErrorMessage from "./other/ErrorMessage";
-import {Link, withRouter} from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { AppContext } from "../providers/AppProvider";
 import PublicHeader from "./PublicHeader";
+import UserService from "../services/userServices";
 
 const LoginPage = (props) => {
     let windowObjectReference = null;
     let previousUrl = null;
-    const { login, error, successfulRegister, registerMessage, user } = useContext(AuthContext);
+    const { login, error, setError, successfulRegister, setSuccessfulRegister, registerMessage, setRegisterMessage, user, setUser } = useContext(AuthContext);
     const { setTitle } = useContext(AppContext);
     const [emailInput, setEmailInput] = useState('')
     const [passwordInput, setPasswordInput] = useState('')
@@ -18,11 +19,11 @@ const LoginPage = (props) => {
         setTitle('Medical Resources::Login')
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("AAAAA")
-        if(user)
+        if (user)
             props.history.push("/")
-    },[user])
+    }, [user])
 
     const handleEmailChange = (e) => {
         const { target: { value } } = e;
@@ -69,6 +70,29 @@ const LoginPage = (props) => {
         }
     }
 
+    const handleResetPassword = (e) => {
+        e.preventDefault();
+        if(!emailInput) {
+            return setError("You must provide your email.");
+        }
+        UserService.passwordReset(emailInput)
+            .then(response => {
+                setUser(response.data.user);
+                setSuccessfulRegister(true);
+                setRegisterMessage(response.data.message);
+            })
+            .catch(error => {
+                const resMessage =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+                setSuccessfulRegister(false);
+                setRegisterMessage(resMessage);
+            })
+    }
+
     return (
         <div className="login-page-container">
             <PublicHeader/>
@@ -106,6 +130,34 @@ const LoginPage = (props) => {
                                 >
                                     {registerMessage}
                                 </div>
+                <span className="separator"></span>
+                <p>
+                    Reserve the Room at the Hospital you select.<br></br>
+                    Reserve and Order the Medicine you want from the Pharmacy you Choose.<br></br>
+                    <b>All in One Place.</b>
+                </p>
+            </div>
+            <div className="right-container">
+                <div className="login-card-mod">
+                    <h3>Login</h3>
+                    <input className="email-input-mod" placeholder="Email" type="text" value={emailInput} onChange={handleEmailChange} />
+                    <input className="password-input-mod" placeholder="Password" type="password" value={passwordInput} onChange={handlePasswordChange} />
+                    {error && <ErrorMessage message={error} />}
+                    <button className="login-btn" onClick={handleLoginClick}>LOGIN</button>
+                    <button className="login-with-google-btn" onClick={handleLoginWithGoogleClick(`${process.env.REACT_APP_BACKEND_URL}/auth/google`, 'Login With Google')}>Login With Google As User</button>
+                    <p>Or - <Link to="/register">Create New Account</Link></p>
+                    <p><Link onClick={handleResetPassword}>Forgot your Password?</Link></p>
+                    {registerMessage && (
+                        <div className="form-group">
+                            <div
+                                className={
+                                    successfulRegister
+                                        ? "alert alert-success"
+                                        : "alert alert-danger"
+                                }
+                                role="alert"
+                            >
+                                {registerMessage}
                             </div>
                         )}
                     </div>
