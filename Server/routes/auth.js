@@ -21,5 +21,6 @@ router.get('/google/callback', passport.authenticate('google', {failureRedirect:
 router.get("/users/activation/:token", authController.activateEmail);
 
 router.post("/users/facebookLogin", authController.facebookLogin);
+router.get('/users/checkEmail/:email', authController.checkEmail);
 
 exports.authRouter = router;

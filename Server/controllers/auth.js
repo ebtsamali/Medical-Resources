@@ -5,6 +5,8 @@ const nodemailer = require('nodemailer');
 const passport = require('passport');
 let jwt = require("jsonwebtoken");
 let bcrypt = require("bcryptjs");
+const fetch = require('node-fetch');
+const { response } = require('express');
 
 exports.signin = (req, res) => {
 
@@ -99,18 +101,7 @@ exports.signup = (req, res) => {
 
 }
 
-exports.facebookLogin = (req, res) => {
-    try {
-        
-        console.log(req);
-        console.log("hi");
-        res.status(201).send({newUser, message: "You Registered Successfully. You can Login Now."});
-    } catch (error) {
-        console.log(error);
-        console.log("erroooooooooooooooooor");
-        
-    }
-}
+
 exports.activateEmail = async (req, res) => {
     try {
         const { id } = jwt.verify(req.params.token, process.env.EMAIL_SECRET, {
@@ -153,4 +144,48 @@ exports.loginWithGoogle = function(req, res) {
     //     accessTokenCreationDate: Date.now(),
     //     accessTokenTTL: 604800 //7 days in seconds [168 hours]
     // })
+}
+
+exports.checkEmail = async (req, res) => {
+    console.log("inside");
+    
+    try {
+        const email = req.params.email
+        console.log(email);
+        
+        const user = await User.findOne({ email: email })
+        if (!user) {
+            return res.send({message:false});
+        }
+        return res.status(200).send({user, message:true})
+    } catch (error) {
+        res.status(500).send(err);
+    }
+}
+
+exports.facebookLogin = async (req, res) => {
+    try {
+        const email = req.body.email;
+        const fullname = req.body.name.split(" ");
+        const password = req.body.password;
+        console.log(password);
+        
+        let newUser = new User({
+            firstName: fullname[0],
+            lastName: fullname[1],
+            email,
+            password,
+            role: "user",
+            activated: true
+        });
+        newUser.save().then(async () => {
+            const emailToken = jwt.sign({ id: newUser._id }, process.env.EMAIL_SECRET, {
+                expiresIn: 86400 //1 day in seconds [24 hours]
+            });   
+            res.status(201).send({ newUser, message: true });
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
 }

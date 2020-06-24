@@ -82,6 +82,34 @@ function UserServices() {
         },
         getAllBedReservations: (pageQuery, userId) => {
             return axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/beds?${pageQuery}`, { headers: authHeader() })
+        },
+        registerWithFacebook: (email,name, password) => {
+            let form = {
+                email,
+                name,
+                password
+            }
+            return (
+                axios.post(API_URL + "/auth/users/facebookLogin", form)
+            )
+        },
+        facebookResult: (response) => {
+            console.log(API_URL);
+            
+            return(
+                axios({
+                    method: "get",
+                    url: `https://graph.facebook.com/v6.0/${response.userID}/?fields=id,name,email&access_token=${response.accessToken}`,
+                })
+            )
+        },
+        checkEmail: (email) => {
+            return (
+                axios({
+                    method: "get",
+                    url: `${process.env.REACT_APP_BACKEND_URL}/auth/users/checkEmail/${email}`,
+                })
+            )
         }
     })
 }

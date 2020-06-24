@@ -4,7 +4,7 @@ import { AuthContext } from "../providers/auth_provider";
 import ErrorMessage from "./other/ErrorMessage";
 import {Link, withRouter} from 'react-router-dom';
 import { AppContext } from "../providers/AppProvider";
-import LoginWithFacebook from './login/loginWithFacebook';
+import LoginWithFacebook from './loginWithFacebook';
 
 const LoginPage = (props) => {
     let windowObjectReference = null;
@@ -90,8 +90,8 @@ const LoginPage = (props) => {
                     <input className="password-input-mod" placeholder="Password" type="password" value={passwordInput} onChange={handlePasswordChange} />
                     {error && <ErrorMessage message={error} />}
                     <button className="login-btn" onClick={handleLoginClick}>LOGIN</button>
-                    <LoginWithFacebook />
                     <button className="login-with-google-btn" onClick={handleLoginWithGoogleClick(`${process.env.REACT_APP_BACKEND_URL}/auth/google`,'Login With Google')}>Login With Google As User</button>
+                    <LoginWithFacebook />
                     <p>Or - <Link to="/register">Create New Account</Link></p>
                     {registerMessage && (
                         <div className="form-group">
