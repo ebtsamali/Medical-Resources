@@ -12,9 +12,8 @@ export default () => {
             <Header />
             <div className="userHomeBody">
                 <div className="col-12 col-md-4 m-1">
-                    
-                        <CardImg width="100%" src="../../../img/PinClipart-left.png"></CardImg>
-                        <CardImgOverlay>
+                        <CardImg style={{width: "450px"}} src="../../../img/PinClipart-left.png"></CardImg>
+                        <CardImgOverlay style={{width: "450px", align: "center"}}>
                             <CardTitle className="cardTitle">HOSPITALS</CardTitle>
                             <CardText className="cardText"> 
                                 <span className="hiWord">HI</span>, You can search for Hospital by Name OR filter by Location. Also, you can see all
@@ -29,8 +28,8 @@ export default () => {
                 </div>
 
                 <div className="col-12 col-md-4 m-1">
-                        <CardImg width="100%" src="../../../img/PinClipart-right.png"></CardImg>
-                        <CardImgOverlay>
+                        <CardImg style={{width: "450px"}} src="../../../img/PinClipart-right.png"></CardImg>
+                        <CardImgOverlay style={{width: "450px", align: "center"}}>
                             <CardTitle className="cardTitle">PHARMACIES</CardTitle>
                                 <CardText className="cardText"> 
                                     <span className="hiWord">HI</span>, You can search for Medicine by Name OR filter Pharmacies by Location. Also,
