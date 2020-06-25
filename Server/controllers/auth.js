@@ -2,6 +2,7 @@ const config = require('../config/auth');
 const db = require('../models/index');
 const User = db.user;
 const Pharmacy = db.pharmacy;
+const Hospital = db.hospital;
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 let jwt = require("jsonwebtoken");
@@ -259,6 +260,67 @@ exports.signupAsPharmacy = async (req, res) => {
         await session.commitTransaction();
         session.endSession();
         res.status(201).send(pharmacy)
+    } catch (e) {
+        console.log(e)
+        await session.abortTransaction();
+        session.endSession();
+        res.status(500).send(e)
+    }
+}
+
+
+exports.signupAsHospital = async (req, res) => {
+    const {body: {adminFirstName, adminLastName, adminEmail, adminPassword, hospitalName, hospitalLocation, phoneNumbers, maxTimeLimit, regulations}} = req
+    const session = await User.startSession();
+    session.startTransaction();
+    const opts = {session};
+    try {
+        let admin = await User({
+            firstName: adminFirstName,
+            lastName: adminLastName,
+            email: adminEmail,
+            password: adminPassword,
+            role: 'hospital',
+            profileIsCompleted: true
+        }).save(opts);
+
+        const hospital = await Hospital({
+            adminId: admin._id,
+            name: hospitalName,
+            location: hospitalLocation,
+            phoneNumbers,
+            maxTimeLimit,
+            regulations
+        }).save(opts)
+
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: process.env.EMAIL_USER, // user
+                pass: process.env.EMAIL_PASS, // password
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        });
+
+        const emailToken = jwt.sign({id: admin._id}, process.env.EMAIL_SECRET, {
+            expiresIn: 86400 //1 day in seconds [24 hours]
+        });
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+            from: `Medical Resources App <${process.env.EMAIL_USER}>`, // sender address
+            to: admin.email, // list of receivers
+            subject: "Mail Activation", // Subject line
+            text: `Pleased to have you in our system.\nPlease Activate your mail from this link: ${process.env.ACTIVATION_LINK}${emailToken}`, // plain text body
+        });
+        console.log("Message sent: %s", info.messageId);
+        res.status(201).send({message: "You Registered Successfully. Check your Email for Activation."});
+
+        await session.commitTransaction();
+        session.endSession();
+        res.status(201).send(hospital)
     } catch (e) {
         console.log(e)
         await session.abortTransaction();
