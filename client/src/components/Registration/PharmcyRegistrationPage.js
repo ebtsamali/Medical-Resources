@@ -440,7 +440,7 @@ const PharmacyRegistrationPage = (props) => {
                                            }}/>
                                     <MuiThemeProvider theme={theme}>
                                         <Tooltip
-                                            title={`Number of Hours the reservation will be cancelled after theme`}
+                                            title={`Number of Hours the reservation will be cancelled after them`}
                                             placement="top"
                                         >
                                             <button className="info-icon"><FontAwesomeIcon size="lg"
