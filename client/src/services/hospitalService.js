@@ -58,3 +58,11 @@ export const getHospitalInfo = (hospitalId) => {
         method: 'get'
     })
 }
+
+export const signupAsHospital = (data) => {
+    return axios({
+        url:`${process.env.REACT_APP_BACKEND_URL}/auth/users/signup_as_hospital`,
+        method: 'post',
+        data
+    })
+}
