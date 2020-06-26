@@ -34,7 +34,11 @@ const AllMedicines = (props) => {
         }
     }
 
-    return (<div className="medicines-container">
+    return (<>{medicines.length === 0? <div className="d-flex justify-content-center mt-5 w-100 h-100">
+        <h3>No Medicines Available, Please <b><a style={{textDecoration: 'underline',color:'blue',cursor:'pointer'}} onClick={()=>{
+            props.setSelectedTab('add_medicine')
+        }}>Add Medicines</a></b></h3>
+    </div> :<div className="medicines-container">
         <table id="medicines">
             <thead>
             <tr>
@@ -67,7 +71,7 @@ const AllMedicines = (props) => {
 
         </table>
         <Pagination page={page} setPage={setPage} hasPrevious={pages.hasPrevious} hasNext={pages.hasNext}/>
-    </div>)
+    </div>}</>)
 }
 
 export default AllMedicines

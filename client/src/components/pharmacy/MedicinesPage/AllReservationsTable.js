@@ -177,7 +177,9 @@ export default function CollapsibleTable(props) {
         setPage(0);
     };
 
-    return (
+    return (<>{rows.length === 0? <div className="d-flex justify-content-center mt-5 w-100 h-100">
+            <h3>No Reservations Available</h3>
+        </div> :
         <TableContainer component={Paper} style={{width: "80rem"}}>
             <Table aria-label="collapsible table">
                 <TableHead>
@@ -217,6 +219,6 @@ export default function CollapsibleTable(props) {
                     </TableRow>
                 </TableFooter>
             </Table>
-        </TableContainer>
+        </TableContainer>}</>
     );
 }

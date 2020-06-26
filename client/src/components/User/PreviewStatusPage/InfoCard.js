@@ -1,18 +1,19 @@
 import React from "react";
 import UserInfo from "./UserInfo";
 import PharmacyInfo from "./PharmacyInfo";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const InfoCard = (props) => {
-    const { type, data } = props
+    const {type, data} = props
 
     const buildUserInfo = (type, data) => {
         const user = {}
         if (type === 'reservation' && data.user) {
-            user.name = `${data.user.firstName} ${data.user.lastName}`
-            user.phone = `${data.user.phoneNumber}`
-            user.address = `${data.user.address.street}, ${data.user.address.district}, ${data.user.address.governorate}, Flat Number: ${data.user.address.flatNum}`
+            console.log(data.user.address)
+            user.name = `${data.user.firstName} ${data.user.lastName}`;
+            user.phone = (data.user.phoneNumber)?`${data.user.phoneNumber}`:'';
+            user.address = (data.user.address && data.user.address.street && data.user.address.district && data.user.address.governorate && data.user.address.flatNum) ?  `${data.user.address.street}, ${data.user.address.district}, ${data.user.address.governorate}, Flat Number: ${data.user.address.flatNum}` : '';
         } else if (type === 'order' && data.user) {
             user.name = `${data.user.firstName} ${data.user.lastName}`
             user.phone = data.userPhone
@@ -48,14 +49,14 @@ const InfoCard = (props) => {
     }
     return (
         <div className="info-card-container">
-            <Link to="/" style={{ color: "black", width: "70px" }}>
+            <Link to="/user" style={{color: "black", width: "70px"}}>
                 <span>
-                    <ArrowBackIosIcon style={{ fontSize: "20px" }} />
+                    <ArrowBackIosIcon style={{fontSize: "20px"}}/>
                     <b>Back</b>
                 </span>
             </Link>
-            <UserInfo data={buildUserInfo(type, data)} />
-            <PharmacyInfo data={buildPharmacyInfo(data)} />
+            <UserInfo data={buildUserInfo(type, data)}/>
+            <PharmacyInfo data={buildPharmacyInfo(data)}/>
             <div className="x-footer">
                 <h5><b>Total Price:</b> {data.totalPrice}</h5>
             </div>
