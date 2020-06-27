@@ -152,6 +152,7 @@ exports.forgetPassword = async (req, res) => {
         res.status(200).send({user, message: "Check your Email for Resetting your Password."});
 
     } catch (error) {
+        console.log('inside forget password');
         console.log(error);
         res.status(500).send({message: error});
     }
@@ -358,7 +359,8 @@ exports.facebookLogin = async (req, res) => {
             email,
             password,
             role: "user",
-            activated: true
+            activated: true,
+            type: 'facebook'
         });
         newUser.save().then(async () => {
             const emailToken = jwt.sign({ id: newUser._id }, process.env.EMAIL_SECRET, {
