@@ -3,8 +3,8 @@ const User = db.user;
 const Pharmacy = db.pharmacy;
 
 const addPharmacy = async (req, res) => {
-    const {userId} = req;
-    const {body: {name, location, phoneNumbers, delivery, maxTimeLimit, workingHours}} = req
+    const { userId } = req;
+    const { body: { name, location, phoneNumbers, delivery, maxTimeLimit, workingHours } } = req
     // console.log(workingHours)
     try {
         const pharmacy = await Pharmacy.create({
@@ -16,7 +16,7 @@ const addPharmacy = async (req, res) => {
             maxTimeLimit,
             workingHours
         })
-        await User.findByIdAndUpdate(userId, {profileIsCompleted: true})
+        await User.findByIdAndUpdate(userId, { profileIsCompleted: true })
         res.status(201).send(pharmacy)
     } catch (e) {
         // console.log(e.message)
@@ -54,9 +54,9 @@ const addPharmacy = async (req, res) => {
 }*/
 
 const getPharmacyProfile = async (req, res) => {
-    const {params: {id}} = req;
+    const { params: { id } } = req;
     try {
-        const pharmacy = await Pharmacy.findOne({admin_id: id})
+        const pharmacy = await Pharmacy.findOne({ admin_id: id })
         if (!pharmacy) {
             return res.status(404).end()
         }
@@ -69,12 +69,12 @@ const getPharmacyProfile = async (req, res) => {
 }
 
 const updatePharmacy = async (req, res) => {
-    const {params: {id}} = req;
-    const {userId} = req;
+    const { params: { id } } = req;
+    const { userId } = req;
     // const {body:{  name, location, phoneNumbers, delivery }} = req
     const updatedKeys = Object.keys(req.body);
     try {
-        const pharmacy = await Pharmacy.findOne({_id: id, admin_id: userId})
+        const pharmacy = await Pharmacy.findOne({ _id: id, admin_id: userId })
         if (!pharmacy) {
             return res.status(404).end()
         }
@@ -94,7 +94,7 @@ const updatePharmacy = async (req, res) => {
 }
 
 const getPharmacyData = async (req, res) => {
-    const {params: {id}} = req;
+    const { params: { id } } = req;
     try {
         const pharmacy = await Pharmacy.findById(id)
         if (!pharmacy) {
@@ -107,9 +107,34 @@ const getPharmacyData = async (req, res) => {
     }
 }
 
+const updatePharmacyRating = async (req, res) => {
+    const { params: { pharmacyId } } = req;
+    const { body: { userId, rating } } = req;
+    let pharmacyRatingUpdated = false;
+
+    try {
+        let pharmacy = await Pharmacy.findOne({ _id: pharmacyId });
+        pharmacy.ratings.forEach(async el => {
+            if (el.userId == userId) {
+                el.rating = rating;
+                pharmacyRatingUpdated = true;
+            }
+        });
+        if (!pharmacyRatingUpdated) {
+            pharmacy.ratings.push({ userId, rating });
+        }
+        await pharmacy.save();
+        res.status(200).send({pharmacy, message: "Rating updated successfully."});
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
 module.exports = {
     addPharmacy,
     getPharmacyProfile,
     updatePharmacy,
-    getPharmacyData
+    getPharmacyData,
+    updatePharmacyRating
 }

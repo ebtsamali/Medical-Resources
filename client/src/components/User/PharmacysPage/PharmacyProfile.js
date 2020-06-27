@@ -2,7 +2,6 @@ import React, {useState, useEffect, useContext} from 'react';
 import Header from "../../Header";
 import { Card } from 'react-bootstrap';
 import '../../../styles/pharmacyProfile.scss';
-import { MdLocationOn } from 'react-icons/md';
 import { FaPhone, FaCheck, FaTimes } from 'react-icons/fa';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import { GrDeliver } from 'react-icons/gr';
@@ -12,6 +11,7 @@ import PharmacyService from '../../../services/pharmacy_service';
 import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import PublicHeader from "../../PublicHeader";
 import {AuthContext} from "../../../providers/auth_provider";
+import Rating from "../../Rating";
 
 export default () => {
     const {user} = useContext(AuthContext);
@@ -22,6 +22,8 @@ export default () => {
     const [pharmacyHasDeliveryService, setPharmacyHasDeliveryService] = useState(false)
     const [phoneNumbers, setPhoneNumbers] = useState([])
     const [maxTimeLimit, setMaxTimeLimit] = useState('')
+    const [rating, setRating] = useState(0);
+    const [avgRating, setAvgRating] = useState(0);
     const [weekDetails, setWeekDetails] = useState([{day: 'Mon', startTime: 0, endTime: 0, isOpened: false}, {
         day: 'Tue',
         startTime: 0,
@@ -45,17 +47,40 @@ export default () => {
         setPharmacyHasDeliveryService(data.delivery);
         setMaxTimeLimit(data.maxTimeLimit);
         setWeekDetails(data.workingHours);
+        data.ratings.forEach(el => {
+            if(el.userId == user.id) {
+                setRating(el.rating);
+            }
+        });
+        if(data.ratings.length) {
+            let sum = data.ratings.reduce((acc, item) => acc + item.rating, 0);
+            let avg = sum / data.ratings.length;
+            setAvgRating(avg);
+        }
     }
 
     useEffect(() => {
         PharmacyService.getPharmacy(id).then((response) => {
-            console.log(response.data);
             setNewPharmacyState(response.data);
         }).catch(error => {
             console.log(error.response);  
         })
     }, [])
 
+    const onChangeRating = (rating) => {
+        PharmacyService.updatePharmacyRating(user.id, rating, id)
+        .then(response => {
+            console.log(response.data.message);
+            if(response.data.pharmacy.ratings.length) {
+                let sum = response.data.pharmacy.ratings.reduce((acc, item) => acc + item.rating, 0);
+                let avg = sum / response.data.pharmacy.ratings.length;
+                setAvgRating(avg);
+            }
+        })
+        .catch(error => {
+            console.log(error.response.data.message);
+        })
+    }
 
     return (
         <div id="pharmacyProfile">
@@ -67,9 +92,11 @@ export default () => {
                         <Card.Title className="pharmacyName">{pharmacyName}</Card.Title>
                         <div className="leftLocationCardBody">
                             <div className="leftContentCardsBody">
+                                <span className="leftContentCardsBodyItem" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center"}}><h6>Pharmacy Rating:</h6> <Rating rating={avgRating} readOnly={true} precision={0.5} /></span>
                                 <h6 className="leftContentCardsBodyItem">{pharmacyGovernorate}</h6>
                                 <h6 className="leftContentCardsBodyItem">{pharmacyDistrict}</h6>
                                 <h6 className="leftContentCardsBodyItem">{pharmacyStreet}</h6>
+                                {user.accessToken && <span className="leftContentCardsBodyItem" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center"}}><h6>Your Rating:</h6> <Rating rating={rating} setRating={setRating} readOnly={false} onChangeRating={onChangeRating} precision={1}/></span>}
                             </div>
                         </div>
                     </div>
