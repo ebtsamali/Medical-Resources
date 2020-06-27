@@ -91,7 +91,7 @@ userSchema.statics.findOrCreate = async function (condition,user, cb) {
         if(existedUser) {
             cb(null,existedUser)
         } else {
-            const newUser = await self.create({...user, password:process.env.DEFAULT_PASSWORD});
+            const newUser = await self.create({...user, password:process.env.DEFAULT_PASSWORD,activated:true});
             if(newUser)
                 cb(null,newUser)
         }
