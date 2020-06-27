@@ -58,6 +58,7 @@ const CartPage = (props) => {
 
     useEffect(() => {
         setTitle('Cart')
+        if (!user.id) return;
         UserService.getUserInfo(user.id).then((response) => {
             setUserProfile(response.data)
         })

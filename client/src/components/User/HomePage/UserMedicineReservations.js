@@ -3,7 +3,6 @@ import { AuthContext } from "../../../providers/auth_provider";
 import UserService from '../../../services/userServices'
 import Pagination from "../../Pagination";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import {Link} from 'react-router-dom';
 const UserMedicineReservations = () => {
 
@@ -27,7 +26,9 @@ const UserMedicineReservations = () => {
         })
     }
 
-    return (
+    return (<>{reservations.length === 0? <div className="d-flex justify-content-center mt-5 w-100 h-100">
+            <h3>No Reservation Available, Please <b><Link  to="/pharmacys">Reserve Medicines</Link></b></h3>
+        </div> :
         <div className="d-flex flex-column">
             {/* <span onClick={handleRefresh} className="btn btn-success" style={{marginLeft: "75rem", marginBottom: "20px"}}>Refresh <RefreshIcon/></span> */}
             <table id="medicines" style={{width: "75rem"}}>
@@ -61,7 +62,7 @@ const UserMedicineReservations = () => {
 
             </table>
             <Pagination page={page} setPage={setPage} hasPrevious={pages.hasPrev} hasNext={pages.hasNext} />
-        </div>
+        </div>}</>
     )
 }
 

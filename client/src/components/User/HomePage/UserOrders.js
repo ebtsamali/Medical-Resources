@@ -30,7 +30,9 @@ const UserOrders = () => {
         })
     }
 
-    return (
+    return (<>{orders.length === 0? <div className="d-flex justify-content-center mt-5 w-100 h-100">
+            <h3>No Orders Available, Please <b><Link  to="/pharmacys">Order Medicine</Link></b></h3>
+        </div> :
         <div className="d-flex flex-column">
             {/* <span onClick={handleRefresh} className="btn btn-success" style={{marginLeft: "75rem", marginBottom: "20px"}}>Refresh <RefreshIcon/></span> */}
             <table id="medicines" style={{width: "75rem"}}>
@@ -64,7 +66,7 @@ const UserOrders = () => {
 
             </table>
             <Pagination page={page} setPage={setPage} hasPrevious={pages.hasPrev} hasNext={pages.hasNext} />
-        </div>
+        </div>}</>
     )
 }
 

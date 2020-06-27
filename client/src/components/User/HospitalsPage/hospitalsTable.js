@@ -32,50 +32,54 @@ export default (props) => {
     }, [])
     
     return (
-        <div className="pharmacys-container">
-            <table id="medicines">
-                <thead>
-                    <tr id="hospitals">
-                        <th>Hospital Name</th>
-                        <th>Available Rooms</th>
-                        <th>Governorate</th>
-                        <th>District</th>
-                        <th>Street</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {
-                    currentHospitals.map(hospital => {
-                        const hospitalbeds = allbeds.filter(bed => {
-                            return bed.hospital === hospital._id
-                        })
-
-                        return(
-                            <tr key={hospital._id}>
-                                <td><Link to={{ 
-                                        pathname: `/hospitals/${hospital.name}`, 
-                                        state: { hospitalId: hospital._id}
-                                    }}>
-                                        {hospital.name} 
-                                    </Link>
-                                </td>
-                                
-                                <td>{hospitalbeds.length}</td>
-                                <td>{hospital.location? hospital.location[0].governorate : ""}</td>
-                                <td>{hospital.location? hospital.location[0].district : ""}</td>
-                                <td>{hospital.location? hospital.location[0].street : ""}</td>
-                            </tr>
-                        )
+        <>{currentHospitals.length === 0? <div className="d-flex justify-content-center mt-5 w-100 h-100">
+                <h1>No Hospitals Available</h1>
+            </div> :
+    <div className="pharmacys-container">
+        <table id="medicines">
+            <thead>
+            <tr id="hospitals">
+                <th>Hospital Name</th>
+                <th>Available Rooms</th>
+                <th>Governorate</th>
+                <th>District</th>
+                <th>Street</th>
+            </tr>
+            </thead>
+            <tbody>
+            {
+                currentHospitals.map(hospital => {
+                    const hospitalbeds = allbeds.filter(bed => {
+                        return bed.hospital === hospital._id
                     })
-                }
-                </tbody>
-            </table>
-            <Pagination
-                booksPerPage={hospitalsPerPage}
-                totalBooks={hospitals.length}
-                currentPage={currentPage}
-                paginate={paginate}
-            />
-        </div>
+
+                    return (
+                        <tr key={hospital._id}>
+                            <td><Link to={{
+                                pathname: `/hospitals/${hospital.name}`,
+                                state: {hospitalId: hospital._id}
+                            }}>
+                                {hospital.name}
+                            </Link>
+                            </td>
+
+                            <td>{hospitalbeds.length}</td>
+                            <td>{hospital.location ? hospital.location[0].governorate : ""}</td>
+                            <td>{hospital.location ? hospital.location[0].district : ""}</td>
+                            <td>{hospital.location ? hospital.location[0].street : ""}</td>
+                        </tr>
+                    )
+                })
+            }
+            </tbody>
+        </table>
+        <Pagination
+            booksPerPage={hospitalsPerPage}
+            totalBooks={hospitals.length}
+            currentPage={currentPage}
+            paginate={paginate}
+        />
+    </div>
+}</>
     )
 }

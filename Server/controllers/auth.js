@@ -256,11 +256,10 @@ exports.signupAsPharmacy = async (req, res) => {
             text: `Pleased to have you in our system.\nPlease Activate your mail from this link: ${process.env.ACTIVATION_LINK}${emailToken}`, // plain text body
         });
         console.log("Message sent: %s", info.messageId);
-        res.status(201).send({message: "You Registered Successfully. Check your Email for Activation."});
 
         await session.commitTransaction();
         session.endSession();
-        res.status(201).send(pharmacy)
+        res.status(201).send({message: "You Registered Successfully. Check your Email for Activation."});
     } catch (e) {
         console.log(e)
         await session.abortTransaction();

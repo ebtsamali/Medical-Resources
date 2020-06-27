@@ -15,7 +15,6 @@ import {makeStyles} from "@material-ui/core/styles";
 import {
     createMuiTheme,
     MuiThemeProvider,
-    withStyles
 } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
 import WorkingHours from "../other/WorkingHours";
@@ -28,21 +27,11 @@ const theme = createMuiTheme({
         MuiTooltip: {
             tooltip: {
                 fontSize: "0.95rem",
-                // color: "yellow",
-                // backgroundColor: "red"
             }
         }
     }
 });
-// let originalPassword = '';
 
-// const validateConfirmPassword = (value) => {
-//     if (value.length < 8 || value.length > 40 || value !== originalPassword) {
-//         return (
-//             <ErrorMessage message={"The password does not match."} />
-//         );
-//     }
-// }
 
 const useStyles = makeStyles((theme) => ({
     select: {
@@ -82,7 +71,7 @@ const PharmacyRegistrationPage = (props) => {
     const [pharmacyDistrict, setPharmacyDistrict] = useState("District")
     const [pharmacyStreet, setPharmacyStreet] = useState("")
     const [pharmacyHasDeliveryService, setPharmacyHasDeliveryService] = useState(false)
-    const [maxTimeLimit, setMaxTimeLimit] = useState('')
+    const [maxTimeLimit, setMaxTimeLimit] = useState('1')
     const [phoneNumbers, setPhoneNumbers] = useState([])
     const [weekDetails, setWeekDetails] = useState([{day: 'Mon', startTime: 0, endTime: 0, isOpened: false}, {
         day: 'Tue',
@@ -262,44 +251,7 @@ const PharmacyRegistrationPage = (props) => {
         setCurrentForm('admin_info')
     }
 
-    /*const handleRegister = (e) => {
-        e.preventDefault();
 
-        setMessage('');
-        setLoading(true);
-
-        form.current.validateAll();
-
-        if (checkBtn.current.context._errors.length === 0) {
-            UserServices.register(email, password, firstName, lastName, "pharmacy")
-                .then(
-                    response => {
-                        setMessage(response.data.message);
-                        setSuccessful(true);
-                        setLoading(false);
-                        setSuccessfulRegister(true);
-                        setRegisterMessage(response.data.message);
-                        history.push('/');
-                    },
-                    error => {
-                        const resMessage =
-                            (error.response &&
-                                error.response.data &&
-                                error.response.data.message) ||
-                            error.message ||
-                            error.toString();
-
-                        setLoading(false);
-                        setMessage(resMessage);
-                        setSuccessful(false);
-                        setSuccessfulRegister(false);
-                        setRegisterMessage(resMessage);
-                    }
-                )
-        } else {
-            setLoading(false);
-        }
-    }*/
 
     return (
         <div className="register-page-container">
@@ -434,13 +386,15 @@ const PharmacyRegistrationPage = (props) => {
                                            type="number"
                                            placeholder="Max Time Limit in Hours"
                                            value={maxTimeLimit}
+                                           step="1"
+                                           min="1"
                                            onChange={(e) => {
                                                const {target: {value}} = e;
                                                setMaxTimeLimit(value)
                                            }}/>
                                     <MuiThemeProvider theme={theme}>
                                         <Tooltip
-                                            title={`Number of Hours the reservation will be cancelled after theme`}
+                                            title={`Number of Hours the reservation will be cancelled after them`}
                                             placement="top"
                                         >
                                             <button className="info-icon"><FontAwesomeIcon size="lg"

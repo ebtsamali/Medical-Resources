@@ -20,7 +20,10 @@ const AllPharmacysHasSpecificMedicine = (props) => {
             setCart(removeMedicineFromCart(pharmacyId,medicineId))
         }
     }
-    return (<div className="pharmacys-container">
+    return (<>{pharmacys.length === 0? <div className="d-flex justify-content-center mt-5 w-100 h-100">
+            <h1>No Medicines Available</h1>
+        </div> :
+    <div className="pharmacys-container">
         <table id="pharmacys">
             <thead>
             <tr>
@@ -35,38 +38,42 @@ const AllPharmacysHasSpecificMedicine = (props) => {
             </thead>
             <tbody>
             {pharmacys &&
-                pharmacys.map((pharmacy) => {
-                    return (<tr key={pharmacy._id}>
-                        <td>{pharmacy.pharmacy && <Link to={{
-                            pathname: `/pharmacys/${pharmacy.pharmacy.name}`,
-                            state: {pharmacyId: pharmacy.pharmacy._id}
-                        }}>{pharmacy.pharmacy.name} </Link>}</td>
-                        <td>
-                            {pharmacy.pharmacy && `${ pharmacy.pharmacy.location[0].street}, ${pharmacy.pharmacy.location[0].district}, ${pharmacy.pharmacy.location[0].governorate}`}
-                        </td>
-                        <td>
-                            {pharmacy.pharmacy &&  pharmacy.pharmacy.delivery ? 'Yes' : 'No'}
-                        </td>
-                        <td>
-                            {pharmacy.name}
-                        </td>
-                        <td>
-                            {pharmacy.price}
-                        </td>
-                        <td>
-                            {pharmacy.quantity}
-                        </td>
-                        <td>
-                            {pharmacy.pharmacy && (pharmacy.quantity === 0 ? `Sold Out` :((medicineIsExist(pharmacy._id)) ? <RemoveShoppingCartIcon onClick={handleRemoveFromCart( pharmacy.pharmacy._id,pharmacy._id)}/> : <AddShoppingCartIcon onClick={handleAddToCart( pharmacy.pharmacy._id,pharmacy._id)}/>))}
-                        </td>
-                    </tr>)
-                })
+            pharmacys.map((pharmacy) => {
+                return (<tr key={pharmacy._id}>
+                    <td>{pharmacy.pharmacy && <Link to={{
+                        pathname: `/pharmacys/${pharmacy.pharmacy.name}`,
+                        state: {pharmacyId: pharmacy.pharmacy._id}
+                    }}>{pharmacy.pharmacy.name} </Link>}</td>
+                    <td>
+                        {pharmacy.pharmacy && `${pharmacy.pharmacy.location[0].street}, ${pharmacy.pharmacy.location[0].district}, ${pharmacy.pharmacy.location[0].governorate}`}
+                    </td>
+                    <td>
+                        {pharmacy.pharmacy && pharmacy.pharmacy.delivery ? 'Yes' : 'No'}
+                    </td>
+                    <td>
+                        {pharmacy.name}
+                    </td>
+                    <td>
+                        {pharmacy.price}
+                    </td>
+                    <td>
+                        {pharmacy.quantity}
+                    </td>
+                    <td>
+                        {pharmacy.pharmacy && (pharmacy.quantity === 0 ? `Sold Out` : ((medicineIsExist(pharmacy._id)) ?
+                            <RemoveShoppingCartIcon
+                                onClick={handleRemoveFromCart(pharmacy.pharmacy._id, pharmacy._id)}/> :
+                            <AddShoppingCartIcon onClick={handleAddToCart(pharmacy.pharmacy._id, pharmacy._id)}/>))}
+                    </td>
+                </tr>)
+            })
             }
             </tbody>
 
         </table>
         <Pagination hasNext={pages.hasNext} hasPrevious={pages.hasPrevious} setPage={setPage} page={page}/>
-    </div>)
+    </div>
+}</>)
 }
 
 export default AllPharmacysHasSpecificMedicine

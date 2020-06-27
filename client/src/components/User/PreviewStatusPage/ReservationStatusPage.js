@@ -11,7 +11,6 @@ const ReservationStatusPage = (props) => {
     const [reservationDetails, setReservationDetails] = useState({})
     useEffect(()=>{
         UserService.getMedicineReservationDetails(user.id,id).then((response)=>{
-            console.log(response.data)
             setReservationDetails(response.data)
         })
     },[])
