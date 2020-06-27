@@ -5,7 +5,7 @@ function PharmacyService() {
     return ({
 
         getPharmacyData: (id) => {
-            return axios.get(`${process.env.REACT_APP_BACKEND_URL}/pharmacys/${id}`, {headers: authHeader()});
+            return axios.get(`${process.env.REACT_APP_BACKEND_URL}/pharmacys/${id}`, { headers: authHeader() });
         },
         updatePharmacyData: (id, updatedData) => {
             return axios({
@@ -23,7 +23,7 @@ function PharmacyService() {
                 data,
             })
         },
-        getPharmacy: (id) =>{
+        getPharmacy: (id) => {
             return axios({
                 headers: authHeader(),
                 url: `${process.env.REACT_APP_BACKEND_URL}/pharmacys/profile/${id}`,
@@ -32,10 +32,13 @@ function PharmacyService() {
         },
         signupAsPharmacy: (data) => {
             return axios({
-                url:`${process.env.REACT_APP_BACKEND_URL}/auth/users/signup_as_pharmacy`,
+                url: `${process.env.REACT_APP_BACKEND_URL}/auth/users/signup_as_pharmacy`,
                 method: 'post',
                 data
             })
+        },
+        updatePharmacyRating: (userId, rating, pharmacyId) => {
+            return axios.patch(`${process.env.REACT_APP_BACKEND_URL}/pharmacys/rating/${pharmacyId}`, { userId, rating }, { headers: authHeader() });
         }
     })
 }

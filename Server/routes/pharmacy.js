@@ -12,17 +12,19 @@ const { authJwt } = require("../middlewares");
 // }
 
 // adding new pharmacy
-router.post('/',[authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.addPharmacy)
+router.post('/', [authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.addPharmacy)
 
 // get pharmacy data by admin id
-router.get('/:id',[authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.getPharmacyProfile)
+router.get('/:id', [authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.getPharmacyProfile)
+
+// update pharmacy rating
+router.patch('/rating/:pharmacyId', [authJwt.verifyToken, authJwt.isUser], pharmacyController.updatePharmacyRating);
 
 // update pharmacy data
-router.patch('/:id',[authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.updatePharmacy)
+router.patch('/:id', [authJwt.verifyToken, authJwt.isPharmacy], pharmacyController.updatePharmacy)
 
 // get pharmacy by pharmacy id
-router.get('/profile/:id',[], pharmacyController.getPharmacyData)
-
+router.get('/profile/:id', [], pharmacyController.getPharmacyData)
 
 
 module.exports = router;
