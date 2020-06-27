@@ -76,7 +76,12 @@ const userSchema = new mongoose.Schema({
     activated: {
         type: Boolean,
         default: false
-    }
+    },
+    type: {
+        type: String,
+        enum: ['normal', 'facebook'],
+        default: 'normal'
+    },
 
 }, {
     timestamps: true,

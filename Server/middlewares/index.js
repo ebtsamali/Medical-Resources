@@ -4,6 +4,7 @@ const checkReservations = require('./checkReservation');
 const checkHospitalReservation = require('./checkHospitalReservation');
 const userHomepage = require('./userHomepage');
 const verifyRoomNumber = require('./verifyRoomNumber');
+const CheckAccountType = require('./checkUserAccountType');
 
 module.exports = {
     authJwt,
@@ -11,5 +12,6 @@ module.exports = {
     checkReservations,
     checkHospitalReservation,
     userHomepage,
-    verifyRoomNumber
+    verifyRoomNumber,
+    CheckAccountType
 }
