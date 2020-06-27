@@ -5,7 +5,7 @@ exports.checkAccountType = async (req, res, next) => {
         let user = await USerModel.findOne({email: req.body.email});
 
         if (user.type === 'facebook') {
-            return res.send({message: "you can not change password"});
+            return res.send({message: "you can not change password when you signed up with facebook"});
         }
         next();
     } catch (e) {

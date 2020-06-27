@@ -100,8 +100,6 @@ function UserServices() {
             )
         },
         facebookResult: (response) => {
-            console.log(API_URL);
-            
             return(
                 axios({
                     method: "get",

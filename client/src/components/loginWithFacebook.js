@@ -6,16 +6,12 @@ import '../styles/public_home.scss';
 import UserService from '../services/userServices';
 import { AuthContext } from "../providers/auth_provider";
 
-
 export default () => {
     const { login } = useContext(AuthContext);
-
     const responseFacebook = (response) => {
         UserService.facebookResult(response).then(res => {
             const {email, name} = res.data;
-            const password =  `${process.env.DEFAULT_PASSWORD}`;
-            // const password =  email;
-            console.log(password);
+            const password =  `${process.env.REACT_APP_DEFAULT_PASSWORD}`;
             UserService.checkEmail(email).then( checkResponse => {
                 if (checkResponse.data.message === false) {
                     UserService.registerWithFacebook(email, name, password)
@@ -36,7 +32,7 @@ export default () => {
     return (
         <div>
             <FacebookLogin
-                appId="295220421886704"
+                appId= {process.env.REACT_APP_WEBSITE_ID}
                 autoLoad={false}
                 callback={responseFacebook}
                 cssClass="login-with-facebook-btn"
