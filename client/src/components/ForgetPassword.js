@@ -39,7 +39,7 @@ const ResetPasswordPage = (props) => {
         if (!passwordConfirm) {
             return setError("You should Retype your Password.");
         }
-        if (password && password.length !== 8) {
+        if (password && password.length < 8) {
             return setError("Password must be at least 8 characters.");
         }
         if (password !== passwordConfirm) {
