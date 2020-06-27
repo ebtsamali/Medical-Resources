@@ -10,6 +10,7 @@ const {tokenMiddleware, authRouter} = require('./routes/auth');
 const hospitalRouter = require('./routes/hospital');
 const hospitalReservationRouter = require('./routes/hospitalReservation');
 const bedRouter = require('./routes/bed');
+const locationRouter = require('./routes/location');
 const passport = require('passport');
 const db = require('./models/index');
 const User = db.user;
@@ -111,4 +112,5 @@ app.use('/medicines', medicineRouter);
 app.use('/governorates', governorateRouter);
 app.use('/hospital-reservation', hospitalReservationRouter);
 app.use('/beds', bedRouter);
+app.use('/locations', locationRouter);
 

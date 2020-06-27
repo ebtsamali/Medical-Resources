@@ -9,6 +9,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import {MenuItem, Select} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import WorkingHours from "../../other/WorkingHours";
+import AutoCompleteAddressInput from "../../other/AutoCompleteAddressInput";
 
 const useStyles = makeStyles((theme) => ({
     select: {
@@ -35,10 +36,12 @@ const PharmacyInfoCard = () => {
     const [pharmacyGovernorate, setPharmacyGovernorate] = useState("Governorate")
     const [pharmacyDistrict, setPharmacyDistrict] = useState("District")
     const [pharmacyStreet, setPharmacyStreet] = useState("")
+    const [pharmacyPosition, setPharmacyPosition] = useState({})
     const [pharmacyHasDeliveryService, setPharmacyHasDeliveryService] = useState(false)
     const [phoneNumbers, setPhoneNumbers] = useState([])
     const [pharmacyId, setPharmacyId] = useState('')
     const [maxTimeLimit, setMaxTimeLimit] = useState('')
+    const [deliveryCost, setDeliveryCost] = useState(0)
     const [errors, setErrors] = useState({})
     const [governorates, setGovernorates] = useState([])
     const [districts, setDistricts] = useState([])
@@ -48,12 +51,22 @@ const PharmacyInfoCard = () => {
         startTime: 0,
         endTime: 0,
         isOpened: false
-    }, {day: 'Wed', startTime: 0, endTime: 0, isOpened: false}, {day: 'Thu', startTime: 0, endTime: 0, isOpened: false}, {
+    }, {day: 'Wed', startTime: 0, endTime: 0, isOpened: false}, {
+        day: 'Thu',
+        startTime: 0,
+        endTime: 0,
+        isOpened: false
+    }, {
         day: 'Fri',
         startTime: 0,
         endTime: 0,
         isOpened: false
-    }, {day: 'Sat', startTime: 0, endTime: 0, isOpened: false}, {day: 'Sun', startTime: 0, endTime: 0, isOpened: false}])
+    }, {day: 'Sat', startTime: 0, endTime: 0, isOpened: false}, {
+        day: 'Sun',
+        startTime: 0,
+        endTime: 0,
+        isOpened: false
+    }])
 
     const classes = useStyles();
 
@@ -67,6 +80,8 @@ const PharmacyInfoCard = () => {
         setMaxTimeLimit(data.maxTimeLimit);
         setPharmacyId(data._id)
         setWeekDetails(data.workingHours)
+        setPharmacyPosition(data.pharmacyPosition)
+        setDeliveryCost(data.deliveryCostPerKm)
     }
 
     useEffect(() => {
@@ -113,7 +128,9 @@ const PharmacyInfoCard = () => {
             }],
             name: pharmacyName,
             maxTimeLimit,
-            workingHours:weekDetails
+            pharmacyPosition,
+            workingHours: weekDetails,
+            deliveryCostPerKm:deliveryCost
         }
         if (pharmacyId) {
             PharmacyService.updatePharmacyData(pharmacyId, pharmacy).then((response) => {
@@ -221,12 +238,15 @@ const PharmacyInfoCard = () => {
                 {errors.district && (pharmacyDistrict === "District") && <ErrorMessage message={errors.district}/>}
             </div>}
             <div>
-                <input className="form-input w-100" placeholder="Street" value={pharmacyStreet}
-                       disabled={pharmacyDataEditingMode}
-                       onChange={(e) => {
-                           const {target: {value}} = e;
-                           setPharmacyStreet(value)
-                       }}/>
+                {/*<input className="form-input w-100" placeholder="Street" value={pharmacyStreet}*/}
+                {/*       disabled={pharmacyDataEditingMode}*/}
+                {/*       onChange={(e) => {*/}
+                {/*           const {target: {value}} = e;*/}
+                {/*           setPharmacyStreet(value)*/}
+                {/*       }}/>*/}
+                <AutoCompleteAddressInput disabled={pharmacyDataEditingMode} value={pharmacyStreet}
+                                          setAddress={setPharmacyStreet} width={'35%'}
+                                          setPosition={setPharmacyPosition}/>
                 {errors.street && <ErrorMessage message={errors.street}/>}
             </div>
         </div>
@@ -256,6 +276,23 @@ const PharmacyInfoCard = () => {
             </div>
             {errors.maxTimeLimit && <ErrorMessage message={errors.maxTimeLimit}/>}
         </div>
+
+        <div>
+            <div className="max-time-limit-constainer">
+                <label htmlFor="delivery_cost_per_Km">Delivery Cost/Km:</label>
+                <input id="delivery_cost_per_Km" name="delivery_cost_per_Km" className="form-input" type="number"
+                       placeholder="Delivery Cost/Km"
+                       value={deliveryCost}
+                       disabled={pharmacyDataEditingMode}
+                       onChange={(e) => {
+                           const {target: {value}} = e;
+                           setDeliveryCost(value)
+                       }}/>
+
+            </div>
+            {/*{errors.maxTimeLimit && <ErrorMessage message={errors.maxTimeLimit}/>}*/}
+        </div>
+
         {!pharmacyDataEditingMode && <div>
             <label>Working Hours</label>
             <WorkingHours weekDetails={weekDetails} setWeekDetails={setWeekDetails}/>

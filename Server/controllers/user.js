@@ -29,6 +29,7 @@ exports.updateUser = (req, res) => {
     if (body.phoneNumber) updatedInfo['phoneNumber'] = body.phoneNumber;
     if (body.address) updatedInfo['address'] = body.address;
     if (body.birthdate) updatedInfo['birthdate'] = body.birthdate;
+    if (body.userPosition) updatedInfo['userPosition'] = body.userPosition;
 
     User.findById(req.userId, (err, instance) => {
         if (err) return res.send(err);
@@ -40,6 +41,7 @@ exports.updateUser = (req, res) => {
         if (updatedInfo.phoneNumber) instance.phoneNumber = updatedInfo.phoneNumber;
         if (updatedInfo.address) instance.address = updatedInfo.address;
         if (updatedInfo.birthdate) instance.birthdate = updatedInfo.birthdate;
+        if (updatedInfo.userPosition) instance.userPosition = updatedInfo.userPosition;
 
         instance.profileIsCompleted = true;
 
@@ -91,10 +93,9 @@ exports.reserveMidicine = async (req, res) => {
 
 exports.orderMidicine = async (req, res) => {
     const { params: { id, pharmacy_id } } = req
-    const { body: { totalPrice, order, userAddress, userPhone } } = req
-    // console.log(req.body)
+    const { body: { totalPrice, order, userAddress, userPhone, userPosition } } = req
     try {
-        const orderDetails = await MedicineOrder.create({ totalPrice, order, pharmacy: pharmacy_id, user: id, userAddress, userPhone })
+        const orderDetails = await MedicineOrder.create({ totalPrice, order, pharmacy: pharmacy_id, user: id, userAddress, userPhone, userPosition })
         for (let i = 0; i < order.length; ++i) {
             const medicine = await Medicine.findById(order[i].medicine)
             medicine.quantity -= order[i].quantity

@@ -77,6 +77,18 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    userPosition: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true,
+            default: 'Point'
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
     type: {
         type: String,
         enum: ['normal', 'facebook'],

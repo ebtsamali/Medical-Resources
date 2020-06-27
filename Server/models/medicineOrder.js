@@ -40,7 +40,18 @@ const medicineOrderSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Address is required!']
     },
-
+    userPosition:{
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true,
+            default: 'Point'
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
     userPhone: {
         type: String,
         required: [true, 'Phone Number is required!'],

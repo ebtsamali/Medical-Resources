@@ -209,7 +209,7 @@ exports.loginWithGoogle = function (req, res) {
 
 
 exports.signupAsPharmacy = async (req, res) => {
-    const {body: {adminFirstName, adminLastName, adminEmail, adminPassword, pharmacyName, pharmacyLocation, phoneNumbers, delivery, maxTimeLimit, workingHours}} = req
+    const {body: {adminFirstName, adminLastName, adminEmail, adminPassword, pharmacyName, pharmacyLocation, phoneNumbers, delivery, maxTimeLimit, workingHours,pharmacyPosition, deliveryCostPerKm}} = req
     const session = await User.startSession();
     session.startTransaction();
     const opts = {session};
@@ -230,7 +230,9 @@ exports.signupAsPharmacy = async (req, res) => {
             phoneNumbers,
             delivery,
             maxTimeLimit,
-            workingHours
+            workingHours,
+            deliveryCostPerKm,
+            pharmacyPosition
         }).save(opts)
 
         // create reusable transporter object using the default SMTP transport

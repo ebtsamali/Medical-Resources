@@ -24,34 +24,6 @@ const addPharmacy = async (req, res) => {
     }
 }
 
-/*const createPharmacy = async (req, res) => {
-    // const {userId} = req;
-    const {body: {adminFirstName,adminLastName,adminEmail,adminPassword,pharmacyName, pharmacyLocation, phoneNumbers, delivery, maxTimeLimit, workingHours}} = req
-    // console.log(workingHours)
-    const session = await User.startSession();
-    session.startTransaction();
-    const opts = { session };
-    try {
-        const pharmacy = await Pharmacy.create({
-            admin_id: userId,
-            name:pharmacyName,
-            location:pharmacyLocation,
-            phoneNumbers,
-            delivery,
-            maxTimeLimit,
-            workingHours
-        })
-        await User.findByIdAndUpdate(userId, {profileIsCompleted: true})
-        await session.commitTransaction();
-        session.endSession();
-        res.status(201).send(pharmacy)
-    } catch (e) {
-        // console.log(e.message)
-        await session.abortTransaction();
-        session.endSession();
-        res.status(500).send(e)
-    }
-}*/
 
 const getPharmacyProfile = async (req, res) => {
     const { params: { id } } = req;

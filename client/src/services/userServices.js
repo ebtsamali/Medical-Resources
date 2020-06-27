@@ -22,7 +22,7 @@ function UserServices() {
                 axios.get(API_URL + `/users/${userId}`, { headers: authHeader() })
             )
         },
-        update: (email, firstName, lastName, birthdate, phoneNumber, address, password, userId) => {
+        update: (email, firstName, lastName, birthdate, phoneNumber, address, password, userId,userPosition) => {
             let form = {
                 email,
                 firstName,
@@ -30,7 +30,8 @@ function UserServices() {
                 birthdate,
                 phoneNumber,
                 address,
-                password
+                password,
+                userPosition
             }
             return (
                 axios.patch(API_URL + `/users/${userId}`, form, { headers: authHeader() })

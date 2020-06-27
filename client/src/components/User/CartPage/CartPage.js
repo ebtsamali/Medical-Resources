@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
+import axios from 'axios'
 import Header from "../../Header";
 import '../../../styles/cart.scss'
 import UserService from '../../../services/userServices'
@@ -23,14 +24,13 @@ import {
 } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
 import PublicHeader from "../../PublicHeader";
+import AutoCompleteAddressInput from "../../other/AutoCompleteAddressInput";
 
 const theme = createMuiTheme({
     overrides: {
         MuiTooltip: {
             tooltip: {
                 fontSize: "0.95rem",
-                // color: "yellow",
-                // backgroundColor: "red"
             }
         }
     }
@@ -48,6 +48,7 @@ const CartPage = (props) => {
     const [useCurrentInfo, setUseCurrentInfo] = useState(false)
     const [show, setShow] = useState(false);
     const [userAddress, setUserAddress] = useState('')
+    const [userPosition, setUserPosition] = useState({})
     const [userPhone, setUserPhone] = useState('')
     const handleClose = () => setShow(false);
     const [errors, setErrors] = useState({})
@@ -55,10 +56,13 @@ const CartPage = (props) => {
     const [showWarning, setShowWarning] = useState(false)
     const [showReservationConfirmationPopUp, setShowReservationConfirmationPopUp] = useState(false);
     const [showCompleteProfilePopup, setShowCompleteProfilePopup] = useState(false);
+    const [orderCurrentModelView, setOrderCurrentModelView] = useState('enter_data')
+    const [pharmacyPosition, setPharmacyPosition] = useState({})
+    const [finalTotalPrice, setFinalTotalPrice] = useState(0)
 
     useEffect(() => {
         setTitle('Cart')
-        if (!user.id) return;
+        // if (!user.id) return;
         UserService.getUserInfo(user.id).then((response) => {
             setUserProfile(response.data)
         })
@@ -92,7 +96,12 @@ const CartPage = (props) => {
                 return `${acc} ${medicine.name}`
             }, ''))
             setCurrentMedicines(cartDetails[currentPharmacyIndex].medicines)
+            setPharmacyPosition(cartDetails[currentPharmacyIndex].pharmacy.pharmacyPosition)
             setTotalPrice(cartDetails[currentPharmacyIndex].medicines.reduce((acc, medicine) => {
+                return acc + (medicine.price * medicine.userQuantity)
+            }, 0))
+
+            setFinalTotalPrice(cartDetails[currentPharmacyIndex].medicines.reduce((acc, medicine) => {
                 return acc + (medicine.price * medicine.userQuantity)
             }, 0))
         } else {
@@ -120,6 +129,12 @@ const CartPage = (props) => {
         }
     }, [currentMedicines.length])
 
+    useEffect(() => {
+        if (orderCurrentModelView === 'summary') {
+
+        }
+    }, [orderCurrentModelView])
+
     const isOpened = () => {
         console.log("isOpened")
         return (cartDetails[currentPharmacyIndex].pharmacy.workingHours.filter((day) => {
@@ -131,6 +146,7 @@ const CartPage = (props) => {
         return (e) => {
             const {target: {value}} = e;
             setTotalPrice(((totalPrice - currentMedicines[index].userQuantity * currentMedicines[index].price) + (Number(value) * currentMedicines[index].price)))
+            setFinalTotalPrice(((totalPrice - currentMedicines[index].userQuantity * currentMedicines[index].price) + (Number(value) * currentMedicines[index].price)))
             currentMedicines[index].userQuantity = value
             setCurrentMedicines(currentMedicines)
         }
@@ -138,7 +154,7 @@ const CartPage = (props) => {
 
     const buildData = () => {
         const pharmacyId = cartDetails[currentPharmacyIndex].pharmacy._id
-        const data = {totalPrice, order: []}
+        const data = {totalPrice: finalTotalPrice, order: []}
         currentMedicines.forEach((medicine) => {
             if (medicine.quantity > 0) {
                 data.order.push({medicine: medicine._id, quantity: medicine.userQuantity, price: medicine.price})
@@ -160,14 +176,16 @@ const CartPage = (props) => {
         const params = buildData()
         const address = (!useCurrentInfo) ? userAddress : `${userProfile.address.street}, ${userProfile.address.district}, ${userProfile.address.governorate}, Flat Number: ${userProfile.address.flatNum}`
         const phone = (!useCurrentInfo) ? userPhone : `${userProfile.phoneNumber}`
-        const data = {...params.data, userAddress: address, userPhone: phone}
+        const position = (!useCurrentInfo) ? userPosition : userProfile.userPosition
+        const data = {...params.data, userAddress: address, userPhone: phone, userPosition: position}
         UserService.orderMedicine(user.id, params.pharmacyId, data).then((response) => {
             setCartDetails(cartDetails.filter((pharmacy) => params.pharmacyId !== pharmacy.pharmacy._id))
             removePharmacyFromCart(params.pharmacyId)
             setShow(false)
         }).catch((error) => {
-            console.log(error.response.data)
+            // console.log(error.response.data)
             if (error.response.data.errors) {
+                setOrderCurrentModelView('enter_data')
                 setErrors(error.response.data.errors)
             } else {
                 setErrors({})
@@ -188,6 +206,7 @@ const CartPage = (props) => {
             currentMedicines.forEach((medicine) => {
                 if (medicine._id === medicineId) {
                     setTotalPrice(totalPrice - (medicine.userQuantity * medicine.price))
+                    setFinalTotalPrice(totalPrice - (medicine.userQuantity * medicine.price))
                 }
             })
             removeMedicineFromCart(pharmacyId, medicineId)
@@ -196,7 +215,7 @@ const CartPage = (props) => {
     }
 
     const handleShowWarning = () => {
-        if(!user.accessToken) {
+        if (!user.accessToken) {
             props.history.push("/")
             return;
         }
@@ -204,7 +223,7 @@ const CartPage = (props) => {
     }
 
     const handleShow = () => {
-        if(!user.accessToken) {
+        if (!user.accessToken) {
             props.history.push("/")
             return;
         }
@@ -312,7 +331,7 @@ const CartPage = (props) => {
                                 placement="top"
                             >
                                 <button onClick={(isOpened()) ? () => {
-                                    if(!user.accessToken) {
+                                    if (!user.accessToken) {
                                         props.history.push("/")
                                         return;
                                     }
@@ -339,13 +358,13 @@ const CartPage = (props) => {
                 centered
                 show={showCompleteProfilePopup}
                 onHide={() => setShowCompleteProfilePopup(false)}
-                onEnter={()=>{
+                onEnter={() => {
                     setShow(false)
                 }}
-                onExit={()=>{
+                onExit={() => {
                     setShow(true)
                 }}
-                >
+            >
                 <Modal.Header closeButton>
                     <Modal.Title id="example-modal-sizes-title-sm">
                         Warning
@@ -358,8 +377,11 @@ const CartPage = (props) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="btn-container">
-                        <button onClick={()=>{setShowCompleteProfilePopup(false)}}>Continue</button>
-                        <Link to="/user/profile" >Go TO Profile</Link>
+                        <button onClick={() => {
+                            setShowCompleteProfilePopup(false)
+                        }}>Continue
+                        </button>
+                        <Link to="/user/profile">Go TO Profile</Link>
                     </div>
                 </Modal.Footer>
             </Modal>
@@ -419,7 +441,10 @@ const CartPage = (props) => {
         <>
             <Modal
                 show={show}
-                onHide={() => setShow(false)}
+                onHide={() => {
+                    setOrderCurrentModelView('enter_data')
+                    setShow(false)
+                }}
                 size="lg"
                 aria-labelledby="example-custom-modal-styling-title"
             >
@@ -430,46 +455,93 @@ const CartPage = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        <p>Please Enter Your Address & Phone Number</p>
-                        <div className="inputs-modal-container">
-                            <div>
-                                <input className="form-input" disabled={useCurrentInfo} type="text" value={userPhone}
-                                       placeholder="Phone Number..." onChange={(event => {
-                                    setUserPhone(event.target.value)
-                                })}/>
-                                {errors.userPhone && <ErrorMessage message={errors.userPhone}/>}
-                            </div>
-                            <div>
-                                <input className="form-input" type="text" disabled={useCurrentInfo} value={userAddress}
-                                       placeholder="Address..."
-                                       onChange={(event => {
-                                           setUserAddress(event.target.value)
-                                       })}/>
-                                {errors.userAddress && <ErrorMessage message={errors.userAddress}/>}
-                            </div>
-                        </div>
-                        <div className="use-defualt-current-account-data-constainer">
-                            <input type="checkbox" id="use-defualt-current-account-data"
-                                   name="use-defualt-current-account-data" checked={useCurrentInfo}
-                                   onChange={(event => {
-                                       const {target: {checked}} = event;
-                                       if(!userProfile.profileIsCompleted) {
-                                            setShowCompleteProfilePopup(true)
-                                           return
-                                       }
-                                       setUseCurrentInfo(checked)
-                                   })}
-                            />
-                            <label htmlFor="use-defualt-current-account-data">Use the address and phone number you
-                                entered before ?</label>
-                        </div>
-                        <p className="mt-1">Are You Sure You Want to Order this medicines
-                            list <b>({`${medicinesList} `})</b> with <b>total price: {totalPrice}LE</b></p>
+                        {orderCurrentModelView === 'enter_data' ? <><p>Please Enter Your Address & Phone Number</p>
+                                <div className="inputs-modal-container">
+                                    <div>
+                                        <input className="form-input" disabled={useCurrentInfo} type="text"
+                                               value={userPhone}
+                                               placeholder="Phone Number..." onChange={(event => {
+                                            setUserPhone(event.target.value)
+                                        })}/>
+                                        {errors.userPhone && <ErrorMessage message={errors.userPhone}/>}
+                                    </div>
+                                    <div>
+                                        <AutoCompleteAddressInput disabled={useCurrentInfo} value={userAddress}
+                                                                  setAddress={setUserAddress} width={'32.8%'}
+                                                                  setPosition={setUserPosition}/>
+                                        {errors.userAddress && <ErrorMessage message={errors.userAddress}/>}
+                                    </div>
+                                </div>
+                                <div className="use-defualt-current-account-data-constainer">
+                                    <input type="checkbox" id="use-defualt-current-account-data"
+                                           name="use-defualt-current-account-data" checked={useCurrentInfo}
+                                           onChange={(event => {
+                                               const {target: {checked}} = event;
+                                               if (!userProfile.profileIsCompleted) {
+                                                   setShowCompleteProfilePopup(true)
+                                                   return
+                                               }
+                                               setUseCurrentInfo(checked)
+                                           })}
+                                    />
+                                    <label htmlFor="use-defualt-current-account-data">Use the address and phone number you
+                                        entered before ?</label>
+                                </div>
+                            </> :
+                            <p className="mt-1">Are You Sure You Want to Order this medicines
+                                list <b>({`${medicinesList} `})</b> with <b>total price: {finalTotalPrice}LE</b></p>}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="btn-container">
-                        <button onClick={handleClickConfirm}>Confirm</button>
+                        {orderCurrentModelView === 'enter_data' ? <>
+                            <button onClick={() => {
+                                console.log(errors)
+                                const errorObj = {};
+                                let isErrorExist = false;
+                                if (!userPosition.coordinates && !useCurrentInfo ) {
+                                    isErrorExist = true
+                                    errorObj.userAddress = "Invalid Address"
+                                }
+                                if (userAddress.trim().length === 0 && !useCurrentInfo) {
+                                    isErrorExist = true
+                                    errorObj.userAddress = "Address is required"
+                                }
+                                if (userPhone.trim().length === 0 && !useCurrentInfo) {
+                                    isErrorExist = true
+                                    errorObj.userPhone = "Phone is required"
+                                }
+                                if (isErrorExist ) {
+                                    setErrors(errorObj)
+                                    // errors
+                                    console.log(errors)
+                                    return
+                                }
+                                const position = (!useCurrentInfo) ? userPosition : userProfile.userPosition
+                                axios({
+                                    method: 'post',
+                                    url: `${process.env.REACT_APP_BACKEND_URL}/locations/distance`,
+                                    data: {
+                                        "origins": [...cartDetails[currentPharmacyIndex].pharmacy.pharmacyPosition.coordinates],
+                                        "destinations": [...position.coordinates]
+                                    }
+                                }).then((response) => {
+                                    if (response.data.distance) {
+                                        setFinalTotalPrice(totalPrice + Math.round(Number(response.data.distance * cartDetails[currentPharmacyIndex].pharmacy.deliveryCostPerKm)))
+                                    }
+                                })
+                                setOrderCurrentModelView('summary')
+                            }
+                            }>Next
+                            </button>
+                        </> : <>
+                            <button onClick={() => {
+
+                                setOrderCurrentModelView('enter_data')
+                            }}>Previous
+                            </button>
+                            <button onClick={handleClickConfirm}>Confirm</button>
+                        </>}
                     </div>
                 </Modal.Footer>
             </Modal>

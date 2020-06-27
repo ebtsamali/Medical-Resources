@@ -11,6 +11,7 @@ import Header from "./Header";
 import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import {AppContext} from "../providers/AppProvider";
+import AutoCompleteAddressInput from "./other/AutoCompleteAddressInput";
 
 const useStyles = makeStyles((theme) => ({
     select: {
@@ -70,6 +71,10 @@ const UserProfile = () => {
     const form = useRef(null);
     const classes = useStyles();
 
+
+    const [userPosition, setUserPosition] = useState({})
+    const [streetError, setStreetError] = useState('')
+
     useEffect(() => {
         setTitle('Profile')
         UserServices.getUserInfo(user.id)
@@ -80,6 +85,7 @@ const UserProfile = () => {
                 if (response.data.address) setAddress(response.data.address);
                 if (response.data.birthdate) setBirthDate(response.data.birthdate.split('T')[0]);
                 if (response.data.phoneNumber) setPhoneNumber(response.data.phoneNumber);
+                if (response.data.userPosition) setUserPosition(response.data.userPosition);
             })
             .catch(error => {
                 const resMessage =
@@ -211,8 +217,12 @@ const UserProfile = () => {
         }
     }
 
-    const onChangeStreet = (e) => {
-        setAddress({ ...address, street: e.target.value });
+    // const onChangeStreet = (e) => {
+    //     // setAddress({ ...address, street: e.target.value });
+    // }
+
+    const setStreet = (street) => {
+        setAddress({ ...address, street });
     }
 
     const onChangeBlockNum = (e) => {
@@ -225,7 +235,13 @@ const UserProfile = () => {
 
     const handleUpdate = (e) => {
         e.preventDefault();
-
+        setStreetError('')
+        console.log((address.street && address.street.trim().length <=0 ))
+        if((address.street && address.street.trim().length <=0 ) || (userPosition.coordinates && userPosition.coordinates.length <=0) ) {
+            setStreetError('Invalid Address')
+            console.log(streetError)
+            return;
+        }
         setMessage('');
         setLoading(true);
 
@@ -265,7 +281,7 @@ const UserProfile = () => {
             return;
         }
         if (checkBtn.current.context._errors.length === 0) {
-            UserServices.update(email, firstName, lastName, birthdate, phoneNumber, address, password, user.id)
+            UserServices.update(email, firstName, lastName, birthdate, phoneNumber, address, password, user.id, userPosition)
                 .then(
                     response => {
                         setMessage(response.data.message);
@@ -415,40 +431,23 @@ const UserProfile = () => {
                             </Select>
                         </FormControl><br />
                         {!validDistrict && <div style={{ width: "30rem", marginBottom: "0.6rem" }}>{validDistrictMessage}</div>}
-                        {/* <Dropdown onSelect={onChangeGovernorate} style={{ marginLeft: "0.4rem"}}>
-                            <DropdownToggle style={{width: "29rem"}}>
-                                {address.governorate ? address.governorate : "Governorate"}
-                            </DropdownToggle>
-                            <DropdownMenu style={{width: "29rem"}}>
-                                {governorates.map((gov) => {
-                                    return (
-                                        <DropdownItem key={gov._id} eventKey={gov.name}>{gov.name}</DropdownItem>
-                                    )
-                                })}
-                            </DropdownMenu>
-                        </Dropdown>
-                        {!validGov && <div style={{ width: "30rem" }}>{validGovMessage}</div>}
-                        <Dropdown onSelect={onChangeDistrict} style={{ marginLeft: "0.4rem", marginTop: "0.8rem"}}>
-                            <DropdownToggle style={{width: "29rem"}}>
-                                {address.district ? address.district : "District"}
-                            </DropdownToggle>
-                            <DropdownMenu style={{width: "29rem"}}>
-                                {districts.map((district, index) => {
-                                    return (<DropdownItem key={index} eventKey={district}>{district}</DropdownItem>)
-                                })}
-                            </DropdownMenu>
-                        </Dropdown>
-                        {!validDistrict && <div style={{ width: "30rem", marginBottom: "0.6rem" }}>{validDistrictMessage}</div>} */}
-                        <Input
-                            type="text"
-                            className="email-input"
-                            placeholder="Street"
-                            name="street"
-                            value={address.street ? address.street : ''}
-                            onChange={onChangeStreet}
-                            validations={[RegistrationValidations.required]}
-                            style={{ width: "30rem" }}
-                        />
+                        <div>
+                            <AutoCompleteAddressInput value={address.street}
+                                                      setAddress={setStreet} width={'29%'}
+                                                      setPosition={setUserPosition}/>
+                            {streetError && <ErrorMessage message={streetError}/>}
+                        </div>
+
+                        {/*<Input*/}
+                        {/*    type="text"*/}
+                        {/*    className="email-input"*/}
+                        {/*    placeholder="Street"*/}
+                        {/*    name="street"*/}
+                        {/*    value={address.street ? address.street : ''}*/}
+                        {/*    onChange={onChangeStreet}*/}
+                        {/*    validations={[RegistrationValidations.required]}*/}
+                        {/*    style={{ width: "30rem" }}*/}
+                        {/*/>*/}
                         <Input
                             type="text"
                             className="email-input"

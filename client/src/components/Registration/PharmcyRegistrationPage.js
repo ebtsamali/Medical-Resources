@@ -20,6 +20,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import WorkingHours from "../other/WorkingHours";
 import ErrorMessage from "../other/ErrorMessage";
 import PharmacyService from '../../services/pharmacy_service'
+import AutoCompleteAddressInput from "../other/AutoCompleteAddressInput";
 
 
 const theme = createMuiTheme({
@@ -70,6 +71,8 @@ const PharmacyRegistrationPage = (props) => {
     const [pharmacyGovernorate, setPharmacyGovernorate] = useState("Governorate")
     const [pharmacyDistrict, setPharmacyDistrict] = useState("District")
     const [pharmacyStreet, setPharmacyStreet] = useState("")
+    const [deliveryCost, setDeliveryCost] = useState(0)
+    const [pharmacyPosition, setPharmacyPosition] = useState({})
     const [pharmacyHasDeliveryService, setPharmacyHasDeliveryService] = useState(false)
     const [maxTimeLimit, setMaxTimeLimit] = useState('1')
     const [phoneNumbers, setPhoneNumbers] = useState([])
@@ -232,7 +235,9 @@ const PharmacyRegistrationPage = (props) => {
             }],
             pharmacyName,
             maxTimeLimit,
-            workingHours:weekDetails
+            workingHours:weekDetails,
+            pharmacyPosition,
+            deliveryCostPerKm:deliveryCost
         }
 
         PharmacyService.signupAsPharmacy(data).then((response)=>{
@@ -361,9 +366,12 @@ const PharmacyRegistrationPage = (props) => {
                             </div>
 
                             <div className="input-container">
-                                <input placeholder="Street" className="email-input w-100"
-                                       onChange={onChangeStreet}
-                                       value={pharmacyStreet}/>
+                                {/*<input placeholder="Street" className="email-input w-100"*/}
+                                {/*       onChange={onChangeStreet}*/}
+                                {/*       value={pharmacyStreet}/>*/}
+                                <AutoCompleteAddressInput value={pharmacyStreet}
+                                                          setAddress={setPharmacyStreet} width={'35%'}
+                                                          setPosition={setPharmacyPosition}/>
                                 {errors.street && <ErrorMessage message={errors.street}/>}
                             </div>
 
@@ -378,6 +386,32 @@ const PharmacyRegistrationPage = (props) => {
                                 />
                             </div>
 
+
+                            <div className="input-container">
+                                <div className="w-100 d-flex flex-row justify-content-between">
+                                    <input className="form-input" type="number"
+                                           placeholder="Delivery Cost/Km"
+                                           value={deliveryCost}
+                                           onChange={(e) => {
+                                               const {target: {value}} = e;
+                                               setDeliveryCost(value)
+                                           }}/>
+
+                                    <MuiThemeProvider theme={theme}>
+                                        <Tooltip
+                                            title={`Cost of Delivery per Km`}
+                                            placement="top"
+                                        >
+                                            <button className="info-icon"><FontAwesomeIcon size="lg"
+                                                                                           icon={faQuestionCircle}/>
+                                            </button>
+                                        </Tooltip>
+                                    </MuiThemeProvider>
+                                </div>
+                                {errors.maxTimeLimit && <ErrorMessage message={errors.maxTimeLimit}/>}
+                            </div>
+
+
                             <div className="input-container">
                                 <div className="w-100 d-flex flex-row justify-content-between">
 
@@ -387,7 +421,6 @@ const PharmacyRegistrationPage = (props) => {
                                            placeholder="Max Time Limit in Hours"
                                            value={maxTimeLimit}
                                            step="1"
-                                           min="1"
                                            onChange={(e) => {
                                                const {target: {value}} = e;
                                                setMaxTimeLimit(value)

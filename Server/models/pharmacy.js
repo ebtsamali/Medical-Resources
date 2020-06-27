@@ -61,10 +61,27 @@ const pharmacySchema = new mongoose.Schema({
         }
     },
 
+    pharmacyPosition:{
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true,
+            default: 'Point'
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
+
     delivery: {
         type: Boolean,
         // required: [true, "Delivery service status is required"],
         default: false
+    },
+    deliveryCostPerKm: {
+        type: Number,
+        default: 0
     },
     maxTimeLimit: {
         type: Number,
