@@ -102,7 +102,8 @@ const PharmacyAdminInfoCard = () => {
             <input className="form-input" type="email" value={adminEmail} placeholder="Email" onChange={(e) => {
                 const {target: {value}} = e;
                 setAdminEmail(value)
-            }} disabled={adminDataEditingMode}/>
+            }}
+                   disabled={true}/>
             {errors.email && <ErrorMessage message={errors.email}/>}
         </div>
 

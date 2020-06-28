@@ -71,6 +71,7 @@ const PharmacyInfoCard = () => {
     const classes = useStyles();
 
     const setNewPharmacyState = (data) => {
+        console.log(data.location[0].district)
         setPharmacyName(data.name)
         setPharmacyGovernorate(data.location[0].governorate)
         setPharmacyDistrict(data.location[0].district)
@@ -98,6 +99,7 @@ const PharmacyInfoCard = () => {
     }, [])
 
     useEffect(() => {
+        console.log('Governorate', pharmacyGovernorate)
         if (pharmacyGovernorate !== 'Governorate') {
             governorates.forEach((governorate) => {
                 if (governorate.name === pharmacyGovernorate) {

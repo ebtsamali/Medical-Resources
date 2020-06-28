@@ -19,7 +19,7 @@ const WorkingHours = ({weekDetails, setWeekDetails}) => {
                         offstyle="dark"
                         style="border"
                         size="sm"
-                        disabled={userRole === "user" ? true : false}
+                        disabled={(userRole === "user" || !userRole) ? true : false}
                         onChange={handleDayStatusChange(index)}
                         width={65}/>
                     <TimePicker disabled={!day.isOpened || userRole === "user" ? true : false} className="time-picker" start="00:00" end="24:00" step={60}
