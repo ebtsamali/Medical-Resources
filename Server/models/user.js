@@ -102,7 +102,6 @@ const userSchema = new mongoose.Schema({
 
 userSchema.statics.findOrCreate = async function (condition,user, cb) {
     const self = this
-    console.log(user)
     try {
         const existedUser = await self.findOne(condition);
         if(existedUser) {

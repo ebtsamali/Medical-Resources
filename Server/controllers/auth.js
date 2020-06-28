@@ -193,18 +193,6 @@ exports.loginWithGoogle = function (req, res) {
     }
     res.redirect(`${process.env.FRONTEND_URL}/auth/google/success?user=${JSON.stringify(result)}`)
 
-    //send the  token and user data to the client
-    // res.status(200).send({
-    //     id: user._id,
-    //     firstName: user.firstName,
-    //     lastName: user.lastName,
-    //     email: user.email,
-    //     role: user.role,
-    //     profileIsCompleted:user.profileIsCompleted,
-    //     accessToken: token,
-    //     accessTokenCreationDate: Date.now(),
-    //     accessTokenTTL: 604800 //7 days in seconds [168 hours]
-    // })
 }
 
 

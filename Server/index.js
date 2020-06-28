@@ -82,8 +82,6 @@ passport.use(new GoogleStrategy({
             email: profile._json.email,
             role: 'user'}
         User.findOrCreate({ email: profile._json.email },user, function (err, user) {
-            console.log( profile._json.email,user)
-            console.log(err)
             return done(err, user);
         });
     }

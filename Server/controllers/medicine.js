@@ -108,7 +108,7 @@ const search = async (req, res) => {
         pages.hasPrevious = true
     }
     const page = (req.query.page && req.query.page - 1) || 0
-    const limit = 5;
+    const limit = 12;
     try {
         if (!q) {
             const pharmacys = await Pharmacy.find({

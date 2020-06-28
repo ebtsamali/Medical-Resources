@@ -125,7 +125,7 @@ export default () => {
                                 WORKING HOURS
                             </Card.Header>
                             <div className="rightContentBodyTopBody">       
-                                <WorkingHours weekDetails={weekDetails}/>
+                                <WorkingHours weekDetails={weekDetails} disabled={true}/>
                             </div>
                         </div>
                         
