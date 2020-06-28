@@ -19,7 +19,7 @@ router.post("/users/signup_as_hospital", verifySignUp.checkDuplicatedEmail, auth
 router.post("/users/signin", authController.signin);
 router.get('/google',
     passport.authenticate('google', {scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']}));
-router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/login'}), authController.loginWithGoogle);
+router.get('/google/callback', passport.authenticate('google', {failureRedirect: `${process.env.FRONTEND_URL}`}), authController.loginWithGoogle);
 
 router.get("/users/activation/:token", authController.activateEmail);
 
