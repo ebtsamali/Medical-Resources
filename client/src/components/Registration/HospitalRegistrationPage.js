@@ -220,12 +220,19 @@ const HospitalRegistrationPage = (props) => {
         setErrors({})
         const allErrors =  error.response.data.errors; 
         for (let [key, value] of Object.entries(allErrors)) { 
-            let errorKey = value.properties.path;
-            let errorValue = value.properties.message; 
-            setErrors(errors => ({
-                ...errors,
-                [errorKey]: errorValue
-            }));
+            if (value.properties !== undefined) { 
+                let errorKey = value.properties.path;
+                let errorValue = value.properties.message; 
+                setErrors(errors => ({
+                    ...errors,
+                    [errorKey]: errorValue
+                }));
+            } else {
+                setErrors(errors => ({
+                    ...errors,
+                    ...allErrors
+                }));
+            }
             // setErrors({ ...errors, [errorKey]: errorValue}) 
         }
     }
