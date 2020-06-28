@@ -3,7 +3,7 @@ const router = express.Router();
 const authController = require('../controllers/auth');
 const {verifySignUp, CheckAccountType} = require("../middlewares/index");
 const passport = require('passport');
-const auth = require('../config/auth');
+// const auth = require('../config/auth');
 
 exports.tokenMiddleware = function (req, res, next) {
     res.header(

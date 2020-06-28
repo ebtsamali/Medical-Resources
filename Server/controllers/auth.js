@@ -1,4 +1,4 @@
-const config = require('../config/auth');
+// const config = require('../config/auth');
 const db = require('../models/index');
 const User = db.user;
 const Pharmacy = db.pharmacy;
@@ -41,7 +41,7 @@ exports.signin = (req, res) => {
         }
 
         // assign the three parts ot the token
-        let token = jwt.sign({id: user.id}, config.secret, {
+        let token = jwt.sign({id: user.id}, process.env.SECRET, {
             expiresIn: 604800 //7 days in seconds [168 hours]
         });
 
@@ -177,7 +177,7 @@ exports.updatePassword = async (req, res) => {
 
 exports.loginWithGoogle = function (req, res) {
     const {user} = req
-    let token = jwt.sign({id: user.id}, config.secret, {
+    let token = jwt.sign({id: user.id}, process.env.SECRET, {
         expiresIn: 604800 //7 days in seconds [168 hours]
     });
     const result = {
