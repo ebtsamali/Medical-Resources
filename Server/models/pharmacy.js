@@ -124,11 +124,10 @@ const pharmacySchema = new mongoose.Schema({
         type: [{
             userId: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'User',
-                unique: true
+                ref: 'User'
             },
             rating: Number
-        }]
+        }],
     }
 }, {
     timestamps: true,
