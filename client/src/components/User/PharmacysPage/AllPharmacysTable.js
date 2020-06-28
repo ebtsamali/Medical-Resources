@@ -28,7 +28,7 @@ const AllPharmacysTable = (props) => {
                         }}> {pharmacy.name} </Link>
                     </td>
                     <td>
-                        {pharmacy.location && `${pharmacy.location[0].street}, ${pharmacy.location[0].district}, ${pharmacy.location[0].governorate}`}
+                        {pharmacy.location && `${pharmacy.location[0].street}`}
                     </td>
                     <td>
                         {pharmacy.delivery ? 'Yes' : 'No'}

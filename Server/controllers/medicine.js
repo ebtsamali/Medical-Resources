@@ -43,7 +43,7 @@ const getAllMedicine = async (req, res) => {
         }
         const medicineCount = await Medicine.find({pharmacy: pharmacy._id}).countDocuments()
         pages.hasNext = medicineCount > (page + 1) * limit;
-        const medicines = await Medicine.find({pharmacy: pharmacy._id}).limit(limit).skip(limit * page)
+        const medicines = await Medicine.find({pharmacy: pharmacy._id}).sort('name').limit(limit).skip(limit * page)
         res.status(201).send({medicines, pages})
     } catch (e) {
         res.status(500).send({message: 'internal server error'})
@@ -114,7 +114,7 @@ const search = async (req, res) => {
             const pharmacys = await Pharmacy.find({
                 'location.0.governorate': {$regex: governorate, $options: "i"},
                 'location.0.district': {$regex: district, $options: "i"}
-            }).limit(limit).skip(limit * page);
+            }).sort('name').limit(limit).skip(limit * page);
 
             const pharmacyCount = await Pharmacy.find({
                 'location.0.governorate': {$regex: governorate, $options: "i"},

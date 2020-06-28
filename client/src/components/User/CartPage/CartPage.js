@@ -87,6 +87,7 @@ const CartPage = (props) => {
     }, [])
 
     useEffect(() => {
+        console.log(currentPharmacyIndex,"LLLLLLL")
         if (currentPharmacyIndex >= 0) {
             setCurrentMedicineIndex(0)
             setMedicinesList(cartDetails[currentPharmacyIndex].medicines.reduce((acc, medicine) => {
@@ -95,6 +96,7 @@ const CartPage = (props) => {
                 }
                 return `${acc} ${medicine.name}`
             }, ''))
+            setOrderCurrentModelView('enter_data')
             setCurrentMedicines(cartDetails[currentPharmacyIndex].medicines)
             setPharmacyPosition(cartDetails[currentPharmacyIndex].pharmacy.pharmacyPosition)
             setTotalPrice(cartDetails[currentPharmacyIndex].medicines.reduce((acc, medicine) => {
@@ -115,7 +117,25 @@ const CartPage = (props) => {
             setCurrentPharmacyIndex(-1)
             setCurrentMedicineIndex(-1)
         } else {
+            console.log(cartDetails.length)
             setCurrentPharmacyIndex(0)
+            setCurrentMedicineIndex(0)
+            setMedicinesList(cartDetails[0].medicines.reduce((acc, medicine) => {
+                if (acc.length > 1) {
+                    acc = `${acc}, `
+                }
+                return `${acc} ${medicine.name}`
+            }, ''))
+            setOrderCurrentModelView('enter_data')
+            setCurrentMedicines(cartDetails[0].medicines)
+            setPharmacyPosition(cartDetails[0].pharmacy.pharmacyPosition)
+            setTotalPrice(cartDetails[0].medicines.reduce((acc, medicine) => {
+                return acc + (medicine.price * medicine.userQuantity)
+            }, 0))
+
+            setFinalTotalPrice(cartDetails[0].medicines.reduce((acc, medicine) => {
+                return acc + (medicine.price * medicine.userQuantity)
+            }, 0))
         }
     }, [cartDetails.length])
 
@@ -129,11 +149,6 @@ const CartPage = (props) => {
         }
     }, [currentMedicines.length])
 
-    useEffect(() => {
-        if (orderCurrentModelView === 'summary') {
-
-        }
-    }, [orderCurrentModelView])
 
     const isOpened = () => {
         console.log("isOpened")
@@ -254,7 +269,7 @@ const CartPage = (props) => {
                     <h4>{cartDetails[currentPharmacyIndex].pharmacy.name}</h4>
                 </div>
                 <div>
-                    <p>{`${cartDetails[currentPharmacyIndex].pharmacy.location[0].street}, ${cartDetails[currentPharmacyIndex].pharmacy.location[0].district}, ${cartDetails[currentPharmacyIndex].pharmacy.location[0].governorate}`}</p>
+                    <p>{`${cartDetails[currentPharmacyIndex].pharmacy.location[0].street}`}</p>
                 </div>
                 <div className="medicines-container-cart">
                     <div className="medicines-card-cart-arrows">
