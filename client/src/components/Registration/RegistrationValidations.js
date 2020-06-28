@@ -1,6 +1,6 @@
 import ErrorMessage from "../other/ErrorMessage";
 import React from "react";
-import { isEmail, isAlpha } from "validator";
+import { isEmail, isAlpha, isAlphanumeric} from "validator";
 
 function RegistrationValidations () {
     return ({
@@ -13,19 +13,19 @@ function RegistrationValidations () {
             }
         },
         validateFirstname: value => {
-            if (value.length < 3 || value.length > 20 || !isAlpha(value)) {
+            if (value.length < 2 || value.length > 20 || !/^[a-zA-Z][a-zA-Z\s]*$/.test(value)) {
                 return (
                     <div style={{width: "30rem"}}>
-                        <ErrorMessage message={"First Name must be between 3 and 20 alphabetical characters."}/>
+                        <ErrorMessage message={"First Name must be between 2 and 20 alphabetical characters."}/>
                     </div>
                 );
             }
         },
         validateLastname: value => {
-            if (value.length < 3 || value.length > 20 || !isAlpha(value)) {
+            if (value.length < 2 || value.length > 20 || !/^[a-zA-Z][a-zA-Z\s]*$/.test(value)) {
                 return (
                     <div style={{width: "30rem"}}>
-                        <ErrorMessage message={"Last Name must be between 3 and 20 alphabetical characters."}/>
+                        <ErrorMessage message={"Last Name must be between 2 and 20 alphabetical characters."}/>
                     </div>
                 );
             }

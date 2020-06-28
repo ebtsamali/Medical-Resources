@@ -10,7 +10,7 @@ import ErrorMessage from "./other/ErrorMessage";
 import Header from "./Header";
 import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import {AppContext} from "../providers/AppProvider";
+import { AppContext } from "../providers/AppProvider";
 import AutoCompleteAddressInput from "./other/AutoCompleteAddressInput";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +44,7 @@ const validateConfirmPassword = (value) => {
 
 const UserProfile = () => {
 
-    const {setTitle} = useContext(AppContext);
+    const { setTitle } = useContext(AppContext);
     const { user } = useContext(AuthContext);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -70,7 +70,8 @@ const UserProfile = () => {
     const checkBtn = useRef(null);
     const form = useRef(null);
     const classes = useStyles();
-
+    let gov = "";
+    let dis = "";
 
     const [userPosition, setUserPosition] = useState({})
     const [streetError, setStreetError] = useState('')
@@ -116,6 +117,16 @@ const UserProfile = () => {
             })
 
     }, []);
+
+    useEffect(() => {
+        if (address.governorate) {
+            governorates.forEach((gov) => {
+                if (gov.name === address.governorate) {
+                    setDistricts(gov.districts);
+                }
+            })
+        }
+    })
 
     useEffect(() => {
         if (address.governorate !== "") {
@@ -236,8 +247,8 @@ const UserProfile = () => {
     const handleUpdate = (e) => {
         e.preventDefault();
         setStreetError('')
-        console.log((address.street && address.street.trim().length <=0 ))
-        if((address.street && address.street.trim().length <=0 ) || (userPosition.coordinates && userPosition.coordinates.length <=0) ) {
+        console.log((address.street && address.street.trim().length <= 0))
+        if ((address.street && address.street.trim().length <= 0) || (userPosition.coordinates && userPosition.coordinates.length <= 0)) {
             setStreetError('Invalid Address')
             console.log(streetError)
             return;
@@ -392,7 +403,7 @@ const UserProfile = () => {
                             <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="demo-simple-select-outlined"
-                                value={address.governorate}
+                                value={address.governorate ? address.governorate : "not specified"}
                                 onChange={onChangeGovernorate}
                                 className={classes.select}
                                 inputProps={{
@@ -414,7 +425,7 @@ const UserProfile = () => {
                             <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="demo-simple-select-outlined"
-                                value={address.district}
+                                value={address.district ? address.district : "not specified"}
                                 onChange={onChangeDistrict}
                                 className={classes.select}
                                 inputProps={{
@@ -433,9 +444,9 @@ const UserProfile = () => {
                         {!validDistrict && <div style={{ width: "30rem", marginBottom: "0.6rem" }}>{validDistrictMessage}</div>}
                         <div>
                             <AutoCompleteAddressInput value={address.street}
-                                                      setAddress={setStreet} width={'29%'}
-                                                      setPosition={setUserPosition}/>
-                            {streetError && <ErrorMessage message={streetError}/>}
+                                setAddress={setStreet} width={'29%'}
+                                setPosition={setUserPosition} />
+                            {streetError && <ErrorMessage message={streetError} />}
                         </div>
 
                         {/*<Input*/}
@@ -490,7 +501,7 @@ const UserProfile = () => {
                                     role="alert"
                                 >
                                     {message}
-                                    {successful && <a href="/user" className="ml-3">Go To Home</a>}
+                                    {successful && <a href="/user/home" className="ml-3">Go To Home</a>}
                                 </div>
                             </div>
                         )}
