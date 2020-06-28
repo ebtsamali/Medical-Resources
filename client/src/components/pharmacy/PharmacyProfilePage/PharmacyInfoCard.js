@@ -10,6 +10,7 @@ import {MenuItem, Select} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import WorkingHours from "../../other/WorkingHours";
 import AutoCompleteAddressInput from "../../other/AutoCompleteAddressInput";
+import Rating from "../../Rating";
 
 const useStyles = makeStyles((theme) => ({
     select: {
@@ -45,6 +46,7 @@ const PharmacyInfoCard = () => {
     const [errors, setErrors] = useState({})
     const [governorates, setGovernorates] = useState([])
     const [districts, setDistricts] = useState([])
+    const [avgRating, setAvgRating] = useState(0);
     const {user, setUser} = useContext(AuthContext);
     const [weekDetails, setWeekDetails] = useState([{day: 'Mon', startTime: 0, endTime: 0, isOpened: false}, {
         day: 'Tue',
@@ -82,6 +84,11 @@ const PharmacyInfoCard = () => {
         setWeekDetails(data.workingHours)
         setPharmacyPosition(data.pharmacyPosition)
         setDeliveryCost(data.deliveryCostPerKm)
+        if(data.ratings && data.ratings.length) {
+            let sum = data.ratings.reduce((acc, item) => acc + item.rating, 0);
+            let avg = sum / data.ratings.length;
+            setAvgRating(avg);
+        }
     }
 
     useEffect(() => {
@@ -185,12 +192,18 @@ const PharmacyInfoCard = () => {
             }} className="x-btn">Edit</button> ||
             <button onClick={saveUpdatedData} className="x-btn">Save</button>}
         </div>
-        <div>
-            <input className="form-input" value={pharmacyName} placeholder="Pharmacy Name" onChange={(e) => {
-                const {target: {value}} = e;
-                setPharmacyName(value)
-            }} disabled={pharmacyDataEditingMode}/>
-            {errors.name && <ErrorMessage message={errors.name}/>}
+        <div style={{display: "flex", flexDirection: "row"}}>
+            <div>
+                <input className="form-input" value={pharmacyName} placeholder="Pharmacy Name" onChange={(e) => {
+                    const {target: {value}} = e;
+                    setPharmacyName(value)
+                }} disabled={pharmacyDataEditingMode}/>
+                {errors.name && <ErrorMessage message={errors.name}/>}
+            </div>
+            <span style={{display: "flex", flexDirection: "row", alignItems: "center", marginLeft: "5rem"}}>
+                <p className="mt-3">Users Review: </p>
+                <Rating rating={avgRating} readOnly={true} precision={0.5} mt={1} ml={2}/>
+            </span>
         </div>
         <div className="location-container">
             <div className="d-flex flex-column align-content-center">

@@ -93,7 +93,7 @@ exports.signup = (req, res) => {
             from: `Medical Resources App <${process.env.EMAIL_USER}>`, // sender address
             to: newUser.email, // list of receivers
             subject: "Mail Activation", // Subject line
-            text: `Pleased to have you in our system.\nPlease Activate your mail from this link: ${process.env.ACTIVATION_LINK}${emailToken}`, // plain text body
+            text: `Pleased to have you in our application.\nPlease Activate your mail from this link: ${process.env.ACTIVATION_LINK}${emailToken}`, // plain text body
         });
         console.log("Message sent: %s", info.messageId);
         res.status(201).send({newUser, message: "You Registered Successfully. Check your Email for Activation."});

@@ -10,7 +10,7 @@ export default function SimpleRating(props) {
 
     return (
         <div>
-            <Box component="fieldset" borderColor="transparent">
+            <Box component="fieldset" borderColor="transparent" mt={props.mt} ml={props.ml}>
                 {/* <Typography component="legend">Controlled</Typography> */}
                 <Rating
                     name={props.readOnly ? "read-only" : "simple-controlled"}
