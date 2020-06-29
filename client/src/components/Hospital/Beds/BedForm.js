@@ -94,22 +94,58 @@ const BedForm = (props) => {
 
     const onSubmit = () => {
 
-        if(errors.roomNumber) {
+        if (errors.roomNumber) {
             setErrors(delete errors.roomNumber);
         }
 
-        if(errors.dayCost) {
+        if (errors.dayCost) {
             setErrors(delete errors.dayCost);
         }
 
-        if (!roomNumber || roomNumber === 0 || !isNumeric(roomNumber)) {
-            setErrors({ ...errors, roomNumber: "Room Number is Required and must be a Number" });
-            return;
+        if (typeof roomNumber === 'string') {
+            if (!roomNumber || roomNumber == 0 || !isNumeric(roomNumber)) {
+                setErrors({ ...errors, roomNumber: "Room Number is Required and must be a Number" });
+                return;
+            }
+
+            if(parseInt(roomNumber) < 0) {
+                setErrors({ ...errors, roomNumber: "Room Number must be a positive Number" });
+                return;
+            }
+        } else {
+
+            if (!roomNumber || roomNumber == 0) {
+                setErrors({ ...errors, roomNumber: "Room Number is Required" });
+                return;
+            }
+
+            if(roomNumber < 0) {
+                setErrors({ ...errors, roomNumber: "Room Number must be a positive Number" });
+                return;
+            }
+
         }
-        
-        if (!dayCost || dayCost === 0 || !isNumeric(dayCost)) {
-            setErrors({ ...errors, dayCost: "Day Cost is Required and must be a Number" });
-            return;
+
+        if(typeof dayCost === "string") {
+            if (!dayCost || dayCost == 0 || !isNumeric(dayCost)) {
+                setErrors({ ...errors, dayCost: "Day Cost is Required and must be a Number" });
+                return;
+            }
+            if(parseInt(dayCost) < 0) {
+                setErrors({ ...errors, dayCost: "Day Cost must be a positive Number" });
+                return;
+            }
+
+        } else {
+            if (!dayCost || dayCost == 0) {
+                setErrors({ ...errors, dayCost: "Day Cost is Required" });
+                return;
+            }
+
+            if(dayCost < 0) {
+                setErrors({ ...errors, dayCost: "Day Cost must be a positive Number" });
+                return;
+            }
         }
 
         const bed = {
@@ -161,9 +197,9 @@ const BedForm = (props) => {
 
             {errors.dayCost && <ErrorMessage message={errors.dayCost} />}
 
-            <div style={{marginTop: "1rem"}}>
+            <div style={{ marginTop: "1rem" }}>
                 <p>Category: </p>
-                <div style={{marginLeft: "12rem"}}>
+                <div style={{ marginLeft: "12rem" }}>
                     <FormControl>
                         <Select
                             labelId="demo-simple-select-outlined-label"
@@ -177,7 +213,7 @@ const BedForm = (props) => {
                                     icon: classes.icon,
                                 }
                             }}
-                            style={{width:"33rem"}}
+                            style={{ width: "33rem" }}
                         >
                             {categories.map((r) => {
                                 return (
@@ -190,7 +226,7 @@ const BedForm = (props) => {
             </div>
 
             {!validCategory && <div style={{ width: "30rem" }}>{validCategoryMessage}</div>}
-            <div style={{marginTop: "1rem"}}>
+            <div style={{ marginTop: "1rem" }}>
                 <p>Reserved? </p>
                 <div>
                     <input style={{ marginLeft: "-27rem" }} className="form-input" checked={reserved} onChange={onChangeReserve} type="checkbox" />
