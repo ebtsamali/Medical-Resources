@@ -321,7 +321,7 @@ const UserProfile = () => {
     return (
         <>
             <Header />
-            <div className="x-container" style={{ height: "65rem", background: "white" }}>
+            <div className="x-container" style={{ height: "65rem", background: "linear-gradient(180deg, #4cbb9e 0%, #226057 100%)"}}>
                 <div className="login-card">
                     <h3>Update Profile</h3>
                     <Form
@@ -354,6 +354,7 @@ const UserProfile = () => {
                             placeholder="Email"
                             name="email"
                             value={email}
+                            disabled={true}
                             onChange={onChangeEmail}
                             validations={[RegistrationValidations.required, RegistrationValidations.validateEmail]}
                             style={{ width: "30rem" }}
