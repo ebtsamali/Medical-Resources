@@ -221,7 +221,7 @@ exports.signupAsPharmacy = async (req, res) => {
             workingHours,
             deliveryCostPerKm,
             pharmacyPosition
-        }).save(opts)
+        }).save(opts);
 
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
@@ -234,7 +234,6 @@ exports.signupAsPharmacy = async (req, res) => {
                 rejectUnauthorized: false
             }
         });
-
         const emailToken = jwt.sign({id: admin._id}, process.env.EMAIL_SECRET, {
             expiresIn: 86400 //1 day in seconds [24 hours]
         });

@@ -45,7 +45,7 @@ const AllPharmacysHasSpecificMedicine = (props) => {
                         state: {pharmacyId: pharmacy.pharmacy._id}
                     }}>{pharmacy.pharmacy.name} </Link>}</td>
                     <td>
-                        {pharmacy.pharmacy && `${pharmacy.pharmacy.location[0].street}, ${pharmacy.pharmacy.location[0].district}, ${pharmacy.pharmacy.location[0].governorate}`}
+                        {pharmacy.pharmacy && `${pharmacy.pharmacy.location[0].street}`}
                     </td>
                     <td>
                         {pharmacy.pharmacy && pharmacy.pharmacy.delivery ? 'Yes' : 'No'}
