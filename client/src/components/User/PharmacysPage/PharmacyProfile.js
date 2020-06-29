@@ -92,7 +92,7 @@ export default () => {
                         <Card.Title className="pharmacyName">{pharmacyName}</Card.Title>
                         <div className="leftLocationCardBody">
                             <div className="leftContentCardsBody">
-                                <span className="leftContentCardsBodyItem" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center"}}><h6>Pharmacy Rating:</h6> <Rating rating={avgRating} readOnly={true} precision={0.5} /></span>
+                                <span className="leftContentCardsBodyItem" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center"}}><Rating rating={avgRating} readOnly={true} precision={0.5} /></span>
                                 <h6 className="leftContentCardsBodyItem">{pharmacyGovernorate}</h6>
                                 <h6 className="leftContentCardsBodyItem">{pharmacyDistrict}</h6>
                                 <h6 className="leftContentCardsBodyItem">{pharmacyStreet}</h6>
