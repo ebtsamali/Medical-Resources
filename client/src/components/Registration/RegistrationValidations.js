@@ -1,6 +1,6 @@
 import ErrorMessage from "../other/ErrorMessage";
 import React from "react";
-import { isEmail, isAlpha, isAlphanumeric} from "validator";
+import { isEmail } from "validator";
 
 function RegistrationValidations () {
     return ({

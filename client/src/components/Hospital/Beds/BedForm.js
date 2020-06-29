@@ -4,6 +4,7 @@ import ErrorMessage from "../../other/ErrorMessage";
 import { makeStyles } from '@material-ui/core/styles';
 import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
 import RegistrationValidations from "../../Registration/RegistrationValidations";
+import { isNumeric } from "validator";
 
 const useStyles = makeStyles((theme) => ({
     select: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const BedForm = (props) => {
 
     const { selectedTab, setSelectedTab } = props;
-    const [roomNumber, setRoomNumber] = useState('');
+    const [roomNumber, setRoomNumber] = useState(0);
     const [dayCost, setDayCost] = useState(0);
     const [reserved, setReserved] = useState(false);
     const [category, setCategory] = useState("normal");
@@ -93,13 +94,21 @@ const BedForm = (props) => {
 
     const onSubmit = () => {
 
-        if (!roomNumber) {
-            setErrors({ ...errors, roomNumber: "Room Number is Required" });
-            return;
+        if(errors.roomNumber) {
+            setErrors(delete errors.roomNumber);
         }
 
-        if (!dayCost || dayCost === 0) {
-            setErrors({ ...errors, dayCost: "Day Cost is Required" });
+        if(errors.dayCost) {
+            setErrors(delete errors.dayCost);
+        }
+
+        if (!roomNumber || roomNumber === 0 || !isNumeric(roomNumber)) {
+            setErrors({ ...errors, roomNumber: "Room Number is Required and must be a Number" });
+            return;
+        }
+        
+        if (!dayCost || dayCost === 0 || !isNumeric(dayCost)) {
+            setErrors({ ...errors, dayCost: "Day Cost is Required and must be a Number" });
             return;
         }
 
@@ -138,7 +147,7 @@ const BedForm = (props) => {
             <div className="d-flex flex-row">
                 <p>Room Number: </p>
                 <div >
-                    <input className="form-input" value={roomNumber} onChange={onChangeRoomNumber} type="text" placeholder="Room Number" />
+                    <input className="form-input" value={roomNumber} onChange={onChangeRoomNumber} type="number" placeholder="Room Number" />
                 </div>
             </div>
             {errors.roomNumber && <ErrorMessage message={errors.roomNumber} />}
