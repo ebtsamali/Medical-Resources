@@ -210,7 +210,7 @@ exports.getAllUserHospitalReservations = async (req, res) => {
         const reservationsCount = await HospitalReservations.find({ user: userId }).countDocuments();
         pageProps.hasNext = (reservationsCount > (pageNum + 1) * recordsPerPage)
         const reservations = await HospitalReservations.find({ user: userId })
-            .populate('bed', 'roomNumber dayCost')
+            .populate('bed', 'roomNumber dayCost category')
             .populate('hospital', 'name')
             .limit(recordsPerPage).skip(recordsPerPage * pageNum).sort({ createdAt: 'desc' });
         res.status(200).send({ reservations, pageProps });

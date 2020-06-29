@@ -41,6 +41,7 @@ const UserHospitalReservations = () => {
                         <th>Reserved At</th>
                         <th>Hospital</th>
                         <th>Room Number</th>
+                        <th>Room Type</th>
                         <th>Day Cost</th>
                     </tr>
                 </thead>
@@ -59,6 +60,7 @@ const UserHospitalReservations = () => {
                             <td>{reservation.createdAt.split('T')[0]} {reservation.createdAt.split('T')[1].substring(0, reservation.createdAt.split('T')[1].length - 2)}</td>
                             <td>{reservation.hospital.name}</td>
                             <td>{reservation.bed.roomNumber}</td>
+                            <td>{reservation.bed.category}</td>
                             <td>EGP {reservation.bed.dayCost}</td>
                         </tr>)
                     })}
